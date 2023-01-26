@@ -23,7 +23,7 @@ public class MainMenuController : MonoBehaviour
         isOpenRule = false;
         RuleBookHolder.SetActive(false);
         RuleNowPage = 0;
-        for(int i = 0; i < Rules.Count; i++)
+        for (int i = 0; i < Rules.Count; i++)
             Rules[i].SetActive(false);
     }
 
@@ -39,10 +39,19 @@ public class MainMenuController : MonoBehaviour
         SoundClick();
     }
 
-    public void BTN_CallStart()
+    public void BTN_CallStart(string value)
     {
-        SceneManager.LoadScene(2);
-        SoundClick();
+        switch (value)
+        {
+            case "LOCAL":
+                SceneManager.LoadScene(2);
+                SoundClick();
+                break;
+            case "ONLINE":
+                SceneManager.LoadScene(3);
+                SoundClick();
+                break;
+        }
     }
 
     public void BTN_CallQuit()
@@ -53,13 +62,15 @@ public class MainMenuController : MonoBehaviour
 
     public void BTN_QuitOrCancel(string value)
     {
-        switch(value)
+        switch (value)
         {
-            case "QUIT": 
+            case "QUIT":
+                SoundClick();
                 Application.Quit();
                 break;
             case "CANCEL":
                 QuitConfirm.SetActive(false);
+                SoundClick();
                 break;
         }
     }
@@ -120,5 +131,4 @@ public class MainMenuController : MonoBehaviour
                 break;
         }
     }
-
 }

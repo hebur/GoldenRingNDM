@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Board.unity
     guid: 60886faf9fac50f4cb380465c27e3bed
+  - enabled: 1
+    path: Assets/Scenes/OnlineRobby.unity
+    guid: 3182d517f653248cdab5420d853261b8
   m_configObjects: {}
