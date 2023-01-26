@@ -12,6 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 784871de5f7bd974ba40f12e92884574
   - enabled: 1
-    path: Assets/Scenes/TEST_TurnEnd_CardExtention.unity
+    path: Assets/Scenes/Board.unity
     guid: 60886faf9fac50f4cb380465c27e3bed
   m_configObjects: {}
