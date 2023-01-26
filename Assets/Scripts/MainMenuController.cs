@@ -9,7 +9,7 @@ using DG.Tweening;
 public class MainMenuController : MonoBehaviour
 {
 
-    [SerializeField] private GameObject ExitText;
+    [SerializeField] private GameObject ExitText, QuitConfirm;
 
     [SerializeField] private GameObject RuleBookHolder, title;
     [SerializeField] private List<GameObject> Rules;
@@ -45,6 +45,24 @@ public class MainMenuController : MonoBehaviour
         SoundClick();
     }
 
+    public void BTN_CallQuit()
+    {
+        QuitConfirm.SetActive(true);
+        SoundClick();
+    }
+
+    public void BTN_QuitOrCancel(string value)
+    {
+        switch(value)
+        {
+            case "QUIT": 
+                Application.Quit();
+                break;
+            case "CANCEL":
+                QuitConfirm.SetActive(false);
+                break;
+        }
+    }
 
     private IEnumerator ExitAuto()
     {

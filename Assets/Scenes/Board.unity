@@ -3567,7 +3567,7 @@ GameObject:
   - component: {fileID: 398064214}
   - component: {fileID: 398064213}
   m_Layer: 5
-  m_Name: GameObject (1)
+  m_Name: GameObject_B
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5295,7 +5295,7 @@ GameObject:
   - component: {fileID: 626474038}
   - component: {fileID: 626474037}
   m_Layer: 5
-  m_Name: UpScore (2)
+  m_Name: UpScore_C
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5322,10 +5322,10 @@ RectTransform:
   m_Father: {fileID: 705717005}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 846.1, y: -356.3}
-  m_SizeDelta: {x: 221.2448, y: 400}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -110.622375, y: 176}
+  m_SizeDelta: {x: 221.24475, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &626474037
 MonoBehaviour:
@@ -5814,7 +5814,7 @@ GameObject:
   - component: {fileID: 667254594}
   - component: {fileID: 667254593}
   m_Layer: 5
-  m_Name: GameObject (3)
+  m_Name: GameObject_D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7342,7 +7342,7 @@ GameObject:
   - component: {fileID: 827624873}
   - component: {fileID: 827624872}
   m_Layer: 5
-  m_Name: UpScore (1)
+  m_Name: UpScore_B
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7369,10 +7369,10 @@ RectTransform:
   m_Father: {fileID: 705717005}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 845.2, y: 311}
-  m_SizeDelta: {x: 221.2448, y: 400}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -111.09, y: -227}
+  m_SizeDelta: {x: 221.24475, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &827624872
 MonoBehaviour:
@@ -10902,7 +10902,7 @@ GameObject:
   - component: {fileID: 1222422964}
   - component: {fileID: 1222422963}
   m_Layer: 5
-  m_Name: GameObject
+  m_Name: GameObject_A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13117,7 +13117,7 @@ GameObject:
   - component: {fileID: 1502925113}
   - component: {fileID: 1502925114}
   m_Layer: 5
-  m_Name: UpScore
+  m_Name: UpScore_A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13246,7 +13246,7 @@ GameObject:
   - component: {fileID: 1552887208}
   - component: {fileID: 1552887207}
   m_Layer: 5
-  m_Name: GameObject (2)
+  m_Name: GameObject_C
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16766,7 +16766,7 @@ GameObject:
   - component: {fileID: 1901218266}
   - component: {fileID: 1901218265}
   m_Layer: 5
-  m_Name: UpScore (3)
+  m_Name: UpScore_D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16793,10 +16793,10 @@ RectTransform:
   m_Father: {fileID: 705717005}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -821, y: -356.3}
-  m_SizeDelta: {x: 221.2448, y: 400}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 149.38, y: 183.7}
+  m_SizeDelta: {x: 221.24481, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1901218265
 MonoBehaviour:
