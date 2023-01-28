@@ -14,13 +14,14 @@ public class NetworkTest : MonoBehaviour
 
     IEnumerator UnityWebRequestGETTest()
     {
-        //GET ¹æ½Ä
-        string url = "https://api.neople.co.kr/df/servers?apikey="
+        //GET ë°©ì‹
+        string url = "https://api.neople.co.kr/df/servers?apikey=";
 
-        // UnityWebRequest¿¡ ³»ÀåµÇ¾î ÀÖ´Â GET ¸Ş¼Òµå¸¦ »ç¿ëÇÑ´Ù.
+
+        // UnityWebRequestì— ë‚´ì¥ë˜ì–´ ìˆëŠ” GET ë©”ì†Œë“œë¥¼ ì‚¬ìš©í•œë‹¤.
         UnityWebRequest www = UnityWebRequest.Get(url);
 
-        yield return www.SendWebRequest(); // ÀÀ´äÀÌ ¿Ã ¶§±îÁö ´ë±â
+        yield return www.SendWebRequest(); // ì‘ë‹µì´ ì˜¬ ë•Œê¹Œì§€ ëŒ€ê¸°
 
         if (www.error == null)
         {
@@ -34,16 +35,16 @@ public class NetworkTest : MonoBehaviour
 
     IEnumerator UnityWebRequestPOSTTest()
     {
-        // POST ¹æ½Ä
+        // POST ë°©ì‹
         string url = "--server url--";
         WWWForm form = new WWWForm();
-        string id = "--¾ÆÀÌµğ--";
-        string pw = "--ºñ¹Ğ¹øÈ£--";
+        string id = "--ì•„ì´ë””--";
+        string pw = "--ë¹„ë°€ë²ˆí˜¸--";
         form.AddField("Username", id);
         form.AddField("Password", pw);
-        UnityWebRequest www = UnityWebRequest.Post(url, form); // º¸³¾ ÁÖ¼Ò¿Í µ¥ÀÌÅÍ
+        UnityWebRequest www = UnityWebRequest.Post(url, form); // ë³´ë‚¼ ì£¼ì†Œì™€ ë°ì´í„°
 
-        yield return www.SendWebRequest(); // ÀÀ´ä ¿Ã ¶§±îÁö ´ë±â
+        yield return www.SendWebRequest(); // ì‘ë‹µ ì˜¬ ë•Œê¹Œì§€ ëŒ€ê¸°
 
         if (www.error == null)
         {
