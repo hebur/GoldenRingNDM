@@ -2,57 +2,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using MiniJSON;
+using System.IO;
 
 public class NetworkTest : MonoBehaviour
 {
-    private void Start()
-    {
-        //StartCoroutine(WWWGETTest());
-        //StartCoroutine(WWWPOSTTest());
-        StartCoroutine(UnityWebRequestGETTest());
-    }
+    // StartCoroutine(UnityWebRequestGETTest());
 
     private readonly string address = Network_Secret.getserveraddress();
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    IEnumerator UnityWebRequestGETTest()
+    
+    // POST
+    IEnumerator PostNewRoom(int player_id)
     {
-        
-
-        // UnityWebRequest에 내장되어 있는 GET 메소드를 사용한다.
-        UnityWebRequest www = UnityWebRequest.Get(address);
-
-        yield return www.SendWebRequest(); // 응답이 올 때까지 대기
-
-        if (www.error == null)
-        {
-            Debug.Log(www.downloadHandler.text);
-        }
-        else
-        {
-            Debug.Log("error");
-        }
-    }
-
-    IEnumerator UnityWebRequestPOSTTest()
-    {
-        // POST 방식
-        string url = "--server url--";
         WWWForm form = new WWWForm();
-        string id = "--아이디--";
-        string pw = "--비밀번호--";
-        form.AddField("Username", id);
-        form.AddField("Password", pw);
-        UnityWebRequest www = UnityWebRequest.Post(url, form); // 보낼 주소와 데이터
+        form.AddField("player_id", player_id);
+        UnityWebRequest request = UnityWebRequest.Post(address + "/rooms/",form);
+    
+        yield return request.SendWebRequest();
 
-        yield return www.SendWebRequest(); // 응답 올 때까지 대기
-
-        if (www.error == null)
+        if (request.error == null)
         {
-            Debug.Log(www.downloadHandler.text);
+            Debug.Log(request.downloadHandler.text);
+        }
+        else
+        {
+            Debug.Log("error");
+        }
+    }
+    IEnumerator PostNewPlayer(string nickname)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("nickname", nickname);
+        UnityWebRequest request = UnityWebRequest.Post(address + "/players/", form);
+
+        yield return request.SendWebRequest();
+
+        if (request.error == null)
+        {
+            Debug.Log(request.downloadHandler.text);
         }
         else
         {
@@ -60,5 +47,103 @@ public class NetworkTest : MonoBehaviour
         }
     }
 
-    //IEnumerator U
+    // GET
+    IEnumerator GetNewRoomCode(int player_id, string room_code)
+    {
+        UnityWebRequest request = UnityWebRequest.Get(address + "/players/" + player_id); // 에러 시 주소 확인
+        
+        yield return request.SendWebRequest();
+
+        if (request.error == null)
+        {
+            Debug.Log(request.downloadHandler.text);
+            var jsonString = request.downloadHandler.text;
+            var dict = Json.Deserialize(jsonString) as Dictionary<string, object>;
+            room_code = (string)dict["room_code"];
+            File.WriteAllText("./data/data.txt", room_code); // 파일 입출력 확인 필요
+        }
+        else
+        {
+            Debug.Log("error");
+        }
+    }
+    IEnumerator GetRooms(int player_id, string room_code)
+    {
+        UnityWebRequest request = UnityWebRequest.Get(address + "/players/" + player_id); // 에러 시 주소 확인
+
+        yield return request.SendWebRequest();
+
+        if (request.error == null)
+        {
+            Debug.Log(request.downloadHandler.text);
+            var jsonString = request.downloadHandler.text;
+            var dict = Json.Deserialize(jsonString) as Dictionary<string, object>;
+            room_code = (string)dict["room_code"];
+            File.WriteAllText("./data/data.txt", room_code); // 파일 입출력 확인 필요
+        }
+        else
+        {
+            Debug.Log("error");
+        }
+    }
+    IEnumerator GetTurninfo(int player_id, string room_code)
+    {
+        UnityWebRequest request = UnityWebRequest.Get(address + "/players/" + player_id); // 에러 시 주소 확인
+
+        yield return request.SendWebRequest();
+
+        if (request.error == null)
+        {
+            Debug.Log(request.downloadHandler.text);
+            var jsonString = request.downloadHandler.text;
+            var dict = Json.Deserialize(jsonString) as Dictionary<string, object>;
+            room_code = (string)dict["room_code"];
+            File.WriteAllText("./data/data.txt", room_code); // 파일 입출력 확인 필요
+        }
+        else
+        {
+            Debug.Log("error");
+        }
+    }
+
+    // PUT
+    IEnumerator PutPlayerToRoom(string room_code)
+    {
+        byte[] bytes = new byte[10];
+        WWWForm form = new WWWForm();
+        form.AddField("room_code", room_code);
+        UnityWebRequest request = UnityWebRequest.Put(address, bytes);
+
+        yield return request.SendWebRequest();
+    }
+    IEnumerator PutTurnEnd(string room_code)
+    {
+        byte[] bytes = new byte[10];
+        WWWForm form = new WWWForm();
+        form.AddField("room_code", room_code);
+        UnityWebRequest request = UnityWebRequest.Put(address, bytes);
+
+        yield return request.SendWebRequest();
+    }
+    IEnumerator PutCardToPlayer(string nickname)
+    {
+        byte[] bytes = new byte[10];
+        UnityWebRequest request = UnityWebRequest.Put(address, bytes);
+
+        yield return request.SendWebRequest();
+    }
+
+    // DELETE
+    IEnumerator DeleteRoom(string room_code)
+    {
+        UnityWebRequest request = UnityWebRequest.Delete(address);
+
+        yield return request.SendWebRequest();
+    }
+    IEnumerator DeletePlayer(string room_code)
+    {
+        UnityWebRequest request = UnityWebRequest.Delete(address);
+
+        yield return request.SendWebRequest();
+    }
 }

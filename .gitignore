@@ -81,7 +81,8 @@ crashlytics-build.properties
 .vscode/settings.json
 
 UserSettings/
-/ProjectSettings
+ProjectSettings/
+
 
 
 Network_Secret.cs
