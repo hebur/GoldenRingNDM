@@ -9,16 +9,10 @@ public class Room_Template : MonoBehaviour
 {
     [SerializeField] Button RoomEnter_Btn;
     [SerializeField] TextMeshProUGUI RoomTitle_Txt;
-    [SerializeField] GameObject DirectRoomEnter_UI;
 
     void Start()
     {
         
-    }
-
-    public void Btn_CallDirectRoomEnter()
-    {
-        DirectRoomEnter_UI.SetActive(true);
     }
 
     public void BTN_CallCloseParentUI()
