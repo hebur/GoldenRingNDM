@@ -80,5 +80,9 @@ crashlytics-build.properties
 .vscode/launch.json
 .vscode/settings.json
 
-GoldenRingPlus/UserSettings
-GoldenRingPlus/ProjectSettings
+UserSettings/
+/ProjectSettings
+
+
+Network_Secret.cs
+Network_Secret.cs.meta

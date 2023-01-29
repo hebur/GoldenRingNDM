@@ -12,14 +12,18 @@ public class NetworkTest : MonoBehaviour
         StartCoroutine(UnityWebRequestGETTest());
     }
 
+    private readonly string address = Network_Secret.getserveraddress();
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
     IEnumerator UnityWebRequestGETTest()
     {
-        //GET 방식
-        string url = "https://api.neople.co.kr/df/servers?apikey=";
-
+        
 
         // UnityWebRequest에 내장되어 있는 GET 메소드를 사용한다.
-        UnityWebRequest www = UnityWebRequest.Get(url);
+        UnityWebRequest www = UnityWebRequest.Get(address);
 
         yield return www.SendWebRequest(); // 응답이 올 때까지 대기
 
