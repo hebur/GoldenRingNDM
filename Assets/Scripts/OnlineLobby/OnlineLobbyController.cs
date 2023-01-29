@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 public class OnlineLobbyController : MonoBehaviour
 {
-    [SerializeField] private GameObject CreateRoom_UI, EnterCode_UI;
+    [SerializeField] private GameObject CreateRoom_UI, EnterCode_UI, PlayerNickname_UI;
 
     void Start()
     {
@@ -17,6 +17,21 @@ public class OnlineLobbyController : MonoBehaviour
     public void BTN_CallBack()
     {
         SceneManager.LoadScene(1);
+    }
+
+    public void BTN_CallPlayerNicknameCheck()
+    {
+        
+    }
+
+    public void BTN_CallCreateRoomEnter()
+    {
+
+    }
+
+    public void BTN_CallRoomCodeEnter()
+    {
+
     }
 
     public void BTN_CallCloseParentUI()

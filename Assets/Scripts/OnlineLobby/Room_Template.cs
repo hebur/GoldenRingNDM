@@ -15,6 +15,11 @@ public class Room_Template : MonoBehaviour
         
     }
 
+    public void BTN_CallDirectRoomEnter()
+    {
+        
+    }
+
     public void BTN_CallCloseParentUI()
     {
         GameObject clickedGO = EventSystem.current.currentSelectedGameObject;
