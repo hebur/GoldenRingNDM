@@ -6,7 +6,7 @@ public class CardManager : MonoBehaviour
 {
     public static CardManager instance;
 
-    
+
     private List<GameObject> listGenCard;   //Game Object 형태로 생성된 카드를 보관
 
     [SerializeField] private int marketMax; //마켓에 최대로 들어갈 수 있는 카드의 갯수
@@ -23,7 +23,7 @@ public class CardManager : MonoBehaviour
     [SerializeField] private GameObject TestCard;
     [SerializeField] private int TestAmount;
 
-    
+
 
     private void OnEnable()
     {
@@ -38,13 +38,13 @@ public class CardManager : MonoBehaviour
 
     private void Update()
     {
-/*        //if(Input.GetKeyDown(KeyCode.I))
-        //    Initialize();
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            //테스트 소모
-            TestSpendCard();
-        }*/
+        /*        //if(Input.GetKeyDown(KeyCode.I))
+                //    Initialize();
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    //테스트 소모
+                    TestSpendCard();
+                }*/
     }
 
     /// <summary>
@@ -65,8 +65,6 @@ public class CardManager : MonoBehaviour
     /// </summary>
     private void GenerationCardList()
     {
-        //테스트 생성
-        //TestCardMake();
         GenerateCardGameObject();
 
         //listGenCard에 생성된 카드를 가져와 저장함.
@@ -79,7 +77,6 @@ public class CardManager : MonoBehaviour
         //...
 
         //1번칸의 구매 여부를 확인
-        
 
         RePosition_MarketCard();
 
@@ -122,6 +119,7 @@ public class CardManager : MonoBehaviour
     /// </summary>
     public void Add_Market()
     {
+        marketMax = 8;
         int tmp = marketMax - listMarketCardGO.Count;
         GameObject tmpG;
         if (listMarketCardGO.Count < marketMax)
@@ -135,9 +133,6 @@ public class CardManager : MonoBehaviour
                     listMarketCardCS.Add(tmpG.GetComponent<CardScript>());
                 }
             }
-
-
-
     }
 
     /// <summary>
@@ -169,7 +164,7 @@ public class CardManager : MonoBehaviour
         tmpCard = listMarketCardGO[tmpindex];
         listMarketCardGO.RemoveAt(tmpindex);
         listMarketCardCS[tmpindex].IsPurchased = true;
-        if(listMarketCardCS[tmpindex].GetEffect()[5] == 1 )
+        if (listMarketCardCS[tmpindex].GetEffect()[5] == 1)
         {
             Debug.Log("END CARD");
             //TableManager에 ThisEndCard 라는 것을 알리는 함수를 호출
@@ -196,7 +191,7 @@ public class CardManager : MonoBehaviour
         //리포지션 변경
         //listMarketHolder의 첫 인덱스와 끝 인덱스를 참조하여 카드들을 내부에 자동 정렬.
 
-        float Length = ((listMarketHolder[listMarketHolder.Count - 1].transform.position.x - listMarketHolder[0].transform.position.x) / 9f);
+        float Length = ((listMarketHolder[listMarketHolder.Count - 1].transform.position.x - listMarketHolder[0].transform.position.x) / 8f);
         Vector3 VecOrg = listMarketHolder[0].transform.position;
         Vector3 tmpVec = listMarketHolder[0].transform.position;
         for (int i = 0; i < listMarketCardGO.Count; i++)
@@ -205,7 +200,7 @@ public class CardManager : MonoBehaviour
             tmpVec = VecOrg;
             tmpVec.x += (Length * (float)i);
             listMarketCardGO[i].transform.DOMove(
-                ( tmpVec )
+                (tmpVec)
                 , 0.3f);
         }
         for (int i = 0; i < listMarketCardCS.Count; i++)
@@ -279,7 +274,7 @@ public class CardManager : MonoBehaviour
 
     public void CheckBuyFirst()
     {
-        if(!CheckBuyFst)
+        if (!CheckBuyFst)
         {
             GameObject tmpCard;
             tmpCard = listMarketCardGO[0];
