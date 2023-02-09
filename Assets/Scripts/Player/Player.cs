@@ -151,6 +151,21 @@ public class Player : MonoBehaviour
         }
         foreach (var target in deleteTargets)
             RemoveCard(target);
+        if (_fields.Count == 0)
+        {
+            List<int> zero = new List<int>(5);
+            for (int i = 0; i < 5; i++) zero.Add(0);
+            UIManager.instance.Get_UpScore(_order).DrawText(zero);
+        }
+        foreach (var card in _fields)
+        {
+            for (int i = 0; i < _resource.Count; i++)
+            {
+                UIManager.instance.Get_UpScore(_order).gameObject.SetActive(true);
+                CardScript cs = card.GetComponent<CardScript>();
+                UIManager.instance.Get_UpScore(_order).DrawText(cs.GetEffect());
+            }
+        }
     }
 
     /// <summary>

@@ -89,7 +89,7 @@ public class CardScript : MonoBehaviour
         if (!isPurchased)
         {
             if (TableManager.instance.Get_NowPlayerScript().SlotLeft >= this._cardData.Slot)
-                UIManager.instance.Popup_PurchaseUI(this._cardData.CardNum, CardManager.instance.Check_BuyThisCard(this._cardData.CardNum, TableManager.instance.Get_NowPlayerResource()), this._cardData.Price);
+                UIManager.instance.Popup_PurchaseUI(this._cardData.CardNum, CardManager.instance.Is_Buyable(this._cardData.CardNum, TableManager.instance.Get_NowPlayerResource()), this._cardData.Price);
             else
                 TableManager.instance.Get_NowPlayerScript().FlashRed();
         }

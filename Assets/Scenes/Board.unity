@@ -1078,7 +1078,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1059906930}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: Popdown_PurchaseUI
-        m_Mode: 3
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -9497,7 +9497,7 @@ MonoBehaviour:
   - {fileID: 1748985199}
   - {fileID: 1619574069}
   - {fileID: 1325034928}
-  ShoppingButtonAble: 
+  ShoppingButtonAble: 0
   ShoppingText:
   - {fileID: 1827177220}
   - {fileID: 1647965819}
@@ -12235,7 +12235,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1059906930}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: Popdown_PurchaseUI
-        m_Mode: 3
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -14104,7 +14104,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1059906930}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: Popdown_PurchaseUI
-        m_Mode: 3
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -15440,7 +15440,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1059906930}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: Popdown_PurchaseUI
-        m_Mode: 3
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -15796,7 +15796,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1059906930}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: Popdown_PurchaseUI
-        m_Mode: 3
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
