@@ -186,7 +186,7 @@ public class Network
 
         return dict;
     }
-    public async Task<Dictionary<string, object>> GetRoomInfo(string room_code)
+    public async Task<Dictionary<string, object>> GetRoomInfo(string room_code, int x)
     {
         var dict = new Dictionary<string, object>();
 
@@ -209,7 +209,7 @@ public class Network
 
         return dict;
     }
-    public async Task<Dictionary<string, object>> GetPlayerInfo(string nickname)
+    public async Task<Dictionary<string, object>> GetPlayerInfo(string nickname, string room_code)
     {
         var dict = new Dictionary<string, object>();
 
