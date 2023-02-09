@@ -126,15 +126,15 @@ public class TableManager : MonoBehaviour
     {
         DrawPannel();
 
-        for (int i = 0; i < maxTurn; i++) // maxRound
+        for (int i = 0; i < maxTurn; i++) // Round(4 턴)를 나타냄
         {
             Debug.Log("Now Turn : " + i);
 
-            for (int j = 0; j < maxPlayer; j++)
+            for (int j = 0; j < maxPlayer; j++) // 턴(플레이어마다 한 턴)을 나타냄
             {
                 nowPlayerTurn = j;
                 DrawPannel();
-                CardManager.instance.UpdatePlayerSaleInfo(j + 1);
+                CardManager.instance.UpdateSaleInfo();
                 //플레이어 턴 실행
                 Run_PlayerTurn(j);
 

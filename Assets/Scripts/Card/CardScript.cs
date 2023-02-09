@@ -34,7 +34,7 @@ public class CardScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Ä«µå Á¤º¸ ¹Ş¾Æ¿Í Ä«µå »ı¼º
+    /// ì¹´ë“œ ì •ë³´ ë°›ì•„ì™€ ì¹´ë“œ ìƒì„±
     /// </summary>
     /// <param name="from"></param>
     public void Initalize(CardData from)
@@ -59,7 +59,7 @@ public class CardScript : MonoBehaviour
     }
     
     /// <summary>
-    /// ¸¶¿ì½º ¿Ã¸®¸é È®´ë
+    /// ë§ˆìš°ìŠ¤ ì˜¬ë¦¬ë©´ í™•ëŒ€
     /// </summary>
     public void OnMouseEnter()
     {
@@ -72,7 +72,7 @@ public class CardScript : MonoBehaviour
     }
     
     /// <summary>
-    /// ¸¶¿ì½º ¶§¸é ¿ø·¡´ë·Î
+    /// ë§ˆìš°ìŠ¤ ë•Œë©´ ì›ë˜ëŒ€ë¡œ
     /// </summary>
     public void OnMouseExit()
     {
@@ -81,8 +81,8 @@ public class CardScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Å¬¸¯ ÇßÀ» ¶§
-    /// ±¸¸ÅÇÏ°Å³ª ¹ö¸®°Å³ª
+    /// í´ë¦­ í–ˆì„ ë•Œ
+    /// êµ¬ë§¤í•˜ê±°ë‚˜ ë²„ë¦¬ê±°ë‚˜
     /// </summary>
     public void OnMouseDown()
     {
@@ -98,7 +98,7 @@ public class CardScript : MonoBehaviour
     }
    
     /// <summary>
-    /// Get ÇÔ¼öµé
+    /// Get í•¨ìˆ˜ë“¤
     /// </summary>
     /// <returns></returns>
     public int GetCardNum()
@@ -128,11 +128,10 @@ public class CardScript : MonoBehaviour
     }
     public bool IsPurchased { get { return isPurchased; } set { isPurchased = value; } }
 
-    /// <summary>
-    /// ¸Å ÅÏ¸¶´Ù Ä«µåÀÇ °ñµå ÇÒÀÎ Á¤º¸ °»½Å
-    /// </summary>
-    /// <param name="n">-1ÀÌ¸é ÇÒÀÎ, 0ÀÌ¸é ±×´ë·Î, +1ÀÌ¸é ÇÒÁõ</param>
-    public void UpdateSaleInfo(int n)
+
+    // ì¹´ë“œì˜ ê³¨ë“œ ì„¸ì¼ ì •ë³´ ê°±ì‹  ë” ì´ìƒ í•„ìš” ì—†ìŒ.
+    /*public void UpdateSaleInfo(int n)
+
     {
         SaleObject.SetActive(n != 0);
         _cardData.Price[0] = originGoldCosts[0];
@@ -148,19 +147,42 @@ public class CardScript : MonoBehaviour
             _cardData.Price[0]--;
             SaleText.color = Color.blue;
         }
-    }
+    }*/
+
 
     /// <summary>
-    /// ¸Å ÅÏ¸¶´Ù »ç¿ëÀÚ ¼ø¼­¿¡ µû¶ó ÇØ´ç ÅÏ »ç¿ëÀÚ ÀÚ¿ø ÇÒÀÎ Á¤º¸ °»½Å
+    /// ë§¤ í„´ë§ˆë‹¤ ì‚¬ìš©ì ìˆœì„œì— ë”°ë¼ í•´ë‹¹ í„´ ì‚¬ìš©ì ìì› í• ì¸ ì •ë³´ ê°±ì‹ 
     /// </summary>
     /// <param name="curPlayer"></param>
-    public void UpdatePlayerSaleInfo(int curPlayer)
+    public void UpdateResourceSaleInfo()
     {
-        playerSaleObject.transform.parent = ReqTexts[curPlayer].gameObject.transform;
-        playerSaleObject.transform.localPosition = Vector3.left * 0.62f;
-        playerSaleObject.GetComponent<SpriteRenderer>().color = ReqTexts[curPlayer].transform.parent.gameObject.GetComponent<SpriteRenderer>().color;
-        for (int i = 1; i < 5; i++)
-            _cardData.Price[i] = originGoldCosts[i];
-        _cardData.Price[curPlayer]--;
+        int maxRes = 0; // í• ì¸ ì ìš©í•  ìì›
+        int maxCost = 0; // ìµœê³  ë¹„ìš©
+
+        for(int i = 1; i < 5; i++)
+        {
+            if (maxCost < _cardData.Price[i])
+            {
+                maxCost = _cardData.Price[i];
+                maxRes = i;
+            }
+        }
+
+        if(maxCost == 0)
+        {
+            playerSaleObject.gameObject.SetActive(false);
+        }
+        else
+        {
+            playerSaleObject.gameObject.SetActive(true);
+            SaleText.text = "-1";
+            playerSaleObject.transform.parent = ReqTexts[maxRes].gameObject.transform;
+            playerSaleObject.transform.localPosition = Vector3.left * 0.62f;
+            playerSaleObject.GetComponent<SpriteRenderer>().color = ReqTexts[maxRes].transform.parent.gameObject.GetComponent<SpriteRenderer>().color;
+            for (int i = 1; i < 5; i++)
+                _cardData.Price[i] = originGoldCosts[i];
+            _cardData.Price[maxRes]--;
+        }
+        
     }
 }
