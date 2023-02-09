@@ -22,7 +22,7 @@ public class CardManager : MonoBehaviour
     [SerializeField] private GameObject TestCard;
     [SerializeField] private int TestAmount;
 
-    
+
 
     private void OnEnable()
     {
@@ -124,6 +124,7 @@ public class CardManager : MonoBehaviour
     /// </summary>
     public void Add_Market()
     {
+        marketMax = 8;
         int tmp = marketMax - listMarketCardGO.Count;
         GameObject tmpG;
         if (listMarketCardGO.Count < marketMax)
@@ -137,9 +138,6 @@ public class CardManager : MonoBehaviour
                     listMarketCardCS.Add(tmpG.GetComponent<CardScript>());
                 }
             }
-
-
-
     }
 
     /// <summary>
@@ -171,7 +169,7 @@ public class CardManager : MonoBehaviour
         tmpCard = listMarketCardGO[tmpindex];
         listMarketCardGO.RemoveAt(tmpindex);
         listMarketCardCS[tmpindex].IsPurchased = true;
-        if(listMarketCardCS[tmpindex].GetEffect()[5] == 1 )
+        if (listMarketCardCS[tmpindex].GetEffect()[5] == 1)
         {
             Debug.Log("END CARD");
             //TableManager에 ThisEndCard 라는 것을 알리는 함수를 호출
@@ -199,7 +197,7 @@ public class CardManager : MonoBehaviour
         //리포지션 변경
         //listMarketHolder의 첫 인덱스와 끝 인덱스를 참조하여 카드들을 내부에 자동 정렬.
 
-        float Length = ((listMarketHolder[listMarketHolder.Count - 1].transform.position.x - listMarketHolder[0].transform.position.x) / 9f);
+        float Length = ((listMarketHolder[listMarketHolder.Count - 1].transform.position.x - listMarketHolder[0].transform.position.x) / 8f);
         Vector3 VecOrg = listMarketHolder[0].transform.position;
         Vector3 tmpVec = listMarketHolder[0].transform.position;
         for (int i = 0; i < listMarketCardGO.Count; i++)
@@ -208,7 +206,7 @@ public class CardManager : MonoBehaviour
             tmpVec = VecOrg;
             tmpVec.x += (Length * (float)i);
             listMarketCardGO[i].transform.DOMove(
-                ( tmpVec )
+                (tmpVec)
                 , 0.3f);
         }
 /*        for (int i = 0; i < listMarketCardCS.Count; i++)
@@ -281,7 +279,7 @@ public class CardManager : MonoBehaviour
 
     public void CheckBuyFirst()
     {
-        if(!CheckBuyFst)
+        if (!CheckBuyFst)
         {
             GameObject tmpCard;
             tmpCard = listMarketCardGO[0];
