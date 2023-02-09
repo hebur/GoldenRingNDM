@@ -21,11 +21,22 @@ public class OnlineLobbyController : MonoBehaviour
 
     public void BTN_CallBack()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("MainMenu");
     }
 
     public async void BTN_CallPlayerNicknameCheck()
     {
+        //Test
+        network.PostNewRoom("a");
+        network.PostNewPlayer("b");
+        var a = await network.GetisRoomFull("a");
+        var b = await network.GetNewRoomCode("a");
+        var c = await network.GetisNNExist("b");
+        var d = await network.GetRooms();
+        network.PutPlayerToRoom("a","b");
+        network.DeleteRoom("a");
+        network.DeletePlayer("b");
+
         if (nicknameInputField.text == "")
         {
             // 팝업 띄워주기 TODO
@@ -46,10 +57,6 @@ public class OnlineLobbyController : MonoBehaviour
             
         network.PostNewPlayer(user_nickname);
         PlayerNickname_UI.SetActive(false);
-
-        // 닉네임테스트
-        // nicknameTest1
-
     }
 
     public void BTN_CallCreateRoomEnter()
