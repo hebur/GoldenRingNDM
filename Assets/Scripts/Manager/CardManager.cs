@@ -243,9 +243,27 @@ public class CardManager : MonoBehaviour
         else
             return null;
     }
+    public bool Is_Buyable(int cardNum, List<int> Happy)
+    {
+        bool buyAble = false;
+        int check = 1;
+        for (int i = 0; i < listMarketCardGO.Count; i++)
+            if (listMarketCardCS[i].GetCardNum() == cardNum)
+            {
+                List<int> price = listMarketCardCS[i].GetPrice();
+                for (int j = 0; j < 5; j++)
+                {
+                    if (price[j] + price[j + 5] > Happy[j])
+                        check *= 0;
+                }
+                break;
+            }
+        if (check == 1)
+            buyAble = true;
+        return buyAble;
+    }
 
-
-
+    /*
     /// <summary>
     /// 카드 구매 가능 여부를 리턴합니다
     /// </summary>
@@ -271,11 +289,9 @@ public class CardManager : MonoBehaviour
                 }
                 break;
             }
-
-
         return buyAble;
-
     }
+    */
 
     public void CheckBuyFirst()
     {

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,7 +15,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject ShoppingBreaker;
 
     [SerializeField] private List<Button> ShoppingButton;
-    [SerializeField] private List<bool> ShoppingButtonAble;
+    [SerializeField] private bool ShoppingButtonAble;
     [SerializeField] private List<TextMeshProUGUI> ShoppingText;
     [SerializeField] private List<int> ShoppingTextResource;
     
@@ -44,8 +44,9 @@ public class UIManager : MonoBehaviour
         }*/
     }
 
-    public void Popup_PurchaseUI(int cardNum, List<bool> Able, List<int> resource)
+    public void Popup_PurchaseUI(int cardNum, bool Able, List<int> resource) // resource == price
     {
+        // 배경 클릭 막기
         ShoppingClickBlocker.SetActive(true);
         ShoppingWorldClickBlocker.SetActive(true);
 
@@ -53,30 +54,35 @@ public class UIManager : MonoBehaviour
         ShoppingButtonAble = Able;
         ShoppingTextResource = resource;
         StartCoroutine(corFunc_PopupPurchaseUI());
+
+        // 자원별로 가격 표시
         for (int i = 0; i < ShoppingButton.Count; i++)
         {
             if (ShoppingTextResource[i] < 99999)
                 ShoppingText[i].text = ShoppingTextResource[i].ToString();
             else
-                ShoppingText[i].text = "X";
+            {
+                ShoppingButton[i].gameObject.SetActive(false);
+                // ShoppingText[i].text = "X";
+            }
+                
         }
     }
 
-    public void Popdown_PurchaseUI(int rsh)
+    // 특정 자원으로 구매하면 실행되는 함수
+    public void Popdown_PurchaseUI() // 0: gold, 1: 빨강, ~
     {
-
-        List<int> tmp = new List<int>();
-        for (int i = 0; i < 5; i++) tmp.Add(0);
-        tmp[rsh] = ShoppingTextResource[rsh] + ShoppingTextResource[rsh + 5];
+        List<int> cost = new List<int>(5);
+        for (int i = 0; i < 5; i++)
+        {
+                cost.Add(0);
+                cost[i] = ShoppingTextResource[i] + ShoppingTextResource[i + 5];  // 소모비용
+        }
         StartCoroutine(corFunc_PopDownPurchaseUI());
 
-        Debug.Log(TableManager.instance.Get_NowPlayerScript());
-        Debug.Log(CardNum);
-
         TableManager.instance.Get_NowPlayerScript().AddCard(CardManager.instance.Get_MarketCard(CardNum));
-        TableManager.instance.Get_NowPlayerScript().Use(tmp);
+        TableManager.instance.Get_NowPlayerScript().Use(cost);
         TableManager.instance.End_PlayerTurn();
-
     }
 
     public void ButtonClose()
@@ -107,7 +113,7 @@ public class UIManager : MonoBehaviour
 
         for (int i = 0; i < ShoppingButton.Count; i++)
         {
-            ShoppingButton[i].interactable = ShoppingButtonAble[i];
+            ShoppingButton[i].interactable = ShoppingButtonAble;
         }
     }
 
