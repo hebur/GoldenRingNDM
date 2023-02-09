@@ -6,7 +6,6 @@ public class CardManager : MonoBehaviour
 {
     public static CardManager instance;
 
-    
     private List<GameObject> listGenCard;   //Game Object 형태로 생성된 카드를 보관
 
     [SerializeField] private int marketMax; //마켓에 최대로 들어갈 수 있는 카드의 갯수
@@ -38,13 +37,15 @@ public class CardManager : MonoBehaviour
 
     private void Update()
     {
-/*        //if(Input.GetKeyDown(KeyCode.I))
+        /*
+        //if(Input.GetKeyDown(KeyCode.I))
         //    Initialize();
         if (Input.GetKeyDown(KeyCode.Space))
         {
             //테스트 소모
             TestSpendCard();
-        }*/
+        }
+        */
     }
 
     /// <summary>
@@ -117,6 +118,7 @@ public class CardManager : MonoBehaviour
             RePosition_MarketCard();
         }
     }
+    
     /// <summary>
     /// 자신이 가진 모든 카드 리스트를 기반으로 가장 첫번째 인덱스의 카드를 마켓에 추가합니다.
     /// </summary>
@@ -193,6 +195,7 @@ public class CardManager : MonoBehaviour
     {
 
         SoundManager.instance.PlayAudio(SoundType.LoadDeck);
+
         //리포지션 변경
         //listMarketHolder의 첫 인덱스와 끝 인덱스를 참조하여 카드들을 내부에 자동 정렬.
 
@@ -212,10 +215,8 @@ public class CardManager : MonoBehaviour
         {
             if (i < 2)
                 listMarketCardCS[i].UpdateSaleInfo(-1);
-            else if (i < 2 + 5)
-                listMarketCardCS[i].UpdateSaleInfo(0);
             else
-                listMarketCardCS[i].UpdateSaleInfo(1);
+                listMarketCardCS[i].UpdateSaleInfo(0);
         }
     }
 

@@ -33,6 +33,10 @@ public class CardScript : MonoBehaviour
         transform.localPosition = Vector3.SmoothDamp(transform.localPosition, targetPos, ref v2, 0.3f);
     }
 
+    /// <summary>
+    /// 카드 정보 받아와 카드 생성
+    /// </summary>
+    /// <param name="from"></param>
     public void Initalize(CardData from)
     {
         this._cardData = from;
@@ -53,6 +57,10 @@ public class CardScript : MonoBehaviour
         originGoldCosts = new List<int>(_cardData.Price);
         exitObject.SetActive(_cardData.Effect[5] != 0);
     }
+    
+    /// <summary>
+    /// 마우스 올리면 확대
+    /// </summary>
     public void OnMouseEnter()
     {
         //if (!isControlAble) return;
@@ -62,12 +70,20 @@ public class CardScript : MonoBehaviour
         before.z = targetZ;
         transform.localPosition = before;
     }
+    
+    /// <summary>
+    /// 마우스 때면 원래대로
+    /// </summary>
     public void OnMouseExit()
     {
         targetScale = originScale;
         targetZ = originZ;
     }
 
+    /// <summary>
+    /// 클릭 했을 때
+    /// 구매하거나 버리거나
+    /// </summary>
     public void OnMouseDown()
     {
         if (!isPurchased)
@@ -80,6 +96,11 @@ public class CardScript : MonoBehaviour
         else
             TableManager.instance.Get_NowPlayerScript().RemoveCard(gameObject);
     }
+   
+    /// <summary>
+    /// Get 함수들
+    /// </summary>
+    /// <returns></returns>
     public int GetCardNum()
     {
         return _cardData.CardNum;
@@ -108,7 +129,7 @@ public class CardScript : MonoBehaviour
     public bool IsPurchased { get { return isPurchased; } set { isPurchased = value; } }
 
     /// <summary>
-    /// 카드의 세일 정보 갱신
+    /// 매 턴마다 카드의 골드 할인 정보 갱신
     /// </summary>
     /// <param name="n">-1이면 할인, 0이면 그대로, +1이면 할증</param>
     public void UpdateSaleInfo(int n)
@@ -129,6 +150,10 @@ public class CardScript : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 매 턴마다 사용자 순서에 따라 해당 턴 사용자 자원 할인 정보 갱신
+    /// </summary>
+    /// <param name="curPlayer"></param>
     public void UpdatePlayerSaleInfo(int curPlayer)
     {
         playerSaleObject.transform.parent = ReqTexts[curPlayer].gameObject.transform;

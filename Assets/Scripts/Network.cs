@@ -186,6 +186,52 @@ public class Network
 
         return dict;
     }
+    public async Task<Dictionary<string, object>> GetRoomInfo(string room_code)
+    {
+        var dict = new Dictionary<string, object>();
+
+        UnityWebRequest request = UnityWebRequest.Get(address + "/rooms/" + room_code);
+
+        var op = request.SendWebRequest();
+        while (!op.isDone)
+        { await Task.Yield(); }
+
+        if (request.error == null)
+        {
+            Debug.Log(request.downloadHandler.text);
+            var jsonString = request.downloadHandler.text;
+            dict = Json.Deserialize(jsonString) as Dictionary<string, object>;
+        }
+        else
+        {
+            Debug.Log("error");
+        }
+
+        return dict;
+    }
+    public async Task<Dictionary<string, object>> GetPlayerInfo(string nickname)
+    {
+        var dict = new Dictionary<string, object>();
+
+        UnityWebRequest request = UnityWebRequest.Get(address + "/players/" + nickname);
+
+        var op = request.SendWebRequest();
+        while (!op.isDone)
+        { await Task.Yield(); }
+
+        if (request.error == null)
+        {
+            Debug.Log(request.downloadHandler.text);
+            var jsonString = request.downloadHandler.text;
+            dict = Json.Deserialize(jsonString) as Dictionary<string, object>;
+        }
+        else
+        {
+            Debug.Log("error");
+        }
+
+        return dict;
+    }
     public async Task<bool> GetisRoomFull(string room_code)
     {
         bool isfull = false;

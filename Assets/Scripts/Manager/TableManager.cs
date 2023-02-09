@@ -8,9 +8,6 @@ using UnityEngine.SceneManagement;
 
 /// <summary>
 /// 테이블의 진행을 관리하는 메니저입니다.
-/// 
-/// 
-/// 
 /// </summary>
 public class TableManager : MonoBehaviour
 {
@@ -66,12 +63,15 @@ public class TableManager : MonoBehaviour
 
     private void Awake()
     {
+        // 턴이 끝났을 때 클릭 방지 (흐린 화면 뜸)
         TurnEndBlock.SetActive(false);
         TurnEndBlockImg.SetActive(false);
         TurnEndMessage.gameObject.SetActive(false);
+        // 게임이 끝났을 때 클릭 방지 (흐린 화면 뜸)
         GameOverBlock.SetActive(false);
         GameOverBlockImg.SetActive(false);
         GameOverMessage.gameObject.SetActive(false);
+
         if (!hasInit)
             Initialize();
         for (int i = 0; i < maxPlayer; i++)
