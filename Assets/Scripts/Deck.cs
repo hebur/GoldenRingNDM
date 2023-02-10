@@ -15,6 +15,7 @@ public class Deck : MonoBehaviour
         LoadCards();
         if (doShuffle)
             Shuffle(_cards.Count);
+            // Create_Deck();
     }
 
     void LoadCards()
@@ -30,9 +31,9 @@ public class Deck : MonoBehaviour
             newCard.CardNum = card.id;
             newCard.Price = card.price;
             newCard.Effect = card.effect;
-            // newCard.Score = card.score;
             newCard.Turn = card.turn;
             newCard.Slot = card.slot;
+            newCard.Score = card.score;
 
             _cards.Add(newCard);
         }
@@ -107,7 +108,7 @@ public class CardFromJson
     public int id;
     public List<int> price;
     public List<int> effect;
-    // public int score;
     public int turn;
     public int slot;
+    public int score;
 }
