@@ -213,7 +213,16 @@ public class TableManager : MonoBehaviour
         //플레이어의 재화 확보
         listPlayer[nowPlayerTurn].EndTurn();
 
-        //구매하지 않으면 제거
+        //앞의 4장 중 하나 구매 확인
+        if(CardManager.instance.CheckBuyFront() == true)
+        {
+            List<int> earnOneGold = new List<int>(new int[5]);
+            earnOneGold[0] = 1;
+            listPlayer[nowPlayerTurn].Gain(earnOneGold);
+        }
+        CardManager.instance.SetCBFro();
+
+        //구매하지 않았으면 제거
         CardManager.instance.CheckBuyFirst();
 
         // 턴 종료 메세지 띄우기

@@ -18,6 +18,7 @@ public class CardManager : MonoBehaviour
     [SerializeField] private List<Transform> listMarketHolder;   //마켓에 카드가 들어갈 홀더
     [SerializeField] private Deck deck;     //덱...
     [SerializeField] private bool CheckBuyFst;
+    [SerializeField] private bool CheckBuyFro; // 앞의 4 카드 중 하나를 구매했는지 확인
 
     [SerializeField] private GameObject TestCard;
     [SerializeField] private int TestAmount;
@@ -159,6 +160,9 @@ public class CardManager : MonoBehaviour
         if (tmpindex == 0)
             CheckBuyFst = true;
 
+        if (tmpindex < 4)
+            CheckBuyFro = true;
+
         if (tmpindex == 99999)
         {
             Debug.LogError("Get_MarketCard : NO IN HAS MARKET!!");
@@ -293,6 +297,9 @@ public class CardManager : MonoBehaviour
     }
     */
 
+    /// <summary>
+    /// 첫 번째 카드를 구매했는지 확인하고 처리합니다.
+    /// </summary>
     public void CheckBuyFirst()
     {
         if (!CheckBuyFst)
@@ -314,6 +321,15 @@ public class CardManager : MonoBehaviour
 
         Add_Market();
         RePosition_MarketCard();
+    }
+
+    public bool CheckBuyFront()
+    {
+        return CheckBuyFro;
+    }
+    public void SetCBFro()
+    {
+        CheckBuyFro = false;
     }
 
     public void UpdateSaleInfo()
