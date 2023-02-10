@@ -334,7 +334,11 @@ public class CardManager : MonoBehaviour
 
     public void UpdateSaleInfo()
     {
-        for (int i = 0; i < 4; i++)
-            listMarketCardCS[i].UpdateResourceSaleInfo();
+        for (int i = 0; i < listMarketCardCS.Count; i++)
+        {
+            if(i < 4)
+                listMarketCardCS[i].UpdateResourceSaleInfo();
+        }
+            
     }
 }
