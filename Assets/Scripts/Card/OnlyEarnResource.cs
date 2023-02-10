@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class OnlyEarnResource : MonoBehaviour
 {
-
     /// <summary>
     /// 버튼이 호출하여 오직 자원만을 얻는 스크립트 입니다.
     /// </summary>

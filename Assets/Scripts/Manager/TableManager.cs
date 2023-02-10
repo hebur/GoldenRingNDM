@@ -216,18 +216,10 @@ public class TableManager : MonoBehaviour
         //구매하지 않으면 제거
         CardManager.instance.CheckBuyFirst();
 
-        //마켓 충당
-        //CardManager.instance.Add_Market();
-
-        // test increase
-        // increaseCEC();
-
-        // 턴 종류 메세지 띄우기
+        // 턴 종료 메세지 띄우기
         StartCoroutine(EndMessage());
 
-
         End_AfterPlayerTurn();
-
     }
 
     /// <summary>
@@ -277,7 +269,8 @@ public class TableManager : MonoBehaviour
         List<int> Player = new List<int>();
         for (int i = 0; i < maxPlayer; i++)
         {
-            Score.Add(listPlayer[i].Resource[i + 1]);
+            Score.Add(listPlayer[i].Score);
+            // Score.Add(listPlayer[i].Resource[i + 1]);
             Player.Add(i + 1);
         }
         int tmpint;

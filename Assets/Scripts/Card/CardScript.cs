@@ -113,6 +113,10 @@ public class CardScript : MonoBehaviour
     {
         return _cardData.Effect;
     }
+    public int GetScore()
+    {
+        return _cardData.Score;
+    }
     public int TurnLeft
     {
         get => turnLeft; 
