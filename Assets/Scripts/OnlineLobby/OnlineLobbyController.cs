@@ -7,8 +7,6 @@ using UnityEngine.EventSystems;
 using TMPro;
 using UnityEngine.Networking;
 using System.Threading;
-using System.Threading.Tasks;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class OnlineLobbyController : MonoBehaviour
 {
@@ -19,7 +17,7 @@ public class OnlineLobbyController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI playerNickname_txt;
     [SerializeField] private List<Button> maxPlayerCountBtnList;
 
-    private string userNickname;
+    public string userNickname;
     private CreateRoomData createRoomData;
 
     void Awake()
@@ -29,6 +27,8 @@ public class OnlineLobbyController : MonoBehaviour
 
         if(!PlayerNickname_UI.active)
             PlayerNickname_UI.SetActive(true);
+
+        BTN_CallLobbyReLoad();
     }
 
     // MainMenu로 돌아가기
@@ -78,6 +78,8 @@ public class OnlineLobbyController : MonoBehaviour
         playerNickname_txt.text = "User Name: " + nicknameInputField.text;
         PlayerNickname_UI.SetActive(false);
         Thread.Sleep(3000);
+
+        BTN_CallLobbyReLoad();
     }
 
     // Room 생성
@@ -122,6 +124,9 @@ public class OnlineLobbyController : MonoBehaviour
             return;
         }
         network.PutPlayerToRoom(userNickname, roomcodeInputField.text);
+
+        var RoomInfo = await network.GetRoomInfo(roomcodeInputField.text);
+        Debug.Log(RoomInfo);
     }
 
     public async void BTN_CallLobbyReLoad()
@@ -148,11 +153,4 @@ public class OnlineLobbyController : MonoBehaviour
                 break;
         }
     }
-}
-
-public class CreateRoomData
-{
-    public string roomCode;
-    public string roomPassword;
-    public int maxPlayerCount = 4;
 }
