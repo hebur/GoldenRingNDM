@@ -54,17 +54,17 @@ public class OnlineLobbyController : MonoBehaviour
             
         network.PostNewPlayer(user_nickname);
         userNickname = user_nickname;
-        playerNickname_txt.text = nicknameInputField.text;
+        playerNickname_txt.text = "User Name: " + nicknameInputField.text;
         PlayerNickname_UI.SetActive(false);
         Thread.Sleep(3000);
     }
 
-    public void BTN_CallCreateRoomEnter()
+    public async void BTN_CallCreateRoomEnter()
     {
 
     }
 
-    public void BTN_CallRoomCodeEnter()
+    public async void BTN_CallRoomCodeEnter()
     {
 
     }

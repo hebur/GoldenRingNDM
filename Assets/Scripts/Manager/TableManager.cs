@@ -226,7 +226,7 @@ public class TableManager : MonoBehaviour
             {
                 List<int> earnOneGold = new List<int>(new int[5]);
                 earnOneGold[0] = 1;
-                // nowPlayer.Gain(earnOneGold);
+                nowPlayer.Gain(earnOneGold, 0);
             }
             CardManager.instance.SetCBFro();
         }
