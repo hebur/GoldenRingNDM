@@ -41,8 +41,6 @@ public class GotoMainMenu : MonoBehaviour
         yield return new WaitForSeconds(2f);
         listImage[0].gameObject.SetActive(false);
 
-        
-
         SceneManager.LoadScene(1);
 
     }

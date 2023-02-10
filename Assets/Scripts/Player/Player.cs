@@ -185,6 +185,11 @@ public class Player : MonoBehaviour
         return _score;
     }
 
+    public int GetGoldNum()
+    {
+        return _resource[0];
+    }
+
     // Start is called before the first frame update
     void Start()
     {

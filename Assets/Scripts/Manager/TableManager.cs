@@ -215,17 +215,21 @@ public class TableManager : MonoBehaviour
     /// <param name="rsh"></param>
     private void Run_AfterPlayerTurn(int rsh)
     {
+        Player nowPlayer = listPlayer[nowPlayerTurn];
         //플레이어의 재화 확보
-        listPlayer[nowPlayerTurn].EndTurn();
+        nowPlayer.EndTurn();
 
-        //앞의 4장 중 하나 구매 확인
-        if(CardManager.instance.CheckBuyFront() == true)
+        //앞의 4장 중 하나 구매 확인 후 골드 지급
+        if (nowPlayer.GetComponent<Player>().GetGoldNum() < 3)
         {
-            List<int> earnOneGold = new List<int>(new int[5]);
-            earnOneGold[0] = 1;
-            listPlayer[nowPlayerTurn].Gain(earnOneGold);
+            if (CardManager.instance.CheckBuyFront() == true)
+            {
+                List<int> earnOneGold = new List<int>(new int[5]);
+                earnOneGold[0] = 1;
+                nowPlayer.Gain(earnOneGold);
+            }
+            CardManager.instance.SetCBFro();
         }
-        CardManager.instance.SetCBFro();
 
         //구매하지 않았으면 제거
         CardManager.instance.CheckBuyFirst();
