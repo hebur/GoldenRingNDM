@@ -18,6 +18,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private bool ShoppingButtonAble;
     [SerializeField] private List<TextMeshProUGUI> ShoppingText;
     [SerializeField] private List<int> ShoppingTextResource;
+
+    [SerializeField] private GameObject GoldPanel;
     
     [SerializeField] private List<UpScorePopup> upScorePopup;
 
@@ -52,7 +54,7 @@ public class UIManager : MonoBehaviour
 
         CardNum = cardNum;
         ShoppingButtonAble = Able;
-        ShoppingTextResource = resource;
+        ShoppingTextResource = resource.GetRange(1,resource.Count-1);
         StartCoroutine(corFunc_PopupPurchaseUI());
 
         // 자원별로 가격 표시
@@ -72,14 +74,19 @@ public class UIManager : MonoBehaviour
     // 특정 자원으로 구매하면 실행되는 함수
     public void Popdown_PurchaseUI() // 0: gold, 1: 빨강, ~
     {
-        List<int> cost = new List<int>(5);
-        for (int i = 0; i < 5; i++)
+        List<int> cost = new List<int>();
+        cost.Add(0);
+        for (int i = 1; i < 5; i++)
         {
                 cost.Add(0);
-                cost[i] = ShoppingTextResource[i] + ShoppingTextResource[i + 5];  // 소모비용
+                cost[i] = ShoppingTextResource[i-1];  // 소모비용
         }
         StartCoroutine(corFunc_PopDownPurchaseUI());
 
+        List<int> usedGold = GoldPanel.GetComponent<GoldButton>().getGoldUsed();
+        for (int i = 0; i < usedGold.Count; i++)
+            cost[i] -= usedGold[i];
+        Debug.Log("cost: " + cost);
         TableManager.instance.Get_NowPlayerScript().AddCard(CardManager.instance.Get_MarketCard(CardNum));
         TableManager.instance.Get_NowPlayerScript().Use(cost);
         TableManager.instance.End_PlayerTurn();
