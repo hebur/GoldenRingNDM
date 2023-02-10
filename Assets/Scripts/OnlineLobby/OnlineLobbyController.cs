@@ -25,8 +25,22 @@ public class OnlineLobbyController : MonoBehaviour
         network= new Network();
     }
 
-    public void BTN_CallBack()
+    public async void BTN_CallBack()
     {
+        if(userNickname != null)
+        {
+            Debug.Log("UserNickname: " + userNickname);
+            network.DeletePlayer(userNickname);
+
+            bool isExist = await network.GetisNNExist(userNickname);
+            if (isExist)
+            {
+                Debug.LogError($"{userNickname} is not deleted!");
+            }
+
+            SceneManager.LoadScene("MainMenu");
+        }
+
         SceneManager.LoadScene("MainMenu");
     }
 
@@ -65,6 +79,11 @@ public class OnlineLobbyController : MonoBehaviour
     }
 
     public async void BTN_CallRoomCodeEnter()
+    {
+
+    }
+
+    public async void BTN_CallLobbyReLoad()
     {
 
     }
