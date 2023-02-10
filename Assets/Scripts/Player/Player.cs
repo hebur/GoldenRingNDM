@@ -66,16 +66,15 @@ public class Player : MonoBehaviour
     /// 턴 종류 후 카드 효과에 의한 돈,자원의 증가를 반영합니다.
     /// </summary>
     /// <param name="gain">얼마나 얻었는지</param>
-    public void Gain(List<int> gain)    // 
+    public void Gain(List<int> gain, int score)    // 
     {
+        _score += score;
         for (int i = 0; i < _resource.Count; i++)
         {
-            Debug.Log(_resource.Count + " " + gain.Count);
             _resource[i] += gain[i];
-
+            
             UIManager.instance.Get_UpScore(_order).gameObject.SetActive(true);
             UIManager.instance.Get_UpScore(_order).DrawText(gain);
-
         }
     }
 
@@ -83,7 +82,7 @@ public class Player : MonoBehaviour
     /// 카드 구매에 사용한 돈,자원의 감소를 반영합니다.
     /// </summary>
     /// <param name="used">얼마나 지불했는지</param>
-    public void Use(List<int> used)     // 
+    public void Use(List<int> used)
     {
         for (int i = 0; i < used.Count; i++)
         {
@@ -106,7 +105,7 @@ public class Player : MonoBehaviour
         _fields[index].transform.DOLocalMove(Vector3.right * cardGap * index, 0.5f);
 
         // 점수 추가
-        _score += card.GetScore();
+        // _score += card.GetScore();
     }
 
     /// <summary>
@@ -149,7 +148,7 @@ public class Player : MonoBehaviour
         foreach(var card in _fields)
         {
             CardScript cs = card.GetComponent<CardScript>();
-            this.Gain(cs.GetEffect());
+            this.Gain(cs.GetEffect(), cs.GetScore());
             if (--(cs.TurnLeft) == 0)
                 deleteTargets.Add(card);
         }
