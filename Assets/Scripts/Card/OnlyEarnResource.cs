@@ -33,13 +33,17 @@ public class OnlyEarnResource : MonoBehaviour
         listResource[2][2] = 3;
         listResource[3][3] = 3;
         listResource[4][4] = 3;
-        for(int i=1;i<EarnText.Count;i++)
+        for(int i=0;i<EarnText.Count;i++)
         {
             EarnText[i].text = "3";
         }
 
     }
 
+    /// <summary>
+    /// 턴에 따라 주는 자원의 양을 변화시킵니다.
+    /// </summary>
+    /// <param name="turn"></param>
     public void TurnCheck(int turn)
     {
         if (turn > 20)
@@ -78,9 +82,9 @@ public class OnlyEarnResource : MonoBehaviour
             listResource[4][4] = 3;
         }
 
-        for(int i = 1; i < EarnText.Count; i++)
+        for(int i = 0; i < EarnText.Count; i++)
         {
-            int x = listResource[i][i];
+            int x = listResource[i+1][i+1];
             EarnText[i].text = x.ToString();
         }
     }

@@ -24,6 +24,7 @@ public class TableManager : MonoBehaviour
     [SerializeField] private int nowPlayerTurn;
 
     [SerializeField] private GameObject EarnResource;
+    [SerializeField] private GameObject GoldPanel;
 
     [SerializeField] private bool playerTurnEnd;
     [SerializeField] private bool playerAfterTurnEnd;
@@ -127,7 +128,6 @@ public class TableManager : MonoBehaviour
     private IEnumerator corFunc_RollTable()
     {
         DrawPannel();
-        
 
         for (int i = 0; i < maxTurn; i++) // 라운드를 나타냄 (4 턴 = 1 라운드)
         {
@@ -140,11 +140,21 @@ public class TableManager : MonoBehaviour
                 nowPlayerTurn = j;
                 DrawPannel();
                 CardManager.instance.UpdateSaleInfo();
+
                 //플레이어 턴 실행
+                GoldPanel.GetComponent<GoldButton>().setCurGold(listPlayer[j].GetComponent<Player>().GetGoldNum());
+
                 Run_PlayerTurn(j);
 
                 yield return new WaitUntil(() => playerTurnEnd == true);
                 playerTurnEnd = false;
+
+                //턴 종료 이후 작업 실행
+                int goldusedsum = GoldPanel.GetComponent<GoldButton>().getGoldUsedSum();
+                Debug.Log("goldusedsum: " + goldusedsum.ToString());
+                List<int> used = new List<int>(new int[5]);
+                used[0] = goldusedsum;
+                listPlayer[nowPlayerTurn].Use(used);
 
                 Run_AfterPlayerTurn(j);
 
@@ -226,7 +236,7 @@ public class TableManager : MonoBehaviour
             {
                 List<int> earnOneGold = new List<int>(new int[5]);
                 earnOneGold[0] = 1;
-                nowPlayer.Gain(earnOneGold);
+                nowPlayer.Gain(earnOneGold, 0);
             }
             CardManager.instance.SetCBFro();
         }
@@ -409,8 +419,4 @@ public class TableManager : MonoBehaviour
         return listPlayer[nowPlayerTurn];
     
     }
-
-
-
-
 }
