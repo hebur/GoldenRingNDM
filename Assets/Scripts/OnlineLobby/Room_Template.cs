@@ -7,18 +7,22 @@ using UnityEngine.EventSystems;
 
 public class Room_Template : MonoBehaviour
 {
+    Network network;
+
     [SerializeField] Button RoomEnter_Btn;
     [SerializeField] TextMeshProUGUI RoomTitle_Txt;
 
-    CreateRoomData createRoomData;
-    Network network;
-
+    public CreateRoomData createRoomData;
     private string userNickname;
 
     void Start()
     {
         network = new Network();
+        createRoomData = new CreateRoomData();
         userNickname = FindObjectOfType<OnlineLobbyController>().userNickname;
+
+        // 임시 값 부여
+        createRoomData.roomCode = "DAZUGA";
     }
 
     public async void BTN_CallDirectRoomEnter()
