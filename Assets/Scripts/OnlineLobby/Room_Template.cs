@@ -7,18 +7,38 @@ using UnityEngine.EventSystems;
 
 public class Room_Template : MonoBehaviour
 {
+    Network network;
+
     [SerializeField] Button RoomEnter_Btn;
     [SerializeField] TextMeshProUGUI RoomTitle_Txt;
-    [SerializeField] GameObject DirectRoomEnter_UI;
+
+    public CreateRoomData createRoomData;
+    private string userNickname;
 
     void Start()
     {
-        
+        network = new Network();
+        createRoomData = new CreateRoomData();
+        userNickname = FindObjectOfType<OnlineLobbyController>().userNickname;
+
+        // ÀÓ½Ã °ª ºÎ¿©
+        createRoomData.roomCode = "DAZUGA";
     }
 
-    public void Btn_CallDirectRoomEnter()
+    public async void BTN_CallDirectRoomEnter()
     {
-        DirectRoomEnter_UI.SetActive(true);
+        // ·ë ¸¸¿ø Ã¼Å©
+        bool isRoomFull = await network.GetisRoomFull(createRoomData.roomCode);
+        if (isRoomFull)
+        {
+            // ·ë ÀÎ¿ø ´ÙÃ¡´Ù´Â ÆË¾÷ ¶ç¿ì±â - TODO
+            Debug.Log("The Room is Full");
+            return;
+        }
+        network.PutPlayerToRoom(userNickname, createRoomData.roomCode);
+
+        var RoomInfo = await network.GetRoomInfo(createRoomData.roomCode);
+        Debug.Log(RoomInfo);
     }
 
     public void BTN_CallCloseParentUI()
