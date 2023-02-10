@@ -25,15 +25,15 @@ public class UpScorePopup : MonoBehaviour
         {
             text[i].text = ColorCode + "+ " + rsh[i].ToString() + "</color>";
         }
-        StartCoroutine(corFunc_SelfOff());
+       //  StartCoroutine(corFunc_SelfOff());
     }
 
-
+    /*
     private IEnumerator corFunc_SelfOff()
     {
         yield return new WaitForSeconds(2f);
         this.gameObject.SetActive(false);
     }
-    
+    */
 
 }

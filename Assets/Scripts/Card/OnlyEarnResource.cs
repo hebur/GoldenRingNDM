@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
+/// <summary>
+/// ë²„íŠ¼ì´ í˜¸ì¶œí•˜ì—¬ ì˜¤ì§ ìì›ë§Œì„ ì–»ëŠ” ìŠ¤í¬ë¦½íŠ¸ ì…ë‹ˆë‹¤.
+/// </summary>
 public class OnlyEarnResource : MonoBehaviour
 {
 
-    /// <summary>
-    /// ¹öÆ°ÀÌ È£ÃâÇÏ¿© ¿ÀÁ÷ ÀÚ¿ø¸¸À» j´Â ½ºÅ©¸³Æ® ÀÔ´Ï´Ù.
-    /// </summary>
-    /// <param name="rsh"></param>
+    public static List<List<int>> listResource;
 
-    public List<List<int>> listResource;
+    [SerializeField] private List<TextMeshProUGUI> EarnText;
 
     private void Awake()
     {
@@ -27,18 +28,67 @@ public class OnlyEarnResource : MonoBehaviour
                 listResource[i].Add(0);
         }
 
-        listResource[0][0] = 5;
-        listResource[1][1] = 2;
-        listResource[2][2] = 2;
-        listResource[3][3] = 2;
-        listResource[4][4] = 2;
+        //listResource[0][0] = 5;
+        listResource[1][1] = 3; // í”Œë ˆì´ì–´ê°€ Gainí•  ë•Œ ë¦¬ìŠ¤íŠ¸ í˜•íƒœë¡œ ë°›ìŠµë‹ˆë‹¤.
+        listResource[2][2] = 3;
+        listResource[3][3] = 3;
+        listResource[4][4] = 3;
+        for(int i=1;i<EarnText.Count;i++)
+        {
+            EarnText[i].text = "3";
+        }
 
+    }
+
+    public void TurnCheck(int turn)
+    {
+        if (turn > 20)
+        {
+            listResource[1][1] = 7;
+            listResource[2][2] = 7;
+            listResource[3][3] = 7;
+            listResource[4][4] = 7;
+        }
+        else if (turn > 15)
+        {
+            listResource[1][1] = 6;
+            listResource[2][2] = 6;
+            listResource[3][3] = 6;
+            listResource[4][4] = 6;
+        }
+        else if (turn > 10)
+        {
+            listResource[1][1] = 5;
+            listResource[2][2] = 5;
+            listResource[3][3] = 5;
+            listResource[4][4] = 5;
+        }
+        else if(turn > 5)
+        {
+            listResource[1][1] = 4;
+            listResource[2][2] = 4;
+            listResource[3][3] = 4;
+            listResource[4][4] = 4;
+        }
+        else
+        {
+            listResource[1][1] = 3;
+            listResource[2][2] = 3;
+            listResource[3][3] = 3;
+            listResource[4][4] = 3;
+        }
+
+        for(int i = 1; i < EarnText.Count; i++)
+        {
+            int x = listResource[i][i];
+            EarnText[i].text = x.ToString();
+        }
     }
 
     public void BTN_CallButton(int rsh)
     {
 
-        TableManager.instance.Get_NowPlayerScript().Gain(listResource[rsh]);
+        TableManager.instance.Get_NowPlayerScript().Gain(listResource[rsh], 0);
         TableManager.instance.End_PlayerTurn();
 
     }

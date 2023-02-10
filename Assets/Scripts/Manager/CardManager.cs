@@ -6,24 +6,24 @@ public class CardManager : MonoBehaviour
 {
     public static CardManager instance;
 
-    
-    private List<GameObject> listGenCard;   //Game Object ÇüÅÂ·Î »ı¼ºµÈ Ä«µå¸¦ º¸°ü
+    private List<GameObject> listGenCard;   //Game Object í˜•íƒœë¡œ ìƒì„±ëœ ì¹´ë“œë¥¼ ë³´ê´€
 
-    [SerializeField] private int marketMax; //¸¶ÄÏ¿¡ ÃÖ´ë·Î µé¾î°¥ ¼ö ÀÖ´Â Ä«µåÀÇ °¹¼ö
-    private List<GameObject> listMarketCardGO;//¸¶ÄÏ Ä«µå ¸®½ºÆ®
-    private List<CardScript> listMarketCardCS;//¸¶ÄÏ Ä«µå ¸®½ºÆ®
+    [SerializeField] private int marketMax; //ë§ˆì¼“ì— ìµœëŒ€ë¡œ ë“¤ì–´ê°ˆ ìˆ˜ ìˆëŠ” ì¹´ë“œì˜ ê°¯ìˆ˜
+    private List<GameObject> listMarketCardGO;//ë§ˆì¼“ ì¹´ë“œ ë¦¬ìŠ¤íŠ¸
+    private List<CardScript> listMarketCardCS;//ë§ˆì¼“ ì¹´ë“œ ë¦¬ìŠ¤íŠ¸
     private List<CardData> listOrgData;
 
-    private List<List<GameObject>> listPlayerCard;  //ÇÃ·¹ÀÌ¾îµéÀÌ °¡Áø Ä«µå ¸®½ºÆ®
+    private List<List<GameObject>> listPlayerCard;  //í”Œë ˆì´ì–´ë“¤ì´ ê°€ì§„ ì¹´ë“œ ë¦¬ìŠ¤íŠ¸
 
-    [SerializeField] private List<Transform> listMarketHolder;   //¸¶ÄÏ¿¡ Ä«µå°¡ µé¾î°¥ È¦´õ
-    [SerializeField] private Deck deck;     //µ¦...
+    [SerializeField] private List<Transform> listMarketHolder;   //ë§ˆì¼“ì— ì¹´ë“œê°€ ë“¤ì–´ê°ˆ í™€ë”
+    [SerializeField] private Deck deck;     //ë±...
     [SerializeField] private bool CheckBuyFst;
+    [SerializeField] private bool CheckBuyFro; // ì•ì˜ 4 ì¹´ë“œ ì¤‘ í•˜ë‚˜ë¥¼ êµ¬ë§¤í–ˆëŠ”ì§€ í™•ì¸
 
     [SerializeField] private GameObject TestCard;
     [SerializeField] private int TestAmount;
 
-    
+
 
     private void OnEnable()
     {
@@ -38,17 +38,19 @@ public class CardManager : MonoBehaviour
 
     private void Update()
     {
-/*        //if(Input.GetKeyDown(KeyCode.I))
+        /*
+        //if(Input.GetKeyDown(KeyCode.I))
         //    Initialize();
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            //Å×½ºÆ® ¼Ò¸ğ
+            //í…ŒìŠ¤íŠ¸ ì†Œëª¨
             TestSpendCard();
-        }*/
+        }
+        */
     }
 
     /// <summary>
-    /// ÃÊ±âÈ­
+    /// ì´ˆê¸°í™”
     /// </summary>
     private void Initialize()
     {
@@ -61,24 +63,24 @@ public class CardManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Ä«µå ¸®½ºÆ®¸¦ ¸¸µé¾î È¤Àº Ä«µå ¸®½ºÆ®µéÀ» ¹Ş¾Æ¿Í ¸¶ÄÏ¿¡ Ãß°¡ÇÕ´Ï´Ù.
+    /// ì¹´ë“œ ë¦¬ìŠ¤íŠ¸ë¥¼ ë§Œë“¤ì–´ í˜¹ì€ ì¹´ë“œ ë¦¬ìŠ¤íŠ¸ë“¤ì„ ë°›ì•„ì™€ ë§ˆì¼“ì— ì¶”ê°€í•©ë‹ˆë‹¤.
     /// </summary>
     private void GenerationCardList()
     {
-        //Å×½ºÆ® »ı¼º
+        //í…ŒìŠ¤íŠ¸ ìƒì„±
         //TestCardMake();
         GenerateCardGameObject();
 
-        //listGenCard¿¡ »ı¼ºµÈ Ä«µå¸¦ °¡Á®¿Í ÀúÀåÇÔ.
+        //listGenCardì— ìƒì„±ëœ ì¹´ë“œë¥¼ ê°€ì ¸ì™€ ì €ì¥í•¨.
 
-        //¸¶ÄÏ¿¡ Ãß°¡
+        //ë§ˆì¼“ì— ì¶”ê°€
         Add_Market();
 
-        //¸¶ÄÏ Ä«µå È¦´õ¸¦ ¿ì¼± ÃÊ±âÈ­ ÇØ¾ßÇÔ.
-        //ÀÎ½ºÆåÅÍ¿¡ ³ÖÀ»Áö µ¿ÀûÀ¸·Î »ı¼ºµÇ´Â È¦´õ¸¦ °¡Á®¿À°Ô ÇÒÁö
+        //ë§ˆì¼“ ì¹´ë“œ í™€ë”ë¥¼ ìš°ì„  ì´ˆê¸°í™” í•´ì•¼í•¨.
+        //ì¸ìŠ¤í™í„°ì— ë„£ì„ì§€ ë™ì ìœ¼ë¡œ ìƒì„±ë˜ëŠ” í™€ë”ë¥¼ ê°€ì ¸ì˜¤ê²Œ í• ì§€
         //...
 
-        //1¹øÄ­ÀÇ ±¸¸Å ¿©ºÎ¸¦ È®ÀÎ
+        //1ë²ˆì¹¸ì˜ êµ¬ë§¤ ì—¬ë¶€ë¥¼ í™•ì¸
         
 
         RePosition_MarketCard();
@@ -117,11 +119,13 @@ public class CardManager : MonoBehaviour
             RePosition_MarketCard();
         }
     }
+    
     /// <summary>
-    /// ÀÚ½ÅÀÌ °¡Áø ¸ğµç Ä«µå ¸®½ºÆ®¸¦ ±â¹İÀ¸·Î °¡Àå Ã¹¹øÂ° ÀÎµ¦½ºÀÇ Ä«µå¸¦ ¸¶ÄÏ¿¡ Ãß°¡ÇÕ´Ï´Ù.
+    /// ìì‹ ì´ ê°€ì§„ ëª¨ë“  ì¹´ë“œ ë¦¬ìŠ¤íŠ¸ë¥¼ ê¸°ë°˜ìœ¼ë¡œ ê°€ì¥ ì²«ë²ˆì§¸ ì¸ë±ìŠ¤ì˜ ì¹´ë“œë¥¼ ë§ˆì¼“ì— ì¶”ê°€í•©ë‹ˆë‹¤.
     /// </summary>
     public void Add_Market()
     {
+        marketMax = 8;
         int tmp = marketMax - listMarketCardGO.Count;
         GameObject tmpG;
         if (listMarketCardGO.Count < marketMax)
@@ -135,29 +139,29 @@ public class CardManager : MonoBehaviour
                     listMarketCardCS.Add(tmpG.GetComponent<CardScript>());
                 }
             }
-
-
-
     }
 
     /// <summary>
-    /// ¸¶ÄÏ¿¡¼­ºÎÅÍ Ä«µå¸¦ °¡Á®¿É´Ï´Ù.
+    /// ë§ˆì¼“ì—ì„œë¶€í„° ì¹´ë“œë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤.
     /// </summary>
-    /// <param name="cardNum">Ä«µå¹øÈ£ ÀÔ´Ï´Ù.</param>
+    /// <param name="cardNum">ì¹´ë“œë²ˆí˜¸ ì…ë‹ˆë‹¤.</param>
     /// <returns></returns>
     public GameObject Get_MarketCard(int cardNum)
     {
         GameObject tmpCard;
         int tmpindex = 99999;
 
-        //¼±ÅÃÇÑ Ä«µå ¹øÈ£¸¦ list¿¡ Á¸ÀçÇÏ´ÂÁö Ã£°í ÇØ´ç ¸®½ºÆ® ÀÎµ¦½º¸¦ ÀúÀå
+        //ì„ íƒí•œ ì¹´ë“œ ë²ˆí˜¸ë¥¼ listì— ì¡´ì¬í•˜ëŠ”ì§€ ì°¾ê³  í•´ë‹¹ ë¦¬ìŠ¤íŠ¸ ì¸ë±ìŠ¤ë¥¼ ì €ì¥
         for (int i = 0; i < listMarketCardGO.Count; i++)
             if (listMarketCardCS[i].GetCardNum() == cardNum)
                 tmpindex = i;
-        //¹ß°ß½Ã ÀúÀå
+        //ë°œê²¬ì‹œ ì €ì¥
 
         if (tmpindex == 0)
             CheckBuyFst = true;
+
+        if (tmpindex < 4)
+            CheckBuyFro = true;
 
         if (tmpindex == 99999)
         {
@@ -165,14 +169,14 @@ public class CardManager : MonoBehaviour
             return null;
         }
 
-        //¹ß°ßÇÑ ÀÎµ¦½ºÀÇ Ä«µå¸¦ ¸¶ÄÏ¿¡¼­ Á¦°ÅÇÏ°í ¸®ÅÏ
+        //ë°œê²¬í•œ ì¸ë±ìŠ¤ì˜ ì¹´ë“œë¥¼ ë§ˆì¼“ì—ì„œ ì œê±°í•˜ê³  ë¦¬í„´
         tmpCard = listMarketCardGO[tmpindex];
         listMarketCardGO.RemoveAt(tmpindex);
         listMarketCardCS[tmpindex].IsPurchased = true;
-        if(listMarketCardCS[tmpindex].GetEffect()[5] == 1 )
+        if (listMarketCardCS[tmpindex].GetEffect()[5] == 1)
         {
             Debug.Log("END CARD");
-            //TableManager¿¡ ThisEndCard ¶ó´Â °ÍÀ» ¾Ë¸®´Â ÇÔ¼ö¸¦ È£Ãâ
+            //TableManagerì— ThisEndCard ë¼ëŠ” ê²ƒì„ ì•Œë¦¬ëŠ” í•¨ìˆ˜ë¥¼ í˜¸ì¶œ
             TableManager.instance.increaseCEC();
         }
         listMarketCardCS.RemoveAt(tmpindex);
@@ -180,47 +184,47 @@ public class CardManager : MonoBehaviour
         Add_Market();
         RePosition_MarketCard();
         SoundManager.instance.PlayAudio(SoundType.LoadDeck);
-        //ÀÓ½Ã Ä«µå ÀÌµ¿
+        //ì„ì‹œ ì¹´ë“œ ì´ë™
         //tmpCard.transform.DOMove(new Vector2(100, 0),1f);
 
         return tmpCard;
     }
 
     /// <summary>
-    /// ¸¶ÄÏ Ä«µå Æ÷Áö¼Ç ÀçÁ¤·Ä
+    /// ë§ˆì¼“ ì¹´ë“œ í¬ì§€ì…˜ ì¬ì •ë ¬
     /// </summary>
     private void RePosition_MarketCard()
     {
 
         SoundManager.instance.PlayAudio(SoundType.LoadDeck);
-        //¸®Æ÷Áö¼Ç º¯°æ
-        //listMarketHolderÀÇ Ã¹ ÀÎµ¦½º¿Í ³¡ ÀÎµ¦½º¸¦ ÂüÁ¶ÇÏ¿© Ä«µåµéÀ» ³»ºÎ¿¡ ÀÚµ¿ Á¤·Ä.
 
-        float Length = ((listMarketHolder[listMarketHolder.Count - 1].transform.position.x - listMarketHolder[0].transform.position.x) / 9f);
+        //ë¦¬í¬ì§€ì…˜ ë³€ê²½
+        //listMarketHolderì˜ ì²« ì¸ë±ìŠ¤ì™€ ë ì¸ë±ìŠ¤ë¥¼ ì°¸ì¡°í•˜ì—¬ ì¹´ë“œë“¤ì„ ë‚´ë¶€ì— ìë™ ì •ë ¬.
+
+        float Length = ((listMarketHolder[listMarketHolder.Count - 1].transform.position.x - listMarketHolder[0].transform.position.x) / 8f);
         Vector3 VecOrg = listMarketHolder[0].transform.position;
         Vector3 tmpVec = listMarketHolder[0].transform.position;
         for (int i = 0; i < listMarketCardGO.Count; i++)
         {
-            //1. Transform À» ±âÁØÀ¸·Î     + ( ( ( (2)B-(1)A ) / (Max - 1) ) * i )
+            //1. Transform ì„ ê¸°ì¤€ìœ¼ë¡œ     + ( ( ( (2)B-(1)A ) / (Max - 1) ) * i )
             tmpVec = VecOrg;
             tmpVec.x += (Length * (float)i);
             listMarketCardGO[i].transform.DOMove(
-                ( tmpVec )
+                (tmpVec)
                 , 0.3f);
         }
-        for (int i = 0; i < listMarketCardCS.Count; i++)
+/*        for (int i = 0; i < listMarketCardCS.Count; i++)
         {
             if (i < 2)
                 listMarketCardCS[i].UpdateSaleInfo(-1);
-            else if (i < 2 + 5)
-                listMarketCardCS[i].UpdateSaleInfo(0);
             else
                 listMarketCardCS[i].UpdateSaleInfo(1);
-        }
+        }*/ 
+        
     }
 
     /// <summary>
-    /// ¸¶ÄÏ Ä«µå È¦´õ Transform À» Áö¿ªº¯¼ö·Î ÀúÀåÇÏ°Ô.
+    /// ë§ˆì¼“ ì¹´ë“œ í™€ë” Transform ì„ ì§€ì—­ë³€ìˆ˜ë¡œ ì €ì¥í•˜ê²Œ.
     /// </summary>
     /// <param name="position"></param>
     public void Set_MarketHolderList(List<Transform> position)
@@ -229,7 +233,7 @@ public class CardManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ¿ÜºÎ¿¡¼­ È£ÃâÇÏ¿© Ä«µå ¸®½ºÆ® Áß °¡Àå Ã¹¹øÂ° ÀÎµ¦½ºÀÇ Ä«µå¸¦ °¡Á®°¡°Ô µÊ.
+    /// ì™¸ë¶€ì—ì„œ í˜¸ì¶œí•˜ì—¬ ì¹´ë“œ ë¦¬ìŠ¤íŠ¸ ì¤‘ ê°€ì¥ ì²«ë²ˆì§¸ ì¸ë±ìŠ¤ì˜ ì¹´ë“œë¥¼ ê°€ì ¸ê°€ê²Œ ë¨.
     /// </summary>
     /// <returns></returns>
     public GameObject Get_Card()
@@ -243,24 +247,42 @@ public class CardManager : MonoBehaviour
         else
             return null;
     }
+    public bool Is_Buyable(int cardNum, List<int> Happy)
+    {
+        bool buyAble = false;
+        int check = 1;
+        for (int i = 0; i < listMarketCardGO.Count; i++)
+            if (listMarketCardCS[i].GetCardNum() == cardNum)
+            {
+                List<int> price = listMarketCardCS[i].GetPrice();
+                for (int j = 0; j < 5; j++)
+                {
+                    if (price[j] + price[j + 5] > Happy[j])
+                        check *= 0;
+                }
+                break;
+            }
+        if (check == 1)
+            buyAble = true;
+        return buyAble;
+    }
 
-
-
+    /*
     /// <summary>
-    /// Ä«µå ±¸¸Å °¡´É ¿©ºÎ¸¦ ¸®ÅÏÇÕ´Ï´Ù
+    /// ì¹´ë“œ êµ¬ë§¤ ê°€ëŠ¥ ì—¬ë¶€ë¥¼ ë¦¬í„´í•©ë‹ˆë‹¤
     /// </summary>
-    /// <param name="cardNum">¼±ÅÃÇÑ Ä«µå ¹øÈ£</param>
-    /// <param name="Happy">ÇÃ·¹ÀÌ¾îÃø ÀçÈ­</param>
-    /// <returns>5°¡Áö Ç×¸ñÁß ¾î¶² Ç°¸ñÀÌ ±¸¸Å °¡´ÉÇÑÁö bool º¯¼ö·Î Àü´Ş.</returns>
+    /// <param name="cardNum">ì„ íƒí•œ ì¹´ë“œ ë²ˆí˜¸</param>
+    /// <param name="Happy">í”Œë ˆì´ì–´ì¸¡ ì¬í™”</param>
+    /// <returns>5ê°€ì§€ í•­ëª©ì¤‘ ì–´ë–¤ í’ˆëª©ì´ êµ¬ë§¤ ê°€ëŠ¥í•œì§€ bool ë³€ìˆ˜ë¡œ ì „ë‹¬.</returns>
     public List<bool> Check_BuyThisCard(int cardNum, List<int> Happy)
     {
         List<int> tmpPrice;
-        List<bool> buyAble = new List<bool>(); //5°¡Áö Ç×¸ñ
+        List<bool> buyAble = new List<bool>(); //5ê°€ì§€ í•­ëª©
         for (int i = 0; i < 5; i++) buyAble.Add(false);
         Debug.Log(buyAble.Count);
-        //list Market Card ¿¡¼­ Ä«µå ¹øÈ£¸¦ ¼øÈ¸ÇÑ µÚ ÇØ´çÇÏ´Â Ç×¸ñ°ú °¡°İºñ±³
+        //list Market Card ì—ì„œ ì¹´ë“œ ë²ˆí˜¸ë¥¼ ìˆœíšŒí•œ ë’¤ í•´ë‹¹í•˜ëŠ” í•­ëª©ê³¼ ê°€ê²©ë¹„êµ
         for (int i = 0; i < listMarketCardGO.Count; i++)
-            //Ä«µå ¹øÈ£°¡ µ¿ÀÏÇÔ. ±¸¸Å °¡´É ¿©ºÎ È®ÀÎ
+            //ì¹´ë“œ ë²ˆí˜¸ê°€ ë™ì¼í•¨. êµ¬ë§¤ ê°€ëŠ¥ ì—¬ë¶€ í™•ì¸
             if (listMarketCardCS[i].GetCardNum() == cardNum)
             {
                 tmpPrice = listMarketCardCS[i].GetPrice();
@@ -271,15 +293,16 @@ public class CardManager : MonoBehaviour
                 }
                 break;
             }
-
-
         return buyAble;
-
     }
+    */
 
+    /// <summary>
+    /// ì²« ë²ˆì§¸ ì¹´ë“œë¥¼ êµ¬ë§¤í–ˆëŠ”ì§€ í™•ì¸í•˜ê³  ì²˜ë¦¬í•©ë‹ˆë‹¤.
+    /// </summary>
     public void CheckBuyFirst()
     {
-        if(!CheckBuyFst)
+        if (!CheckBuyFst)
         {
             GameObject tmpCard;
             tmpCard = listMarketCardGO[0];
@@ -288,7 +311,7 @@ public class CardManager : MonoBehaviour
             if (listMarketCardCS[0].GetEffect()[5] == 1)
             {
                 Debug.Log("END CARD");
-                //TableManager¿¡ ThisEndCard ¶ó´Â °ÍÀ» ¾Ë¸®´Â ÇÔ¼ö¸¦ È£Ãâ
+                //TableManagerì— ThisEndCard ë¼ëŠ” ê²ƒì„ ì•Œë¦¬ëŠ” í•¨ìˆ˜ë¥¼ í˜¸ì¶œ
                 TableManager.instance.increaseCEC();
             }
             listMarketCardCS.RemoveAt(0);
@@ -300,9 +323,22 @@ public class CardManager : MonoBehaviour
         RePosition_MarketCard();
     }
 
-    public void UpdatePlayerSaleInfo(int curPlayer)
+    public bool CheckBuyFront()
+    {
+        return CheckBuyFro;
+    }
+    public void SetCBFro()
+    {
+        CheckBuyFro = false;
+    }
+
+    public void UpdateSaleInfo()
     {
         for (int i = 0; i < listMarketCardCS.Count; i++)
-            listMarketCardCS[i].UpdatePlayerSaleInfo(curPlayer);
+        {
+            if(i < 4)
+                listMarketCardCS[i].UpdateResourceSaleInfo();
+        }
+            
     }
 }

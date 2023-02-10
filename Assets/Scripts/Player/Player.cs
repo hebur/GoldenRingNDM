@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
@@ -7,19 +7,21 @@ using TMPro;
 
 public class Player : MonoBehaviour
 {
-    private int _order;            // ÇÃ·¹ÀÌ ¼ø¼­
-    [SerializeField] private int _scorehappy;       // Á¡¼ö°¡ µÉ ÀÚ¿ø
-    [SerializeField] private List<int> _resource;   // °®°í ÀÖ´Â µ·°ú ÀÚ¿ø
-    //private List<Card> _hands;   // ÇÚµå¿¡ ÀÖ´Â Ä«µå ¸®½ºÆ®
-    private List<GameObject> _fields;    // ÇÊµå¿¡ ÀÖ´Â Ä«µå ¸®½ºÆ®
+    private int _order;            // í”Œë ˆì´ ìˆœì„œ
+    [SerializeField] private int _scorehappy;       // ì ìˆ˜ê°€ ë  ìì›
+    [SerializeField] private List<int> _resource;   // ê°–ê³  ìˆëŠ” ëˆê³¼ ìì›
+    //private List<Card> _hands;   // í•¸ë“œì— ìˆëŠ” ì¹´ë“œ ë¦¬ìŠ¤íŠ¸
+    private List<GameObject> _fields;    // í•„ë“œì— ìˆëŠ” ì¹´ë“œ ë¦¬ìŠ¤íŠ¸
     private int slotUsed;
     public const int maxSlot = 4;
-    public float cardGap;  // Ä«µå »çÀÌÀÇ °£°İ
+    public float cardGap;  // ì¹´ë“œ ì‚¬ì´ì˜ ê°„ê²©
     public TextMeshProUGUI slotText;
+    private int _score;
     public int Order { get => _order; set => _order = value; }
     public int Scorehappy { get => _scorehappy; set => _scorehappy = value; }
     public List<int> Resource { get => _resource; set => _resource = value; }
     public List<GameObject> Fields { get => _fields; set => _fields = value; }
+    public int Score { get => _score; set => _score = value; }
     public int SlotUsed 
     { 
         get => slotUsed; 
@@ -52,7 +54,7 @@ public class Player : MonoBehaviour
         slotText.color = Color.white;
     }
     /// <summary>
-    /// _resource¿Í _fields¸¦ ÃÊ±âÈ­
+    /// _resourceì™€ _fieldsë¥¼ ì´ˆê¸°í™”
     /// </summary>
     public void Initialize()
     {
@@ -61,27 +63,26 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
-    /// ÅÏ Á¾·ù ÈÄ Ä«µå È¿°ú¿¡ ÀÇÇÑ µ·,ÀÚ¿øÀÇ Áõ°¡¸¦ ¹İ¿µÇÕ´Ï´Ù.
+    /// í„´ ì¢…ë¥˜ í›„ ì¹´ë“œ íš¨ê³¼ì— ì˜í•œ ëˆ,ìì›ì˜ ì¦ê°€ë¥¼ ë°˜ì˜í•©ë‹ˆë‹¤.
     /// </summary>
-    /// <param name="gain">¾ó¸¶³ª ¾ò¾ú´ÂÁö</param>
-    public void Gain(List<int> gain)    // 
+    /// <param name="gain">ì–¼ë§ˆë‚˜ ì–»ì—ˆëŠ”ì§€</param>
+    public void Gain(List<int> gain, int score)    // 
     {
+        _score += score;
         for (int i = 0; i < _resource.Count; i++)
         {
-            Debug.Log(_resource.Count + " " + gain.Count);
             _resource[i] += gain[i];
-
+            
             UIManager.instance.Get_UpScore(_order).gameObject.SetActive(true);
             UIManager.instance.Get_UpScore(_order).DrawText(gain);
-
         }
     }
 
     /// <summary>
-    /// Ä«µå ±¸¸Å¿¡ »ç¿ëÇÑ µ·,ÀÚ¿øÀÇ °¨¼Ò¸¦ ¹İ¿µÇÕ´Ï´Ù.
+    /// ì¹´ë“œ êµ¬ë§¤ì— ì‚¬ìš©í•œ ëˆ,ìì›ì˜ ê°ì†Œë¥¼ ë°˜ì˜í•©ë‹ˆë‹¤.
     /// </summary>
-    /// <param name="used">¾ó¸¶³ª ÁöºÒÇß´ÂÁö</param>
-    public void Use(List<int> used)     // 
+    /// <param name="used">ì–¼ë§ˆë‚˜ ì§€ë¶ˆí–ˆëŠ”ì§€</param>
+    public void Use(List<int> used)
     {
         for (int i = 0; i < used.Count; i++)
         {
@@ -90,9 +91,9 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
-    /// »ç¿ëÀÚ ÇÊµå¿¡ Ä«µå(newcard) Ãß°¡
+    /// ì‚¬ìš©ì í•„ë“œì— ì¹´ë“œ(newcard) ì¶”ê°€
     /// </summary>
-    /// <param name="newcard">Ãß°¡ÇÒ Ä«µå</param>
+    /// <param name="newcard">ì¶”ê°€í•  ì¹´ë“œ</param>
     public void AddCard(GameObject newcard) 
     {
         CardScript card = newcard.GetComponent<CardScript>();
@@ -102,13 +103,15 @@ public class Player : MonoBehaviour
         int index = _fields.Count-1;
         _fields[index].transform.parent = transform;
         _fields[index].transform.DOLocalMove(Vector3.right * cardGap * index, 0.5f);
-        //Debug.Log(_fields[index].transform.localPosition);
+
+        // ì ìˆ˜ ì¶”ê°€
+        // _score += card.GetScore();
     }
 
     /// <summary>
-    /// »ç¿ëÀÚ ÇÊµå¿¡¼­ Ä«µå Á¦°Å
+    /// ì‚¬ìš©ì í•„ë“œì—ì„œ ì¹´ë“œ ì œê±°
     /// </summary>
-    /// <param name="card">Á¦°ÅÇÒ Ä«µå</param>
+    /// <param name="card">ì œê±°í•  ì¹´ë“œ</param>
     public void RemoveCard(GameObject card) // 
     {
         int cardNum = card.GetComponent<CardScript>().GetCardNum();
@@ -134,10 +137,10 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
-    /// ÇÑ ÅÏÀÌ ³¡³¯ ¶§¸¶´Ù ÇÊ¿äÇÑ ÀÛ¾÷
-    /// ÇÊµå¿¡ ÀÖ´Â Ä«µå È¿°ú 
-    /// ÇÊµå¿¡ ÀÖ´Â Ä«µå¸¶´Ù ÅÏ ÁÙÀÌ±â
-    /// ±¸¸Å¸¦ ÇÏÁö ¾Ê¾ÒÀ» ¶§ µ· ¶Ç´Â ÀÚ¿øÀ» È¹µæ
+    /// í•œ í„´ì´ ëë‚  ë•Œë§ˆë‹¤ í•„ìš”í•œ ì‘ì—…
+    /// í•„ë“œì— ìˆëŠ” ì¹´ë“œ íš¨ê³¼ 
+    /// í•„ë“œì— ìˆëŠ” ì¹´ë“œë§ˆë‹¤ í„´ ì¤„ì´ê¸°
+    /// êµ¬ë§¤ë¥¼ í•˜ì§€ ì•Šì•˜ì„ ë•Œ ëˆ ë˜ëŠ” ìì›ì„ íšë“
     /// </summary>
     public void EndTurn()
     {
@@ -145,21 +148,46 @@ public class Player : MonoBehaviour
         foreach(var card in _fields)
         {
             CardScript cs = card.GetComponent<CardScript>();
-            this.Gain(cs.GetEffect());
+            this.Gain(cs.GetEffect(), cs.GetScore());
             if (--(cs.TurnLeft) == 0)
                 deleteTargets.Add(card);
         }
+
         foreach (var target in deleteTargets)
             RemoveCard(target);
+
+        if (_fields.Count == 0)
+        {
+            List<int> zero = new List<int>(5);
+            for (int i = 0; i < 5; i++) zero.Add(0);
+            UIManager.instance.Get_UpScore(_order).DrawText(zero);
+        }
+
+        foreach (var card in _fields) // ë‹¤ìŒ í„´ì— ì¶”ê°€ë  ìì› í‘œì‹œê¸°
+        {
+            for (int i = 0; i < _resource.Count; i++)
+            {
+                UIManager.instance.Get_UpScore(_order).gameObject.SetActive(true);
+                CardScript cs = card.GetComponent<CardScript>();
+                UIManager.instance.Get_UpScore(_order).DrawText(cs.GetEffect());
+            }
+        }
+        Debug.Log("player " + _order + "'s score : " + _score);
     }
 
     /// <summary>
-    /// ÃÖÁ¾ Á¡¼ö ¹İÈ¯
+    /// ìµœì¢… ì ìˆ˜ ë°˜í™˜
     /// </summary>
-    /// <returns>ÀÚ¿ø Áß ÇÃ·¹ÀÌ¾î¿¡°Ô Á¡¼ö°¡ µÇ´Â °Í</returns>
+    /// <returns>ìì› ì¤‘ í”Œë ˆì´ì–´ì—ê²Œ ì ìˆ˜ê°€ ë˜ëŠ” ê²ƒ</returns>
     public int GetScore()
     {
-        return _resource[_scorehappy];
+        // return _resource[_scorehappy];
+        return _score;
+    }
+
+    public int GetGoldNum()
+    {
+        return _resource[0];
     }
 
     // Start is called before the first frame update

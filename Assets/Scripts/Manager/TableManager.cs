@@ -8,9 +8,6 @@ using UnityEngine.SceneManagement;
 
 /// <summary>
 /// 테이블의 진행을 관리하는 메니저입니다.
-/// 
-/// 
-/// 
 /// </summary>
 public class TableManager : MonoBehaviour
 {
@@ -25,6 +22,8 @@ public class TableManager : MonoBehaviour
     [Tooltip("4명을 ? 혹은 2인을 기준으로 제작")]
     [SerializeField] private int maxPlayer;
     [SerializeField] private int nowPlayerTurn;
+
+    [SerializeField] private GameObject EarnResource;
 
     [SerializeField] private bool playerTurnEnd;
     [SerializeField] private bool playerAfterTurnEnd;
@@ -66,12 +65,15 @@ public class TableManager : MonoBehaviour
 
     private void Awake()
     {
+        // 턴이 끝났을 때 클릭 방지 (흐린 화면 뜸)
         TurnEndBlock.SetActive(false);
         TurnEndBlockImg.SetActive(false);
         TurnEndMessage.gameObject.SetActive(false);
+        // 게임이 끝났을 때 클릭 방지 (흐린 화면 뜸)
         GameOverBlock.SetActive(false);
         GameOverBlockImg.SetActive(false);
         GameOverMessage.gameObject.SetActive(false);
+
         if (!hasInit)
             Initialize();
         for (int i = 0; i < maxPlayer; i++)
@@ -125,16 +127,19 @@ public class TableManager : MonoBehaviour
     private IEnumerator corFunc_RollTable()
     {
         DrawPannel();
+        
 
-        for (int i = 0; i < maxTurn; i++) // maxRound
+        for (int i = 0; i < maxTurn; i++) // 라운드를 나타냄 (4 턴 = 1 라운드)
         {
             Debug.Log("Now Turn : " + i);
 
-            for (int j = 0; j < maxPlayer; j++)
+            EarnResource.GetComponent<OnlyEarnResource>().TurnCheck(i + 1);
+
+            for (int j = 0; j < maxPlayer; j++) // 턴을 나타냄 (1 턴 = 1 행동)
             {
                 nowPlayerTurn = j;
                 DrawPannel();
-                CardManager.instance.UpdatePlayerSaleInfo(j + 1);
+                CardManager.instance.UpdateSaleInfo();
                 //플레이어 턴 실행
                 Run_PlayerTurn(j);
 
@@ -210,24 +215,29 @@ public class TableManager : MonoBehaviour
     /// <param name="rsh"></param>
     private void Run_AfterPlayerTurn(int rsh)
     {
+        Player nowPlayer = listPlayer[nowPlayerTurn];
         //플레이어의 재화 확보
-        listPlayer[nowPlayerTurn].EndTurn();
+        nowPlayer.EndTurn();
 
-        //구매하지 않으면 제거
+        //앞의 4장 중 하나 구매 확인 후 골드 지급
+        if (nowPlayer.GetComponent<Player>().GetGoldNum() < 3)
+        {
+            if (CardManager.instance.CheckBuyFront() == true)
+            {
+                List<int> earnOneGold = new List<int>(new int[5]);
+                earnOneGold[0] = 1;
+                nowPlayer.Gain(earnOneGold);
+            }
+            CardManager.instance.SetCBFro();
+        }
+
+        //구매하지 않았으면 제거
         CardManager.instance.CheckBuyFirst();
 
-        //마켓 충당
-        //CardManager.instance.Add_Market();
-
-        // test increase
-        // increaseCEC();
-
-        // 턴 종류 메세지 띄우기
+        // 턴 종료 메세지 띄우기
         StartCoroutine(EndMessage());
 
-
         End_AfterPlayerTurn();
-
     }
 
     /// <summary>
@@ -277,7 +287,8 @@ public class TableManager : MonoBehaviour
         List<int> Player = new List<int>();
         for (int i = 0; i < maxPlayer; i++)
         {
-            Score.Add(listPlayer[i].Resource[i + 1]);
+            Score.Add(listPlayer[i].Score);
+            // Score.Add(listPlayer[i].Resource[i + 1]);
             Player.Add(i + 1);
         }
         int tmpint;

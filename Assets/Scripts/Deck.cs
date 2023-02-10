@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -14,7 +14,8 @@ public class Deck : MonoBehaviour
     {
         LoadCards();
         if (doShuffle)
-            Shuffle();
+            Shuffle(_cards.Count);
+            // Create_Deck();
     }
 
     void LoadCards()
@@ -32,23 +33,54 @@ public class Deck : MonoBehaviour
             newCard.Effect = card.effect;
             newCard.Turn = card.turn;
             newCard.Slot = card.slot;
+            newCard.Score = card.score;
 
             _cards.Add(newCard);
         }
     }
 
-    void Shuffle()
+    void Shuffle(int num)
     {
-        for(int i=0; i<_cards.Count - 1 - 4; i++) {
-            int rnd = UnityEngine.Random.Range(i, _cards.Count - 4);
+        for(int i = 0; i < num - 1 - 4; i++)
+        { 
+            int rnd = UnityEngine.Random.Range(i, num - 4);
             exchange(i, rnd);
         }
-        for(int i=1;i<=4;i++)
+        for(int i = 1; i <= 4; i++)
         {
-            int rnd = UnityEngine.Random.Range((_cards.Count - 4)/3, _cards.Count - 4 + i);
-            exchange(_cards.Count - 1 - 4 + i, rnd);
+            int rnd = UnityEngine.Random.Range((num - 4)/3, num - 4 + i);
+            exchange(num - 1 - 4 + i, rnd);
         }
     }
+
+    // 바뀔 카드 셔플: 프로토타입에서만 임시로 사용
+    /*
+    void Create_Deck()
+    {
+        int[] num = new int[] { 0, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7 }; // 단계별 카드 수
+        for (int i = 1; i < num.Length; i++)
+        {
+            int[] level_deck = new int[num[i]];
+            Shuffle(i*100, num[i]);
+        }
+    }
+
+    void Shuffle(int start, int num)
+    {
+        int end = start + num - 1;
+        for (int i = start; i < end; i++)
+        {
+            // Pick random Element
+            int j = UnityEngine.Random.Range(i, end + 1);
+
+            // Swap Elements
+            CardData tmp = _cards[i];
+            _cards[i] = _cards[j];
+            _cards[j] = tmp;
+        }
+    }
+    */
+
     private void exchange(int x, int y)
     {
         CardData tmp = _cards[x];
@@ -78,4 +110,5 @@ public class CardFromJson
     public List<int> effect;
     public int turn;
     public int slot;
+    public int score;
 }

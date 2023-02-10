@@ -10,4 +10,5 @@ public class CardData
     public List<int> Effect; //[7]
     public int Turn;
     public int Slot;
+    public int Score;
 }
