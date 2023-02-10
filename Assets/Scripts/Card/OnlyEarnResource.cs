@@ -88,7 +88,7 @@ public class OnlyEarnResource : MonoBehaviour
     public void BTN_CallButton(int rsh)
     {
 
-        TableManager.instance.Get_NowPlayerScript().Gain(listResource[rsh]);
+        TableManager.instance.Get_NowPlayerScript().Gain(listResource[rsh], 0);
         TableManager.instance.End_PlayerTurn();
 
     }
