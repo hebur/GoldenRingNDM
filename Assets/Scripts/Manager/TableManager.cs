@@ -23,6 +23,8 @@ public class TableManager : MonoBehaviour
     [SerializeField] private int maxPlayer;
     [SerializeField] private int nowPlayerTurn;
 
+    [SerializeField] private GameObject EarnResource;
+
     [SerializeField] private bool playerTurnEnd;
     [SerializeField] private bool playerAfterTurnEnd;
     [SerializeField] private bool TableTurnEnd;
@@ -125,12 +127,15 @@ public class TableManager : MonoBehaviour
     private IEnumerator corFunc_RollTable()
     {
         DrawPannel();
+        
 
-        for (int i = 0; i < maxTurn; i++) // Round(4 턴)를 나타냄
+        for (int i = 0; i < maxTurn; i++) // 라운드를 나타냄 (4 턴 = 1 라운드)
         {
             Debug.Log("Now Turn : " + i);
 
-            for (int j = 0; j < maxPlayer; j++) // 턴(플레이어마다 한 턴)을 나타냄
+            EarnResource.GetComponent<OnlyEarnResource>().TurnCheck(i + 1);
+
+            for (int j = 0; j < maxPlayer; j++) // 턴을 나타냄 (1 턴 = 1 행동)
             {
                 nowPlayerTurn = j;
                 DrawPannel();
@@ -213,7 +218,16 @@ public class TableManager : MonoBehaviour
         //플레이어의 재화 확보
         listPlayer[nowPlayerTurn].EndTurn();
 
-        //구매하지 않으면 제거
+        //앞의 4장 중 하나 구매 확인
+        if(CardManager.instance.CheckBuyFront() == true)
+        {
+            List<int> earnOneGold = new List<int>(new int[5]);
+            earnOneGold[0] = 1;
+            listPlayer[nowPlayerTurn].Gain(earnOneGold);
+        }
+        CardManager.instance.SetCBFro();
+
+        //구매하지 않았으면 제거
         CardManager.instance.CheckBuyFirst();
 
         // 턴 종료 메세지 띄우기
