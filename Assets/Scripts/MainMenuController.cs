@@ -44,11 +44,11 @@ public class MainMenuController : MonoBehaviour
         switch (value)
         {
             case "LOCAL":
-                SceneManager.LoadScene(2);
+                SceneManager.LoadScene("Board");
                 SoundClick();
                 break;
             case "ONLINE":
-                SceneManager.LoadScene(3);
+                SceneManager.LoadScene("OnlineLobby");
                 SoundClick();
                 break;
         }

@@ -5,7 +5,10 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
-using Unity.VisualScripting;
+using UnityEngine.Networking;
+using System.Threading;
+using System.Threading.Tasks;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class OnlineLobbyController : MonoBehaviour
 {
@@ -13,6 +16,9 @@ public class OnlineLobbyController : MonoBehaviour
 
     [SerializeField] private GameObject CreateRoom_UI, EnterCode_UI, PlayerNickname_UI;
     [SerializeField] private TMP_InputField nicknameInputField;
+    [SerializeField] private TextMeshProUGUI playerNickname_txt;
+
+    private string userNickname;
 
     void Start()
     {
@@ -26,37 +32,31 @@ public class OnlineLobbyController : MonoBehaviour
 
     public async void BTN_CallPlayerNicknameCheck()
     {
-        //Test
-        network.PostNewRoom("a");
-        network.PostNewPlayer("b");
-        var a = await network.GetisRoomFull("a");
-        var b = await network.GetNewRoomCode("a");
-        var c = await network.GetisNNExist("b");
-        var d = await network.GetRooms();
-        network.PutPlayerToRoom("a","b");
-        network.DeleteRoom("a");
-        network.DeletePlayer("b");
-
         if (nicknameInputField.text == "")
         {
-            // 팝업 띄워주기 TODO
+            // 닉네임 설정 불가 팝업 띄워주기 TODO
             Debug.Log("Nickname InputField is Emty!");
             return;
         }
-
+        
         // 이미 존재하는 닉네임인지 체크
         string user_nickname = nicknameInputField.text;
-        var isExist = await network.GetisNNExist(user_nickname);
+        bool isExist = await network.GetisNNExist(user_nickname);
+        Debug.Log("isExist: " + isExist);
+        Thread.Sleep(3000);
 
         if (isExist)
         {
-            // 팝업 띄워주기 TODO
+            // 닉네임 설정 불가 팝업 띄워주기 TODO
             Debug.Log("Nickname already Exists!");
             return;
         }
             
         network.PostNewPlayer(user_nickname);
+        userNickname = user_nickname;
+        playerNickname_txt.text = nicknameInputField.text;
         PlayerNickname_UI.SetActive(false);
+        Thread.Sleep(3000);
     }
 
     public void BTN_CallCreateRoomEnter()
