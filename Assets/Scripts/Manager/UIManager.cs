@@ -69,8 +69,8 @@ public class UIManager : MonoBehaviour
     /// </summary>
     /// <param name="cardNum"></param>
     /// <param name="Able"></param>
-    /// <param name="resource"></param>
-    public void Popup_PurchaseUI(int cardNum, bool Able, List<int> resource, List<int> playerResource) // resource == price
+    /// <param name="price"></param>
+    public void Popup_PurchaseUI(int cardNum, bool Able, List<int> price, List<int> playerResource)
     {
         // 배경 클릭 막기
         ShoppingClickBlocker.SetActive(true);
@@ -78,9 +78,10 @@ public class UIManager : MonoBehaviour
 
         CardNum = cardNum;
         ShoppingButtonAble = Able;
-        ShoppingTextResource = resource.GetRange(1,resource.Count-1);
-        curPrice = resource;
+        ShoppingTextResource = price.GetRange(1,price.Count-1);
+        curPrice = price;
         curPlayRes = playerResource;
+        GoldPanel.GetComponent<GoldButton>().setCurCardPrice(curPrice);
         StartCoroutine(corFunc_PopupPurchaseUI());
 
         // 자원별로 가격 표시
