@@ -48,7 +48,8 @@ public class Network
 
         WWWForm form = new WWWForm();
         form.headers["Accept"] = "application/json";
-        string url = address + "/rooms/" + player_num + "/?room_title=" + room_title;
+
+        string url = address + "/rooms/" + player_num.ToString() + "/?room_title=" + room_title;
 
         UnityWebRequest request = UnityWebRequest.Post(url, form);
 
@@ -141,7 +142,8 @@ public class Network
     public async Task<Room> GetRoomInfo(string room_code)
     {
         Room room = new Room();
-        string url = address + "/rooms/" + room_code;
+
+        string url = address + "/rooms/" + room_code + "/roominfo/";
 
         UnityWebRequest request = UnityWebRequest.Get(url);
 
@@ -191,7 +193,8 @@ public class Network
     public async Task<Player> GetPlayerInfo(string nickname)
     {
         Player player = new Player();
-        string url = address + "/players/" + nickname;
+
+        string url = address + "/players/" + nickname + "/playerinfo/";
 
         UnityWebRequest request = UnityWebRequest.Get(url);
 
@@ -242,7 +245,7 @@ public class Network
     public async Task<bool> GetisNNExist(string nickname)
     {
         bool isexist = false;
-        string url = address + "/players/" + nickname;
+        string url = address + "/players/" + nickname + "/isExist/";
 
         UnityWebRequest request = UnityWebRequest.Get(url);
 
@@ -294,7 +297,7 @@ public class Network
     {
         string str = "";
         string url = address + "/players/" + nickname + "/cards/"
-            + "?act=" + act + "&card_num=" + card_num + "&room_code=" + room_code;
+            + "?act=" + act.ToString() + "&card_num=" + card_num.ToString() + "&room_code=" + room_code;
         UnityWebRequest request = UnityWebRequest.Put(url, str);
 
         var op = request.SendWebRequest();
