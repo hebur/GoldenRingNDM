@@ -90,7 +90,10 @@ public class CardScript : MonoBehaviour
         if (!isPurchased)
         {
             if (TableManager.instance.Get_NowPlayerScript().SlotLeft >= this._cardData.Slot)
-                UIManager.instance.Popup_PurchaseUI(this._cardData.CardNum, CardManager.instance.Is_Buyable(this._cardData.CardNum, TableManager.instance.Get_NowPlayerResource()), this._cardData.Price);
+            {
+                List<int> playerResource = TableManager.instance.Get_NowPlayerResource();
+                UIManager.instance.Popup_PurchaseUI(this._cardData.CardNum, CardManager.instance.Is_Buyable(this._cardData.CardNum, playerResource), this._cardData.Price, playerResource);
+            }
             else
                 TableManager.instance.Get_NowPlayerScript().FlashRed();
         }
@@ -165,7 +168,10 @@ public class CardScript : MonoBehaviour
         int maxRes = 0; // 할인 적용할 자원
         int maxCost = 0; // 최고 비용
 
-        for(int i = 1; i < 5; i++)
+        for (int i = 1; i < 5; i++)
+            _cardData.Price[i] = originGoldCosts[i];
+
+        for (int i = 1; i < 5; i++)
         {
             if (maxCost < _cardData.Price[i])
             {

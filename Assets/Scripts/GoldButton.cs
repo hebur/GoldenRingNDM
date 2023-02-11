@@ -40,6 +40,7 @@ public class GoldButton : MonoBehaviour
     }
     public void resetGold()
     {
+        GoldSelect.text = "Reset!";
         goldUsedSum = 0;
         for(int i = 0; i < 5; i++)
         {
@@ -65,7 +66,6 @@ public class GoldButton : MonoBehaviour
         if(rsh == -1)
         {
             resetGold();
-            GoldSelect.text = "Reset";
             return;
         }
 
@@ -93,9 +93,10 @@ public class GoldButton : MonoBehaviour
             }
         }
 
+        // 골드가 부족한 상황
         if (usedGoldSum + num + 1 > playerGold)
         {
-            Debug.Log("Not Enough Gold!"); // 우선은 로그로 골드가 부족함을 알려줍니다.
+            Debug.Log("Not Enough Gold!"); 
         }
         else
         {
@@ -108,16 +109,22 @@ public class GoldButton : MonoBehaviour
         string message = "";
         for (int i = 0; i < 4; i++)
         {
+            bool isAny = false;
             for (int j = 0; j < 3; j++)
             {
                 if (PressedButton[i][j] == true)
                 {
-                    message = message + (i + 1).ToString() + ": " + (j + 1).ToString() + "  ";
+                    isAny = true;
+                    message = message + (i + 1).ToString() + ": " + (j + 1).ToString() + ",  ";
                     usedGoldSum += j + 1;
                     usedGold[i + 1] = j + 1;
                 }      
             }
+            if (isAny == false)
+                message = message + (i + 1).ToString() + ": " + (0).ToString() + ",  ";
         }
+        int lastIndex = message.LastIndexOf(",");
+        message = message.Remove(lastIndex, ",".Length);
         GoldSelect.text = message;
 
         goldUsed = usedGold;

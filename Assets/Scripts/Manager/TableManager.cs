@@ -141,8 +141,10 @@ public class TableManager : MonoBehaviour
                 DrawPannel();
                 CardManager.instance.UpdateSaleInfo();
 
-                //플레이어 턴 실행
-                GoldPanel.GetComponent<GoldButton>().setCurGold(listPlayer[j].GetComponent<Player>().GetGoldNum());
+                //플레이어 턴 중 작업
+
+                GoldPanel.GetComponent<GoldButton>().setCurGold(
+                    listPlayer[j].GetComponent<Player>().GetGoldNum());
 
                 Run_PlayerTurn(j);
 
@@ -150,12 +152,14 @@ public class TableManager : MonoBehaviour
                 playerTurnEnd = false;
 
                 //턴 종료 이후 작업 실행
+
+                //사용한 골드를 사용자에게서 뺌
                 int goldusedsum = GoldPanel.GetComponent<GoldButton>().getGoldUsedSum();
                 Debug.Log("goldusedsum: " + goldusedsum.ToString());
                 List<int> used = new List<int>(new int[5]);
                 used[0] = goldusedsum;
                 listPlayer[nowPlayerTurn].Use(used);
-
+              
                 Run_AfterPlayerTurn(j);
 
                 yield return new WaitUntil(() => playerAfterTurnEnd == true);
@@ -213,8 +217,6 @@ public class TableManager : MonoBehaviour
     {
         //실행 부분
         //플레이어의 제어권 확보
-
-
     }
 
 
@@ -229,16 +231,13 @@ public class TableManager : MonoBehaviour
         //플레이어의 재화 확보
         nowPlayer.EndTurn();
 
-        //앞의 4장 중 하나 구매 확인 후 골드 지급
-        if (nowPlayer.GetComponent<Player>().GetGoldNum() < 3)
+        //플레이어 골드 3보다 작고, 맨 앞에 구매인지 확인 후 골드 지급
+        if (nowPlayer.GetComponent<Player>().GetGoldNum() < 3 
+            && CardManager.instance.GetBuyFirst() == true)
         {
-            if (CardManager.instance.CheckBuyFront() == true)
-            {
-                List<int> earnOneGold = new List<int>(new int[5]);
-                earnOneGold[0] = 1;
-                nowPlayer.Gain(earnOneGold, 0);
-            }
-            CardManager.instance.SetCBFro();
+            List<int> earnOneGold = new List<int>(new int[5]);
+            earnOneGold[0] = 1;
+            nowPlayer.Gain(earnOneGold, 0);
         }
 
         //구매하지 않았으면 제거

@@ -12964,7 +12964,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scorehappy: 0
-  _resource: 030000000a0000000a0000000a0000000a000000
+  _resource: 0000000000000000000000000000000000000000
   cardGap: 1.5
   slotText: {fileID: 191905770}
 --- !u!1 &1252764940

@@ -28,6 +28,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private List<bool> testBool;
     [SerializeField] private List<int> testInt;
 
+    private List<int> curPrice = new List<int>();
+    private List<int> curPlayRes = new List<int>();
+
     private void OnEnable()
     {
         if (instance == null)
@@ -36,17 +39,38 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        /*if (Input.GetKeyDown(KeyCode.Q))
+        bool isAble = ButtonisAble();
+        if(isAble != ShoppingButtonAble)
         {
-            Popup_PurchaseUI(0, testBool, testInt);
+            ShoppingButtonAble = isAble;
+            for (int i = 0; i < ShoppingButton.Count; i++)
+            {
+                ShoppingButton[i].interactable = ShoppingButtonAble;
+            }
         }
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            Popdown_PurchaseUI(0);
-        }*/
+
     }
 
-    public void Popup_PurchaseUI(int cardNum, bool Able, List<int> resource) // resource == price
+    private bool ButtonisAble()
+    {
+        List<int> selGold = GoldPanel.GetComponent<GoldButton>().getGoldUsed(); // 선택된 골드
+        bool isAble = true;
+        for (int i = 1; i < 5; i++)
+        {
+            if (selGold[i] + curPlayRes[i] < curPrice[i])
+            { isAble = false; break; }
+        }
+
+        return isAble;
+    }
+
+    /// <summary>
+    /// 시장 카드를 클릭했을 때 실행. 
+    /// </summary>
+    /// <param name="cardNum"></param>
+    /// <param name="Able"></param>
+    /// <param name="resource"></param>
+    public void Popup_PurchaseUI(int cardNum, bool Able, List<int> resource, List<int> playerResource) // resource == price
     {
         // 배경 클릭 막기
         ShoppingClickBlocker.SetActive(true);
@@ -55,6 +79,8 @@ public class UIManager : MonoBehaviour
         CardNum = cardNum;
         ShoppingButtonAble = Able;
         ShoppingTextResource = resource.GetRange(1,resource.Count-1);
+        curPrice = resource;
+        curPlayRes = playerResource;
         StartCoroutine(corFunc_PopupPurchaseUI());
 
         // 자원별로 가격 표시
@@ -106,6 +132,11 @@ public class UIManager : MonoBehaviour
         StartCoroutine(corFunc_PopDownPurchaseUI());
     }
 
+    /// <summary>
+    /// 구매 팝업 창이 내려옴.
+    /// 구매 가능할 때 구매 가능한 상태로 보임.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator corFunc_PopupPurchaseUI()
     {
         SoundManager.instance.PlayAudio(SoundType.UIOn);
@@ -126,6 +157,7 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator corFunc_PopDownPurchaseUI()
     {
+        GoldPanel.GetComponent<GoldButton>().resetGold();
         SoundManager.instance.PlayAudio(SoundType.UIOff);
         ButtonClose();
         ShoppingBreaker.SetActive(false);

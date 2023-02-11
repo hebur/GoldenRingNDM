@@ -327,6 +327,11 @@ public class CardManager : MonoBehaviour
     {
         return CheckBuyFro;
     }
+
+    public bool GetBuyFirst()
+    {
+        return CheckBuyFst;
+    }
     public void SetCBFro()
     {
         CheckBuyFro = false;
