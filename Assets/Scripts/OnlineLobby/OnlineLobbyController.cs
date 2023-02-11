@@ -25,7 +25,7 @@ public class OnlineLobbyController : MonoBehaviour
         network= new Network();
         createRoomData= new CreateRoomData();
 
-        if(!PlayerNickname_UI.active)
+        if(!PlayerNickname_UI.activeSelf)
             PlayerNickname_UI.SetActive(true);
 
         BTN_CallLobbyReLoad();
@@ -89,7 +89,7 @@ public class OnlineLobbyController : MonoBehaviour
         TMP_InputField roomPasswordInputField = CreateRoom_UI.GetComponentInChildren<TMP_InputField>();
         createRoomData.roomPassword = roomPasswordInputField.text;
 
-        var newRoomcode = await network.PostNewRoom(createRoomData.maxPlayerCount);
+        var newRoomcode = await network.PostNewRoom(createRoomData.maxPlayerCount, "title");
         createRoomData.roomCode = newRoomcode;
         Debug.Log($"NewRoomCode: {newRoomcode}");
     }
