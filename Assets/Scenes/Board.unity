@@ -1720,8 +1720,16 @@ PrefabInstance:
       value: -0.02
       objectReference: {fileID: 0}
     - target: {fileID: 8588881401026007850, guid: 13002169f389f154da775169a326ca3f, type: 3}
+      propertyPath: ScoreText
+      value: 
+      objectReference: {fileID: 116668049}
+    - target: {fileID: 8588881401026007850, guid: 13002169f389f154da775169a326ca3f, type: 3}
       propertyPath: ReqTexts.Array.size
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8588881401026007850, guid: 13002169f389f154da775169a326ca3f, type: 3}
+      propertyPath: EffectTexts.Array.size
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8588881401026007850, guid: 13002169f389f154da775169a326ca3f, type: 3}
       propertyPath: ReqTexts.Array.data[0]
@@ -1739,8 +1747,23 @@ PrefabInstance:
       propertyPath: ReqTexts.Array.data[3]
       value: 
       objectReference: {fileID: 1252486415}
+    - target: {fileID: 8588881401026007850, guid: 13002169f389f154da775169a326ca3f, type: 3}
+      propertyPath: EffectTexts.Array.data[5]
+      value: 
+      objectReference: {fileID: 116668049}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13002169f389f154da775169a326ca3f, type: 3}
+--- !u!114 &116668049 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7635158316006262448, guid: 13002169f389f154da775169a326ca3f, type: 3}
+  m_PrefabInstance: {fileID: 116668048}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &136359145
 GameObject:
   m_ObjectHideFlags: 0

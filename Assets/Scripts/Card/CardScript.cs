@@ -7,6 +7,7 @@ public class CardScript : MonoBehaviour
 {
     public TextMeshPro[] ReqTexts;
     public TextMeshPro[] EffectTexts;
+    public TextMeshPro ScoreText;
     public TextMeshPro TurnText;
     public GameObject slotObject, slotPrefab, SaleObject, exitObject, playerSaleObject;
     public float scaleMultiplier;
@@ -40,7 +41,6 @@ public class CardScript : MonoBehaviour
     public void Initalize(CardData from)
     {
         this._cardData = from;
-        this._cardData.Price[0] = 0;
         for(int i = 0; i < 4; i++)
         {
             ReqTexts[i].text = _cardData.Price[i] > 1000000 ? "X" : _cardData.Price[i].ToString();
@@ -49,6 +49,7 @@ public class CardScript : MonoBehaviour
         {
             EffectTexts[i].text = _cardData.Effect[i].ToString();
         }
+        ScoreText.text = _cardData.Score.ToString();
         TurnText.text = _cardData.Turn.ToString();
         for(int i = 0; i < _cardData.Slot; i++)
         {
@@ -150,10 +151,10 @@ public class CardScript : MonoBehaviour
         int maxRes = 0; // 할인 적용할 자원
         int maxCost = 0; // 최고 비용
 
-        for (int i = 1; i < 5; i++)
+        for (int i = 0; i < 4; i++)
             _cardData.Price[i] = originGoldCosts[i];
 
-        for (int i = 1; i < 5; i++)
+        for (int i = 0; i < 4; i++)
         {
             if (maxCost < _cardData.Price[i])
             {
@@ -172,7 +173,7 @@ public class CardScript : MonoBehaviour
             playerSaleObject.transform.parent = ReqTexts[maxRes].gameObject.transform;
             playerSaleObject.transform.localPosition = Vector3.left * 0.62f;
             playerSaleObject.GetComponent<SpriteRenderer>().color = ReqTexts[maxRes].transform.parent.gameObject.GetComponent<SpriteRenderer>().color;
-            for (int i = 1; i < 5; i++)
+            for (int i = 0; i < 4; i++)
                 _cardData.Price[i] = originGoldCosts[i];
             _cardData.Price[maxRes]--;
         }
