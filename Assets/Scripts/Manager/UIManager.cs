@@ -31,6 +31,8 @@ public class UIManager : MonoBehaviour
     private List<int> curPrice = new List<int>();
     private List<int> curPlayRes = new List<int>();
 
+    private bool ispurchasing = false;
+
     private void OnEnable()
     {
         if (instance == null)
@@ -39,46 +41,47 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        bool isAble = ButtonisAble();
-        if(isAble != ShoppingButtonAble)
+        if (ispurchasing == true)
         {
-            ShoppingButtonAble = isAble;
-            for (int i = 0; i < ShoppingButton.Count; i++)
+            bool isAble = isButtonAble();
+            if (isAble != ShoppingButtonAble)
             {
-                ShoppingButton[i].interactable = ShoppingButtonAble;
+                ShoppingButtonAble = isAble;
+                for (int i = 0; i < ShoppingButton.Count; i++)
+                {
+                    ShoppingButton[i].interactable = ShoppingButtonAble;
+                }
             }
         }
-
     }
 
-    private bool ButtonisAble()
+    // 보유 골드와 사용자 자원에 따라 버튼이 사용 가능한 상태인지 리턴
+    private bool isButtonAble()
     {
         List<int> selGold = GoldPanel.GetComponent<GoldButton>().getGoldUsed(); // 선택된 골드
         bool isAble = true;
         for (int i = 1; i < 5; i++)
         {
-            if (selGold[i] + curPlayRes[i] < curPrice[i])
+            if (selGold[i] + curPlayRes[i] < curPrice[i - 1])
             { isAble = false; break; }
         }
 
         return isAble;
     }
 
-    /// <summary>
-    /// 시장 카드를 클릭했을 때 실행. 
-    /// </summary>
-    /// <param name="cardNum"></param>
-    /// <param name="Able"></param>
-    /// <param name="price"></param>
+    //시장 카드를 클릭했을 때 실행
     public void Popup_PurchaseUI(int cardNum, bool Able, List<int> price, List<int> playerResource)
     {
+        //구매 진행 중 -> 가능 여부 Update()
+        ispurchasing = true;
+
         // 배경 클릭 막기
         ShoppingClickBlocker.SetActive(true);
         ShoppingWorldClickBlocker.SetActive(true);
 
         CardNum = cardNum;
         ShoppingButtonAble = Able;
-        ShoppingTextResource = price.GetRange(1,price.Count-1);
+        ShoppingTextResource = price;
         curPrice = price;
         curPlayRes = playerResource;
         GoldPanel.GetComponent<GoldButton>().setCurCardPrice(curPrice);
@@ -101,6 +104,9 @@ public class UIManager : MonoBehaviour
     // 특정 자원으로 구매하면 실행되는 함수
     public void Popdown_PurchaseUI() // 0: gold, 1: 빨강, ~
     {
+        //구매 가능 여부 Update() 필요 x
+        ispurchasing = false;
+
         List<int> cost = new List<int>();
         cost.Add(0);
         for (int i = 1; i < 5; i++)

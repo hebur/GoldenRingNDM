@@ -38,7 +38,7 @@ public class TableManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI tmpNowTurn;
 
-    [SerializeField] private List<TestPointPanel> testPointPanel;
+    [SerializeField] private List<PlayerInfoPanel> playerInfoPanel;
 
     [SerializeField] private TextMeshProUGUI TurnEndMessage;
     [SerializeField] private GameObject TurnEndBlock;
@@ -205,7 +205,7 @@ public class TableManager : MonoBehaviour
                 tmp = true;
             else
                 tmp = false;
-            testPointPanel[i].DrawInfo(tmp, listPlayer[i].Resource);
+            playerInfoPanel[i].DrawInfo(tmp, listPlayer[i].Resource, listPlayer[i].Score);
         }
     }
 

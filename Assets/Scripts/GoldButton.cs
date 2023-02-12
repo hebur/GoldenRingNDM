@@ -89,9 +89,9 @@ public class GoldButton : MonoBehaviour
         int usedGoldSum = 0;
         List<int> usedGold = new List<int>(new int[5]);
 
-        if (num + 1 > curCardPrice[resource + 1]) //사용하려는 골드와 카드 가격 비교
+        if (num + 1 > curCardPrice[resource]) //사용하려는 골드와 카드 가격 비교
         {
-            Debug.Log("Can't use more gold than price.");
+            Debug.Log("Can't use more gold than price. try to use: " + (num+1) + "price: " + curCardPrice[resource]);
         }
         else //사용하려는 골드와 사용자의 골드 소유량 비교
         {

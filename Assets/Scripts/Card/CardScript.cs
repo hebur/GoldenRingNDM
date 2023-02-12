@@ -7,7 +7,7 @@ public class CardScript : MonoBehaviour
 {
     public TextMeshPro[] ReqTexts;
     public TextMeshPro[] EffectTexts;
-    public TextMeshPro TurnText, SaleText;
+    public TextMeshPro TurnText;
     public GameObject slotObject, slotPrefab, SaleObject, exitObject, playerSaleObject;
     public float scaleMultiplier;
     private CardData _cardData;
@@ -41,9 +41,12 @@ public class CardScript : MonoBehaviour
     {
         this._cardData = from;
         this._cardData.Price[0] = 0;
-        for (int i = 0; i < 5; i++)
+        for(int i = 0; i < 4; i++)
         {
             ReqTexts[i].text = _cardData.Price[i] > 1000000 ? "X" : _cardData.Price[i].ToString();
+        }
+        for (int i = 0; i < 5; i++)
+        {
             EffectTexts[i].text = _cardData.Effect[i].ToString();
         }
         TurnText.text = _cardData.Turn.ToString();
@@ -92,7 +95,8 @@ public class CardScript : MonoBehaviour
             if (TableManager.instance.Get_NowPlayerScript().SlotLeft >= this._cardData.Slot)
             {
                 List<int> playerResource = TableManager.instance.Get_NowPlayerResource();
-                UIManager.instance.Popup_PurchaseUI(this._cardData.CardNum, CardManager.instance.Is_Buyable(this._cardData.CardNum, playerResource), this._cardData.Price, playerResource);
+                UIManager.instance.Popup_PurchaseUI(this._cardData.CardNum, CardManager.instance.Is_Buyable(this._cardData.CardNum, playerResource), 
+                    this._cardData.Price, playerResource);
             }
             else
                 TableManager.instance.Get_NowPlayerScript().FlashRed();
@@ -137,28 +141,6 @@ public class CardScript : MonoBehaviour
     }
     public bool IsPurchased { get { return isPurchased; } set { isPurchased = value; } }
 
-
-    // 카드의 골드 세일 정보 갱신 더 이상 필요 없음.
-    /*public void UpdateSaleInfo(int n)
-
-    {
-        SaleObject.SetActive(n != 0);
-        _cardData.Price[0] = originGoldCosts[0];
-        if (n > 0)
-        {
-            SaleText.text = "+1";
-            _cardData.Price[0]++;
-            SaleText.color = Color.red;
-        }
-        else if (n < 0)
-        {
-            SaleText.text = "-1";
-            _cardData.Price[0]--;
-            SaleText.color = Color.blue;
-        }
-    }*/
-
-
     /// <summary>
     /// 매 턴마다 사용자 순서에 따라 해당 턴 사용자 자원 할인 정보 갱신
     /// </summary>
@@ -187,7 +169,6 @@ public class CardScript : MonoBehaviour
         else
         {
             playerSaleObject.gameObject.SetActive(true);
-            SaleText.text = "-1";
             playerSaleObject.transform.parent = ReqTexts[maxRes].gameObject.transform;
             playerSaleObject.transform.localPosition = Vector3.left * 0.62f;
             playerSaleObject.GetComponent<SpriteRenderer>().color = ReqTexts[maxRes].transform.parent.gameObject.GetComponent<SpriteRenderer>().color;

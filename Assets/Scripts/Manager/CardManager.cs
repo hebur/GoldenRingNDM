@@ -247,7 +247,7 @@ public class CardManager : MonoBehaviour
         else
             return null;
     }
-    public bool Is_Buyable(int cardNum, List<int> Happy)
+    public bool Is_Buyable(int cardNum, List<int> resource)
     {
         bool buyAble = false;
         int check = 1;
@@ -255,9 +255,9 @@ public class CardManager : MonoBehaviour
             if (listMarketCardCS[i].GetCardNum() == cardNum)
             {
                 List<int> price = listMarketCardCS[i].GetPrice();
-                for (int j = 0; j < 5; j++)
+                for (int j = 0; j < 4; j++)
                 {
-                    if (price[j] + price[j + 5] > Happy[j])
+                    if (price[j] > resource[j + 1])
                         check *= 0;
                 }
                 break;

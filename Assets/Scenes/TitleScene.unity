@@ -771,7 +771,7 @@ MonoBehaviour:
   - {fileID: 863726645}
   - {fileID: 100639911}
   - {fileID: 276079430}
-  WaitTime: 2
+  WaitTime: 0
   text: {fileID: 1819329627}
 --- !u!1 &1473782176
 GameObject:

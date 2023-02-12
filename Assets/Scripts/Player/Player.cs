@@ -53,6 +53,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
         slotText.color = Color.white;
     }
+    
     /// <summary>
     /// _resource와 _fields를 초기화
     /// </summary>

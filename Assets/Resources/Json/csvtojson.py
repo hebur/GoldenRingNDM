@@ -15,7 +15,7 @@ for i in range(len(ct)):
   score = ct.Score[i]
   cards.append({
     "id": id,
-    "price": [0] + price + [0, 0, 0, 0, 0],
+    "price": price + [0, 0, 0, 0, 0],
     "effect": [0] + effect + [0, 0],
     "turn": turn,
     "slot": slot,

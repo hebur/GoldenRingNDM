@@ -67,8 +67,8 @@ public class Deck : MonoBehaviour
                 start += num[i];
             }
         }
-        foreach (var card in _cards)
-            Debug.Log(card.CardNum);
+        /*foreach (var card in _cards)
+            Debug.Log(card.CardNum);*/
     }
 
     void Shuffle(int start, int num)
@@ -84,20 +84,6 @@ public class Deck : MonoBehaviour
             _cards[i] = _cards[j];
             _cards[j] = tmp;
         }
-    }
-    
-
-    private void exchange(int x, int y)
-    {
-        CardData tmp = _cards[x];
-        _cards[x] = _cards[y];
-        _cards[y] = tmp;
-    }
-    public CardData Draw()
-    {
-        CardData ret = _cards[_cards.Count - 1];
-        _cards.RemoveAt(_cards.Count - 1);
-        return ret;
     }
 
     public List<CardData> cards { get { return _cards; } }
