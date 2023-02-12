@@ -9,7 +9,7 @@ public class CardScript : MonoBehaviour
     public TextMeshPro[] EffectTexts;
     public TextMeshPro ScoreText;
     public TextMeshPro TurnText;
-    public GameObject slotObject, slotPrefab, SaleObject, exitObject, playerSaleObject;
+    public GameObject slotObject, slotPrefab, exitObject, playerSaleObject;
     public float scaleMultiplier;
     private CardData _cardData;
     bool isPurchased;
@@ -171,11 +171,12 @@ public class CardScript : MonoBehaviour
         {
             playerSaleObject.gameObject.SetActive(true);
             playerSaleObject.transform.parent = ReqTexts[maxRes].gameObject.transform;
-            playerSaleObject.transform.localPosition = Vector3.left * 0.62f;
-            playerSaleObject.GetComponent<SpriteRenderer>().color = ReqTexts[maxRes].transform.parent.gameObject.GetComponent<SpriteRenderer>().color;
+            playerSaleObject.transform.localPosition = Vector3.left * 1f;
+            playerSaleObject.GetComponent<SpriteRenderer>().color = new Color(1, 215 / 255f, 0);
             for (int i = 0; i < 4; i++)
                 _cardData.Price[i] = originGoldCosts[i];
             _cardData.Price[maxRes]--;
+            ReqTexts[maxRes].text = _cardData.Price[maxRes].ToString();
         }
         
     }
