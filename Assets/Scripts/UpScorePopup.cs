@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,33 +7,59 @@ using DG.Tweening;
 
 public class UpScorePopup : MonoBehaviour
 {
-
     [SerializeField] private string ColorCode;
-    //<color=red>
-    //<color=#2ECDC0>
+    [SerializeField] GameObject ScoreUp;
+    [SerializeField] GameObject tempUp;
     [SerializeField] List<TextMeshProUGUI> text;
+    [SerializeField] List<TextMeshProUGUI> tempUp_text;
 
+    private List<Player> listPlayer;
     private void Awake()
     {
-        this.gameObject.SetActive(false);
+        ScoreUp.SetActive(false);
+        tempUp.SetActive(false);
     }
 
-    public void DrawText(List<int> rsh)
+    private void ShowText(List<TextMeshProUGUI> text, List<int> rsh)
     {
-
-        for(int i = 0; i < text.Count; i++)
+        if (text.Count == 5)
         {
-            text[i].text = ColorCode + "+ " + rsh[i].ToString() + "</color>";
+            for (int i = 0; i < text.Count; i++)
+            {
+                if (rsh[i] != 0)
+                    text[i].text = ColorCode + " + " + rsh[i].ToString() + "</color>";
+                else
+                    text[i].text = "";
+            }
         }
-       //  StartCoroutine(corFunc_SelfOff());
+        else
+        {
+            for (int i = 0; i < text.Count; i++)
+                text[i].text = ColorCode + " + " + rsh[i + 1].ToString() + "</color>";
+        }
     }
 
-    /*
-    private IEnumerator corFunc_SelfOff()
+    public void DrawText(List<int> rsh, bool is_res)
     {
-        yield return new WaitForSeconds(2f);
-        this.gameObject.SetActive(false);
+        if (is_res)
+        {
+            ScoreUp.SetActive(false);
+            tempUp.SetActive(true);
+            ShowText(tempUp_text, rsh);
+            StartCoroutine(corFunc_SelfOff());  // 자원만 얻는다면 몇 초 후에 꺼짐
+        }
+        else
+        {
+            ScoreUp.SetActive(true);
+            ShowText(text, rsh);
+        } 
     }
-    */
 
+    private IEnumerator corFunc_SelfOff()
+    {  
+        yield return new WaitForSeconds(1f);
+        tempUp.SetActive(false);
+        Player nowPlayer = TableManager.instance.Get_NowPlayerScript();
+        nowPlayer.ShowNextTurn();
+    }
 }

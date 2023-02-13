@@ -228,8 +228,6 @@ public class TableManager : MonoBehaviour
     private void Run_AfterPlayerTurn(int rsh)
     {
         Player nowPlayer = listPlayer[nowPlayerTurn];
-        //플레이어의 재화 확보
-        nowPlayer.EndTurn();
 
         //플레이어 골드 3보다 작고, 맨 앞에 구매인지 확인 후 골드 지급
         if (nowPlayer.GetComponent<Player>().GetGoldNum() < 3 
@@ -237,8 +235,13 @@ public class TableManager : MonoBehaviour
         {
             List<int> earnOneGold = new List<int>(new int[5]);
             earnOneGold[0] = 1;
-            nowPlayer.Gain(earnOneGold, 0);
+            nowPlayer.Gain(earnOneGold, 0, true);
         }
+        bool earn_res = GameObject.Find("EarnResource").GetComponent<OnlyEarnResource>().earn_res;
+        if (!earn_res)
+            nowPlayer.EndTurn();         // 플레이어의 재화 확보
+        else
+            nowPlayer.Invoke("EndTurn", 1f);
 
         //구매하지 않았으면 제거
         CardManager.instance.CheckBuyFirst();

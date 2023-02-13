@@ -67,8 +67,6 @@ public class Deck : MonoBehaviour
                 start += num[i];
             }
         }
-        /*foreach (var card in _cards)
-            Debug.Log(card.CardNum);*/
     }
 
     void Shuffle(int start, int num)

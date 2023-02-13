@@ -10,7 +10,7 @@ public class OnlyEarnResource : MonoBehaviour
 {
 
     public static List<List<int>> listResource;
-
+    [SerializeField] public bool earn_res = false;
     [SerializeField] private List<TextMeshProUGUI> EarnText;
 
     private void Awake()
@@ -91,10 +91,8 @@ public class OnlyEarnResource : MonoBehaviour
 
     public void BTN_CallButton(int rsh)
     {
-
-        TableManager.instance.Get_NowPlayerScript().Gain(listResource[rsh], 0);
+        earn_res = true;
+        TableManager.instance.Get_NowPlayerScript().Gain(listResource[rsh], 0, true);
         TableManager.instance.End_PlayerTurn();
-
     }
-
 }
