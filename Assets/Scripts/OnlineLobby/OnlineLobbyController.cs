@@ -145,36 +145,41 @@ public class OnlineLobbyController : MonoBehaviour
         Network.Room room2 = new Network.Room();
         Network.Room room3 = new Network.Room();
         Network.Room room4 = new Network.Room();
+        Network.Room room5 = new Network.Room();
 
         room1.code = "AAAAAA";
         room2.code = "BBBBBB";
         room3.code = "CCCCCC";
         room4.code = "DDDDDD";
+        room5.code = "EEEEEE";
 
         room1.title = "room1";
         room2.title = "room2";
         room3.title = "room3";
         room4.title = "room4";
+        room5.title = "room5";
 
         room1.player_num = 4;
-        room2.player_num = 4; 
+        room2.player_num = 4;
         room3.player_num = 3;
         room4.player_num = 4;
+        room5.player_num = 4;
 
-        rooms.Add(room1); 
-        rooms.Add(room2 ); 
-        rooms.Add(room3 ); 
-        rooms.Add(room4 );
+        rooms.Add(room1);
+        rooms.Add(room2);
+        rooms.Add(room3);
+        rooms.Add(room4);
+        rooms.Add(room5);
 
-
-        for(int i=0; i<rooms.Count ; i++)
+        // roomTemplateGO의 수가 room의 수보다 작지 않도록 추가
+        while (roomTemplates.Count < rooms.Count)
         {
-            if (roomTemplates[i] == null)
-            {
-                GameObject newRoomTemplateGO = Instantiate(roomTemplateGO);
-                newRoomTemplateGO.transform.parent = roomContent;
-                roomTemplates.Add(newRoomTemplateGO.GetComponent<Room_Template>());
-            }
+            GameObject newRoomTemplateGO = Instantiate(roomTemplateGO, roomContent);
+            roomTemplates.Add(newRoomTemplateGO.GetComponent<Room_Template>());
+        }
+
+        for (int i = 0; i < rooms.Count; i++)
+        {
             roomTemplates[i].createRoomData = rooms[i];
         }
         reloadAction.Invoke();

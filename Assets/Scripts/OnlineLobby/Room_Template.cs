@@ -32,12 +32,11 @@ public class Room_Template : MonoBehaviour
 
     public void updateRoomTemplate()
     {
-        if (createRoomData.title == null)
+        if (createRoomData.code == null)
         {
             gameObject.SetActive(false);
             return;
         }
-
         RoomTitle_Txt.text = createRoomData.title;
         Debug.Log(createRoomData.title + createRoomData.code);
     }
