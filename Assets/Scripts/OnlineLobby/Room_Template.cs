@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using Unity.VisualScripting;
 
 public class Room_Template : MonoBehaviour
 {
@@ -12,22 +13,38 @@ public class Room_Template : MonoBehaviour
     [SerializeField] Button RoomEnter_Btn;
     [SerializeField] TextMeshProUGUI RoomTitle_Txt;
 
-    Network.Room createRoomData;
+    public Network.Room createRoomData;
     private string userNickname;
 
     void Start()
     {
         network = new Network();
-
         createRoomData = new Network.Room();
         userNickname = FindObjectOfType<OnlineLobbyController>().userNickname;
+        OnlineLobbyController lobbyController = FindObjectOfType<OnlineLobbyController>();
 
-        // 임시 값 부여
-        createRoomData.code = "DAZUGA";
+        lobbyController.reloadAction -= updateRoomTemplate;
+        lobbyController.reloadAction += updateRoomTemplate;
+        
+        //// 임시 값 부여
+        //createRoomData.code = "DAZUGA";
+    }
+
+    public void updateRoomTemplate()
+    {
+        if (createRoomData.title == null)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+
+        RoomTitle_Txt.text = createRoomData.title;
+        Debug.Log(createRoomData.title + createRoomData.code);
     }
 
     public async void BTN_CallDirectRoomEnter()
     {
+        Debug.Log($"roomCode is {createRoomData.code}");
         // 룸 만원 체크
         bool isRoomFull = await network.GetisRoomFull(createRoomData.code);
         if (isRoomFull)

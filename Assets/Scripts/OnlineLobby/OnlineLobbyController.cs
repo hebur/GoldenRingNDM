@@ -13,25 +13,28 @@ using System.Threading.Tasks;
 public class OnlineLobbyController : MonoBehaviour
 {
     Network network;
+    Network.Room createRoomData;
 
     [SerializeField] private GameObject CreateRoom_UI, EnterCode_UI, PlayerNickname_UI;
     [SerializeField] private TMP_InputField nicknameInputField;
     [SerializeField] private TextMeshProUGUI playerNickname_txt;
     [SerializeField] private List<Button> maxPlayerCountBtnList;
-    [SerializeField] private List<GameObject> roomPrefabs;
 
+    [SerializeField] private GameObject roomTemplateGO;
+    [SerializeField] private List<Room_Template> roomTemplates;
+    [SerializeField] private Transform roomContent;
+
+    public event Action reloadAction;
     public string userNickname;
-    private Network.Room createRoomData;
 
     void Awake()
     {
         network= new Network();
         createRoomData= new Network.Room();
 
-        if(!PlayerNickname_UI.activeSelf)
-            PlayerNickname_UI.SetActive(true);
+        // if(!PlayerNickname_UI.activeSelf)
+        //      PlayerNickname_UI.SetActive(true);
 
-        BTN_CallLobbyReLoad();
     }
 
     // MainMenu로 돌아가기
@@ -134,8 +137,47 @@ public class OnlineLobbyController : MonoBehaviour
 
     public async void BTN_CallLobbyReLoad()
     {
-        List<Network.Room> rooms = await network.GetRooms();
-        
+        // List<Network.Room> rooms = await network.GetRooms();
+        List<Network.Room> rooms = new List<Network.Room>();
+
+        // 임시값
+        Network.Room room1 = new Network.Room();
+        Network.Room room2 = new Network.Room();
+        Network.Room room3 = new Network.Room();
+        Network.Room room4 = new Network.Room();
+
+        room1.code = "AAAAAA";
+        room2.code = "BBBBBB";
+        room3.code = "CCCCCC";
+        room4.code = "DDDDDD";
+
+        room1.title = "room1";
+        room2.title = "room2";
+        room3.title = "room3";
+        room4.title = "room4";
+
+        room1.player_num = 4;
+        room2.player_num = 4; 
+        room3.player_num = 3;
+        room4.player_num = 4;
+
+        rooms.Add(room1); 
+        rooms.Add(room2 ); 
+        rooms.Add(room3 ); 
+        rooms.Add(room4 );
+
+
+        for(int i=0; i<rooms.Count ; i++)
+        {
+            if (roomTemplates[i] == null)
+            {
+                GameObject newRoomTemplateGO = Instantiate(roomTemplateGO);
+                newRoomTemplateGO.transform.parent = roomContent;
+                roomTemplates.Add(newRoomTemplateGO.GetComponent<Room_Template>());
+            }
+            roomTemplates[i].createRoomData = rooms[i];
+        }
+        reloadAction.Invoke();
     }
 
     public void BTN_CallCloseParentUI()
