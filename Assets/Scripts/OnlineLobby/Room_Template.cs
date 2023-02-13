@@ -12,33 +12,33 @@ public class Room_Template : MonoBehaviour
     [SerializeField] Button RoomEnter_Btn;
     [SerializeField] TextMeshProUGUI RoomTitle_Txt;
 
-    public CreateRoomData createRoomData;
+    Network.Room createRoomData;
     private string userNickname;
 
     void Start()
     {
         network = new Network();
-        createRoomData = new CreateRoomData();
+
+        createRoomData = new Network.Room();
         userNickname = FindObjectOfType<OnlineLobbyController>().userNickname;
 
         // ÀÓ½Ã °ª ºÎ¿©
-        createRoomData.roomCode = "DAZUGA";
+        createRoomData.code = "DAZUGA";
     }
 
     public async void BTN_CallDirectRoomEnter()
     {
         // ·ë ¸¸¿ø Ã¼Å©
-        bool isRoomFull = await network.GetisRoomFull(createRoomData.roomCode);
+        bool isRoomFull = await network.GetisRoomFull(createRoomData.code);
         if (isRoomFull)
         {
             // ·ë ÀÎ¿ø ´ÙÃ¡´Ù´Â ÆË¾÷ ¶ç¿ì±â - TODO
             Debug.Log("The Room is Full");
             return;
         }
-        network.PutPlayerToRoom(userNickname, createRoomData.roomCode);
+        network.PutPlayerToRoom(userNickname, createRoomData.code);
 
-        var RoomInfo = await network.GetRoomInfo(createRoomData.roomCode);
-        Debug.Log(RoomInfo);
+        var RoomInfo = await network.GetRoomInfo(createRoomData.code);
     }
 
     public void BTN_CallCloseParentUI()

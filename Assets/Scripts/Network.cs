@@ -21,6 +21,7 @@ public class Network
             this.cards = cards;
         }
     }
+
     public struct Room
     {
         public string code;
