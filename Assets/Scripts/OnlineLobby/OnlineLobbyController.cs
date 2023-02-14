@@ -44,7 +44,6 @@ public class OnlineLobbyController : MonoBehaviour
         {
             Debug.Log("UserNickname: " + userNickname);
             network.DeletePlayer(userNickname);
-            Thread.Sleep(3000);
 
             bool isExist = await network.GetisNNExist(userNickname);
             if (isExist)
@@ -70,7 +69,6 @@ public class OnlineLobbyController : MonoBehaviour
         string user_nickname = nicknameInputField.text;
         bool isExist = await network.GetisNNExist(user_nickname);
         Debug.Log("isExist: " + isExist);
-        Thread.Sleep(3000);
 
         if (isExist)
         {
@@ -83,7 +81,6 @@ public class OnlineLobbyController : MonoBehaviour
         userNickname = user_nickname;
         playerNickname_txt.text = "User Name: " + nicknameInputField.text;
         PlayerNickname_UI.SetActive(false);
-        Thread.Sleep(3000);
 
         BTN_CallLobbyReLoad();
     }
@@ -137,10 +134,11 @@ public class OnlineLobbyController : MonoBehaviour
 
     public async void BTN_CallLobbyReLoad()
     {
-        // List<Network.Room> rooms = await network.GetRooms();
-        List<Network.Room> rooms = new List<Network.Room>();
+        List<Network.Room> rooms = await network.GetRooms();
 
+        /**
         // 임시값
+        List<Network.Room> rooms = new List<Network.Room>();
         Network.Room room1 = new Network.Room();
         Network.Room room2 = new Network.Room();
         Network.Room room3 = new Network.Room();
@@ -170,6 +168,7 @@ public class OnlineLobbyController : MonoBehaviour
         rooms.Add(room3);
         rooms.Add(room4);
         rooms.Add(room5);
+        **/
 
         // roomTemplateGO의 수가 room의 수보다 작지 않도록 추가
         while (roomTemplates.Count < rooms.Count)
