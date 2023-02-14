@@ -7,28 +7,34 @@ using UnityEngine.EventSystems;
 using TMPro;
 using UnityEngine.Networking;
 using System.Threading;
+using System;
+using System.Threading.Tasks;
 
 public class OnlineLobbyController : MonoBehaviour
 {
     Network network;
+    Network.Room createRoomData;
 
     [SerializeField] private GameObject CreateRoom_UI, EnterCode_UI, PlayerNickname_UI;
     [SerializeField] private TMP_InputField nicknameInputField;
     [SerializeField] private TextMeshProUGUI playerNickname_txt;
     [SerializeField] private List<Button> maxPlayerCountBtnList;
 
+    [SerializeField] private GameObject roomTemplateGO;
+    [SerializeField] private List<Room_Template> roomTemplates;
+    [SerializeField] private Transform roomContent;
+
+    public event Action reloadAction;
     public string userNickname;
-    private CreateRoomData createRoomData;
 
     void Awake()
     {
         network= new Network();
-        createRoomData= new CreateRoomData();
+        createRoomData= new Network.Room();
 
-        if(!PlayerNickname_UI.activeSelf)
-            PlayerNickname_UI.SetActive(true);
+        // if(!PlayerNickname_UI.activeSelf)
+        //      PlayerNickname_UI.SetActive(true);
 
-        BTN_CallLobbyReLoad();
     }
 
     // MainMenu로 돌아가기
@@ -86,18 +92,18 @@ public class OnlineLobbyController : MonoBehaviour
     public async void BTN_CallCreateRoomEnter()
     {
         // Password가 생길 경우를 대비
-        TMP_InputField roomPasswordInputField = CreateRoom_UI.GetComponentInChildren<TMP_InputField>();
-        createRoomData.roomPassword = roomPasswordInputField.text;
+        // TMP_InputField roomPasswordInputField = CreateRoom_UI.GetComponentInChildren<TMP_InputField>();
+        // createRoomData.password = roomPasswordInputField.text;
 
-        var newRoomcode = await network.PostNewRoom(createRoomData.maxPlayerCount, "title");
-        createRoomData.roomCode = newRoomcode;
+        var newRoomcode = await network.PostNewRoom(createRoomData.player_num, "title");
+        createRoomData.code = newRoomcode;
         Debug.Log($"NewRoomCode: {newRoomcode}");
     }
 
     // maxPlayerCount 업데이트 함수
     public void UpdateMaxPlayerCount(int playerMaxCount)
     {
-        createRoomData.maxPlayerCount = playerMaxCount;
+        createRoomData.player_num = playerMaxCount;
         for (int i = 0; i < maxPlayerCountBtnList.Count; i++)
         {
             if(i == playerMaxCount - 3)
@@ -111,6 +117,7 @@ public class OnlineLobbyController : MonoBehaviour
         }
     }
 
+    // roomCode를 이용해 Room에 입장하는 함수
     public async void BTN_CallRoomCodeEnter()
     {
         TMP_InputField roomcodeInputField = EnterCode_UI.GetComponentInChildren<TMP_InputField>();
@@ -126,12 +133,56 @@ public class OnlineLobbyController : MonoBehaviour
         network.PutPlayerToRoom(userNickname, roomcodeInputField.text);
 
         var RoomInfo = await network.GetRoomInfo(roomcodeInputField.text);
-        Debug.Log(RoomInfo);
     }
 
     public async void BTN_CallLobbyReLoad()
     {
+        // List<Network.Room> rooms = await network.GetRooms();
+        List<Network.Room> rooms = new List<Network.Room>();
 
+        // 임시값
+        Network.Room room1 = new Network.Room();
+        Network.Room room2 = new Network.Room();
+        Network.Room room3 = new Network.Room();
+        Network.Room room4 = new Network.Room();
+        Network.Room room5 = new Network.Room();
+
+        room1.code = "AAAAAA";
+        room2.code = "BBBBBB";
+        room3.code = "CCCCCC";
+        room4.code = "DDDDDD";
+        room5.code = "EEEEEE";
+
+        room1.title = "room1";
+        room2.title = "room2";
+        room3.title = "room3";
+        room4.title = "room4";
+        room5.title = "room5";
+
+        room1.player_num = 4;
+        room2.player_num = 4;
+        room3.player_num = 3;
+        room4.player_num = 4;
+        room5.player_num = 4;
+
+        rooms.Add(room1);
+        rooms.Add(room2);
+        rooms.Add(room3);
+        rooms.Add(room4);
+        rooms.Add(room5);
+
+        // roomTemplateGO의 수가 room의 수보다 작지 않도록 추가
+        while (roomTemplates.Count < rooms.Count)
+        {
+            GameObject newRoomTemplateGO = Instantiate(roomTemplateGO, roomContent);
+            roomTemplates.Add(newRoomTemplateGO.GetComponent<Room_Template>());
+        }
+
+        for (int i = 0; i < rooms.Count; i++)
+        {
+            roomTemplates[i].createRoomData = rooms[i];
+        }
+        reloadAction.Invoke();
     }
 
     public void BTN_CallCloseParentUI()
