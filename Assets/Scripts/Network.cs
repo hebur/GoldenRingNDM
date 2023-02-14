@@ -21,7 +21,6 @@ public class Network
             this.cards = cards;
         }
     }
-
     public struct Room
     {
         public string code;
@@ -50,7 +49,8 @@ public class Network
         WWWForm form = new WWWForm();
         form.headers["Accept"] = "application/json";
 
-        string url = address + "/rooms/" + player_num.ToString() + "/?room_title=" + room_title;
+        string url = address + "/rooms/" + "?player_num=" + player_num.ToString() 
+            + "&room_title=" + room_title;
 
         UnityWebRequest request = UnityWebRequest.Post(url, form);
 
@@ -64,7 +64,7 @@ public class Network
             room_code = request.downloadHandler.text.Replace("\"", "");
         }
         else
-        { Debug.Log("error"); }
+        { Debug.Log(request.error); }
 
         return room_code;
     }
@@ -72,7 +72,7 @@ public class Network
     {
         WWWForm form = new WWWForm();
         form.headers["Accept"] = "application/json";
-        string url = address + "/players/" + nickname;
+        string url = address + "/players/" + "?nickname=" + nickname;
 
         UnityWebRequest request = UnityWebRequest.Post(url, form);
 
@@ -112,7 +112,7 @@ public class Network
         }
         else
         {
-            Debug.Log("error");
+            Debug.Log(request.error);
         }
 
         return rooms;
@@ -135,7 +135,7 @@ public class Network
         }
         else
         {
-            Debug.Log("error");
+            Debug.Log(request.error);
         }
 
         return turninfo;
@@ -160,7 +160,7 @@ public class Network
         }
         else
         {
-            Debug.Log("error");
+            Debug.Log(request.error);
         }
 
         return room;
@@ -186,7 +186,7 @@ public class Network
         }
         else
         {
-            Debug.Log("error");
+            Debug.Log(request.error);
         }
 
         return players;
@@ -211,7 +211,7 @@ public class Network
         }
         else
         {
-            Debug.Log("error");
+            Debug.Log(request.error);
         }
 
         return player;
@@ -238,7 +238,7 @@ public class Network
         }
         else
         {
-            Debug.Log("error");
+            Debug.Log(request.error);
         }
 
         return isfull;
@@ -282,6 +282,11 @@ public class Network
         var op = request.SendWebRequest();
         while (!op.isDone)
         { await Task.Yield(); }
+
+        if(request.error == null) 
+        { Debug.Log("PPrR success"); }
+        else 
+        { Debug.Log("request.error"); }
     }
     public async void PutTurnEnd(string room_code)
     {
@@ -293,6 +298,11 @@ public class Network
         var op = request.SendWebRequest();
         while (!op.isDone)
         { await Task.Yield(); }
+
+        if (request.error == null)
+        { Debug.Log("PTE success"); }
+        else
+        { Debug.Log("request.error"); }
     }
     public async void PutCardToPlayer(string nickname, int act, int card_num, string room_code)
     {
@@ -304,6 +314,11 @@ public class Network
         var op = request.SendWebRequest();
         while (!op.isDone)
         { await Task.Yield(); }
+
+        if (request.error == null)
+        { Debug.Log("PCtP success"); }
+        else
+        { Debug.Log("request.error"); }
     }
 
     // DELETE
@@ -314,6 +329,11 @@ public class Network
         var op = request.SendWebRequest();
         while (!op.isDone)
         { await Task.Yield(); }
+
+        if (request.error == null)
+        { Debug.Log("DR success"); }
+        else
+        { Debug.Log("request.error"); }
     }
     public async void DeletePlayer(string nickname)
     {
@@ -322,6 +342,11 @@ public class Network
         var op = request.SendWebRequest();
         while (!op.isDone)
         { await Task.Yield(); }
+
+        if (request.error == null)
+        { Debug.Log("DP success"); }
+        else
+        { Debug.Log("request.error"); }
     }
 
 
