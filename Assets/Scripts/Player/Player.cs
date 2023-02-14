@@ -144,7 +144,6 @@ public class Player : MonoBehaviour
     /// </summary>
     public void EndTurn()
     {
-        List<GameObject> deleteTargets = new List<GameObject>();
         List<int> add = new List<int>(new int[5]);
         int score = 0;
         foreach(var card in _fields)
@@ -155,13 +154,8 @@ public class Player : MonoBehaviour
                 add[i] += cs.GetEffect()[i];
 
            score += cs.GetScore();
-            if (--(cs.TurnLeft) == 0)
-                deleteTargets.Add(card);
         }
          this.Gain(add, score, false);
-
-        foreach (var target in deleteTargets)
-            RemoveCard(target);
 
         bool earn_res = GameObject.Find("EarnResource").GetComponent<OnlyEarnResource>().earn_res;
         if (!earn_res)
@@ -171,22 +165,27 @@ public class Player : MonoBehaviour
 
     public void ShowNextTurn() // 자원 표시기: 다음 턴에 추가될 자원 표시
     {
+        List<GameObject> deleteTargets = new List<GameObject>();
         List<int> add = new List<int>(new int[6]);
         for (int i = 0; i < add.Count; i++) add[i] = 0;
 
-        if(_fields.Count != 0)
+        foreach (var card in _fields)
         {
-            foreach (var card in _fields)
+            CardScript cs = card.GetComponent<CardScript>();
+            if (--(cs.TurnLeft) == 0)
+                deleteTargets.Add(card);
+            else
             {
-                CardScript cs = card.GetComponent<CardScript>();
-
                 for (int i = 0; i < _resource.Count; i++)
                     add[i] += cs.GetEffect()[i];
 
                 add[_resource.Count] += cs.GetScore();
             }
         }
-        
+
+        foreach (var target in deleteTargets)
+            RemoveCard(target);
+
         UIManager.instance.Get_UpScore(_order).DrawText(add, false);
     }
 
