@@ -73,8 +73,9 @@ public class Player : MonoBehaviour
         for (int i = 0; i < _resource.Count; i++)
         {
             _resource[i] += gain[i];
-            UIManager.instance.Get_UpScore(_order).DrawText(gain, is_res);
         }
+        gain.Add(score);
+        UIManager.instance.Get_UpScore(_order).DrawText(gain, is_res);
     }
 
     /// <summary>
@@ -144,13 +145,20 @@ public class Player : MonoBehaviour
     public void EndTurn()
     {
         List<GameObject> deleteTargets = new List<GameObject>();
+        List<int> add = new List<int>(new int[5]);
+        int score = 0;
         foreach(var card in _fields)
         {
             CardScript cs = card.GetComponent<CardScript>();
-            this.Gain(cs.GetEffect(), cs.GetScore(), false);
+
+            for (int i = 0; i < _resource.Count; i++)
+                add[i] += cs.GetEffect()[i];
+
+           score += cs.GetScore();
             if (--(cs.TurnLeft) == 0)
                 deleteTargets.Add(card);
         }
+         this.Gain(add, score, false);
 
         foreach (var target in deleteTargets)
             RemoveCard(target);
@@ -163,15 +171,22 @@ public class Player : MonoBehaviour
 
     public void ShowNextTurn() // 자원 표시기: 다음 턴에 추가될 자원 표시
     {
-        List<int> add = new List<int>(new int[5]);
+        List<int> add = new List<int>(new int[6]);
+        for (int i = 0; i < add.Count; i++) add[i] = 0;
 
-        foreach (var card in _fields) 
+        if(_fields.Count != 0)
         {
-            CardScript cs = card.GetComponent<CardScript>();
+            foreach (var card in _fields)
+            {
+                CardScript cs = card.GetComponent<CardScript>();
 
-            for (int i = 0; i < _resource.Count; i++)
-                add[i] += cs.GetEffect()[i];
+                for (int i = 0; i < _resource.Count; i++)
+                    add[i] += cs.GetEffect()[i];
+
+                add[_resource.Count] += cs.GetScore();
+            }
         }
+        
         UIManager.instance.Get_UpScore(_order).DrawText(add, false);
     }
 
