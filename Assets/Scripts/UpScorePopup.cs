@@ -34,8 +34,9 @@ public class UpScorePopup : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < text.Count; i++)
-                text[i].text = ColorCode + " + " + rsh[i + 1].ToString() + "</color>";
+            for (int i = 1; i < text.Count; i++)
+                text[i].text = ColorCode + " + " + rsh[i].ToString() + "</color>";
+            Debug.Log("여기는 한 번 실행되어야 하는데,,");
         }
     }
 

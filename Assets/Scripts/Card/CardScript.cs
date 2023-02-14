@@ -124,7 +124,6 @@ public class CardScript : MonoBehaviour
     }
     public int GetScore()
     {
-        Debug.Log(_cardData.Score);
         return _cardData.Score;
     }
     public int TurnLeft
