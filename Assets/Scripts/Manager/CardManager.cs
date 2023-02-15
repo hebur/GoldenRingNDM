@@ -253,8 +253,28 @@ public class CardManager : MonoBehaviour
     /// </summary>
     /// <param name="cardNum">구매하려는 카드 번호</param>
     /// <param name="resource">플레이어가 가진 자원</param>
-    public bool Is_Buyable(int cardNum, List<int> resource)
+    public List<bool> Is_Buyable(int cardNum, List<int> resource)
     {
+        List<bool> buyAble = new List<bool>();
+        for (int i = 0; i < 5; i++) buyAble.Add(false);
+        List<int> price;
+        List<int> curRes = TableManager.instance.Get_NowPlayerResource();
+
+        // 마켓에서 카드 번호 순회
+        for (int i = 0; i < listMarketCardGO.Count; i++)
+            if (listMarketCardCS[i].GetCardNum() == cardNum) // 카드 번호 동일. 구매 가능 여부 확인
+            {
+                price = listMarketCardCS[i].GetPrice();
+                for (int j = 0; j < 5; j++)
+                {
+                    if (price[j] <= curRes[j])
+                        buyAble[j] = true;
+                }
+                break;
+           }
+        return buyAble;
+
+        /*
         bool buyAble = false;
         int check = 1;
         for (int i = 0; i < listMarketCardGO.Count; i++)
@@ -271,6 +291,7 @@ public class CardManager : MonoBehaviour
         if (check == 1)
             buyAble = true;
         return buyAble;
+        */
     }
 
     /*
