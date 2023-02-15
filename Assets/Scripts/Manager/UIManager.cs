@@ -65,11 +65,37 @@ public class UIManager : MonoBehaviour
             if (selGold[i] + curPlayRes[i] < curPrice[i - 1])
             { isAble = false; break; }
         }
-
         return isAble;
     }
 
-    //시장 카드를 클릭했을 때 실행
+    // 시장 카드에 오버레이했을 때 실행, 플레이어의 바뀔 자원 표시
+    public void ShowAfterBuy(GameObject card)
+    {
+        CardScript cs = card.GetComponent<CardScript>();
+        Player nowPlayer = TableManager.instance.Get_NowPlayerScript();
+        List<int> add = nowPlayer.ShowNextTurn(false); // 현재 플레이어가 다음 턴에 받을 자원, 점수
+
+        for (int i = 0; i < add.Count - 1; i++)
+            add[i] += cs.GetEffect()[i];
+        add[add.Count - 1] += cs.GetScore();
+
+        Get_UpScore(nowPlayer._order).DrawText(add, false); // 추가될 자원 표시
+
+        List<int> curRes = new List<int>();
+        for (int i = 0; i < nowPlayer.Resource.Count; i++)
+            curRes.Add(0);
+
+        for (int i = 1; i < curRes.Count; i++)
+        {
+            curRes[i] = nowPlayer.Resource[i];
+            curRes[i] -= cs.GetPrice()[i-1];
+        }
+
+        PlayerInfoPanel playerPanel = TableManager.instance.Get_NowPlayerPanel();
+        playerPanel.DrawInfo(true, curRes, nowPlayer.Score);
+    }
+
+    // 시장 카드를 클릭했을 때 실행
     public void Popup_PurchaseUI(int cardNum, bool Able, List<int> price, List<int> playerResource)
     {
         //구매 진행 중 -> 가능 여부 Update()
@@ -93,11 +119,7 @@ public class UIManager : MonoBehaviour
             if (ShoppingTextResource[i] < 99999)
                 ShoppingText[i].text = ShoppingTextResource[i].ToString();
             else
-            {
                 ShoppingButton[i].gameObject.SetActive(false);
-                // ShoppingText[i].text = "X";
-            }
-                
         }
     }
 
@@ -111,15 +133,15 @@ public class UIManager : MonoBehaviour
         cost.Add(0);
         for (int i = 1; i < 5; i++)
         {
-                cost.Add(0);
-                cost[i] = ShoppingTextResource[i-1];  // 소모비용
+            cost.Add(0);
+            cost[i] = ShoppingTextResource[i-1];  // 소모비용
         }
         StartCoroutine(corFunc_PopDownPurchaseUI());
 
         List<int> usedGold = GoldPanel.GetComponent<GoldButton>().getGoldUsed();
         for (int i = 0; i < usedGold.Count; i++)
             cost[i] -= usedGold[i];
-        Debug.Log("cost: " + cost);
+
         TableManager.instance.Get_NowPlayerScript().AddCard(CardManager.instance.Get_MarketCard(CardNum));
         TableManager.instance.Get_NowPlayerScript().Use(cost);
         TableManager.instance.End_PlayerTurn();

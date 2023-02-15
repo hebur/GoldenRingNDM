@@ -417,8 +417,10 @@ public class TableManager : MonoBehaviour
 
     public Player Get_NowPlayerScript()
     {
-
         return listPlayer[nowPlayerTurn];
-    
+    }
+    public PlayerInfoPanel Get_NowPlayerPanel()
+    {
+        return playerInfoPanel[nowPlayerTurn];
     }
 }

@@ -47,7 +47,7 @@ public class UpScorePopup : MonoBehaviour
             ShowText(tempUp_text, rsh);
             StartCoroutine(corFunc_SelfOff());  // 몇 초 후에 꺼짐
         }
-        else         // 카드 효과
+        else         // 카드 효과라면
         {
             ScoreUp.SetActive(true);
             ShowText(text, rsh);
@@ -59,6 +59,6 @@ public class UpScorePopup : MonoBehaviour
         yield return new WaitForSeconds(1f);
         tempUp.SetActive(false);
         Player nowPlayer = TableManager.instance.Get_NowPlayerScript();
-        nowPlayer.ShowNextTurn();     // 다음 턴에 얻을 자원 표시
+        nowPlayer.ShowNextTurn(true);     // 다음 턴에 얻을 자원 표시
     }
 }

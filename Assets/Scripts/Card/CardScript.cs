@@ -68,12 +68,13 @@ public class CardScript : MonoBehaviour
     /// </summary>
     public void OnMouseEnter()
     {
-        //if (!isControlAble) return;
         targetScale = originScale * scaleMultiplier;
         targetZ = originZ - 0.25f;
         Vector3 before = transform.localPosition;
         before.z = targetZ;
         transform.localPosition = before;
+
+        UIManager.instance.ShowAfterBuy(this.gameObject);
     }
     
     /// <summary>
@@ -83,6 +84,12 @@ public class CardScript : MonoBehaviour
     {
         targetScale = originScale;
         targetZ = originZ;
+
+        Player nowPlayer = TableManager.instance.Get_NowPlayerScript();
+        PlayerInfoPanel playerPanel = TableManager.instance.Get_NowPlayerPanel();
+
+        nowPlayer.ShowNextTurn(false);
+        playerPanel.DrawInfo(true, nowPlayer.Resource, nowPlayer.Score);
     }
 
     /// <summary>

@@ -7,7 +7,7 @@ using TMPro;
 
 public class Player : MonoBehaviour
 {
-    private int _order;            // 플레이 순서
+    public int _order;            // 플레이 순서
     [SerializeField] private int _scorehappy;       // 점수가 될 자원
     [SerializeField] private List<int> _resource;   // 갖고 있는 돈과 자원
     //private List<Card> _hands;   // 핸드에 있는 카드 리스트
@@ -103,9 +103,6 @@ public class Player : MonoBehaviour
         int index = _fields.Count-1;
         _fields[index].transform.parent = transform;
         _fields[index].transform.DOLocalMove(Vector3.right * cardGap * index, 0.5f);
-
-        // 점수 추가
-        // _score += card.GetScore();
     }
 
     /// <summary>
@@ -152,18 +149,18 @@ public class Player : MonoBehaviour
 
             for (int i = 0; i < _resource.Count; i++)
                 add[i] += cs.GetEffect()[i];
-
-           score += cs.GetScore();
+            
+            score += cs.GetScore();
         }
          this.Gain(add, score, false);
 
         bool earn_res = GameObject.Find("EarnResource").GetComponent<OnlyEarnResource>().earn_res;
         if (!earn_res)
-           ShowNextTurn();
+           ShowNextTurn(true);
         earn_res = false;
     }
 
-    public void ShowNextTurn() // 자원 표시기: 다음 턴에 추가될 자원 표시
+    public List<int> ShowNextTurn(bool turnEnd) // 자원 표시기: 다음 턴에 추가될 자원 표시
     {
         List<GameObject> deleteTargets = new List<GameObject>();
         List<int> add = new List<int>(new int[6]);
@@ -172,9 +169,12 @@ public class Player : MonoBehaviour
         foreach (var card in _fields)
         {
             CardScript cs = card.GetComponent<CardScript>();
-            if (--(cs.TurnLeft) == 0)
-                deleteTargets.Add(card);
-            else
+            if (turnEnd)
+            {
+                if (--(cs.TurnLeft) == 0)
+                    deleteTargets.Add(card);
+            }
+            if (cs.TurnLeft > 0)
             {
                 for (int i = 0; i < _resource.Count; i++)
                     add[i] += cs.GetEffect()[i];
@@ -182,11 +182,14 @@ public class Player : MonoBehaviour
                 add[_resource.Count] += cs.GetScore();
             }
         }
-
-        foreach (var target in deleteTargets)
+        if (turnEnd)
+        { 
+            foreach (var target in deleteTargets)
             RemoveCard(target);
-
+        }
+       
         UIManager.instance.Get_UpScore(_order).DrawText(add, false);
+        return add;
     }
 
     /// <summary>
