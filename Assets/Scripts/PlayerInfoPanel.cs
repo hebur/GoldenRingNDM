@@ -27,6 +27,13 @@ public class PlayerInfoPanel : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// 플레이어의 점수 상태 텍스트를 업데이트 합니다.
+    /// 현재 차례인 플레이어는 붉은색으로 표시
+    /// </summary>
+    /// <param name="isHighlight"></param>
+    /// <param name="text"></param>
+    /// <param name="score"></param>
     public void DrawInfo(bool isHighlight, List<int> text, int score)
     {
         if (isHighlight)

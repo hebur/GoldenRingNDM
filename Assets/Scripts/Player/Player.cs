@@ -69,7 +69,7 @@ public class Player : MonoBehaviour
     /// <param name="gain">얼마나 얻었는지</param>
     public void Gain(List<int> gain, int score, bool is_res)  
     {
-        _score += score;
+        //_score += score;
         for (int i = 0; i < _resource.Count; i++)
         {
             _resource[i] += gain[i];

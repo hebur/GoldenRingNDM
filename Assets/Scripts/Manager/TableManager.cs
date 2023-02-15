@@ -122,7 +122,7 @@ public class TableManager : MonoBehaviour
 
 
     /// <summary>
-    /// 테이블을 회전시킵니다.
+    /// 턴을 진행시킵니다.
     /// </summary>
     /// <returns></returns>
     private IEnumerator corFunc_RollTable()
@@ -143,8 +143,7 @@ public class TableManager : MonoBehaviour
 
                 //플레이어 턴 중 작업
 
-                GoldPanel.GetComponent<GoldButton>().setCurGold(
-                    listPlayer[j].GetComponent<Player>().GetGoldNum());
+                //GoldPanel.GetComponent<GoldButton>().setCurGold(listPlayer[j].GetComponent<Player>().GetGoldNum());
 
                 Run_PlayerTurn(j);
 
@@ -154,11 +153,11 @@ public class TableManager : MonoBehaviour
                 //턴 종료 이후 작업 실행
 
                 //사용한 골드를 사용자에게서 뺌
-                int goldusedsum = GoldPanel.GetComponent<GoldButton>().getGoldUsedSum();
+                /*int goldusedsum = GoldPanel.GetComponent<GoldButton>().getGoldUsedSum();
                 Debug.Log("goldusedsum: " + goldusedsum.ToString());
                 List<int> used = new List<int>(new int[5]);
                 used[0] = goldusedsum;
-                listPlayer[nowPlayerTurn].Use(used);
+                listPlayer[nowPlayerTurn].Use(used);*/
               
                 Run_AfterPlayerTurn(j);
 
@@ -196,6 +195,9 @@ public class TableManager : MonoBehaviour
     // 다음 플레이어에게 넘긴다.
     // 반복
 
+    /// <summary>
+    /// 사용자에 따라 정보 텍스트를 업데이트 합니다.
+    /// </summary>
     private void DrawPannel()
     {
         bool tmp = false;
@@ -210,9 +212,8 @@ public class TableManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 해당하는 플레이어 턴을 실행한다.
+    /// (현재 동작 없음) 해당하는 플레이어 턴을 실행한다.
     /// </summary>
-    /// <param name="rsh"></param>
     private void Run_PlayerTurn(int rsh)
     {
         //실행 부분
@@ -230,13 +231,13 @@ public class TableManager : MonoBehaviour
         Player nowPlayer = listPlayer[nowPlayerTurn];
 
         //플레이어 골드 3보다 작고, 맨 앞에 구매인지 확인 후 골드 지급
-        if (nowPlayer.GetComponent<Player>().GetGoldNum() < 3 
+        /*if (nowPlayer.GetComponent<Player>().GetGoldNum() < 3 
             && CardManager.instance.GetBuyFirst() == true)
         {
             List<int> earnOneGold = new List<int>(new int[5]);
             earnOneGold[0] = 1;
             nowPlayer.Gain(earnOneGold, 0, true);
-        }
+        }*/
         bool earn_res = GameObject.Find("EarnResource").GetComponent<OnlyEarnResource>().earn_res;
         if (!earn_res)
             nowPlayer.EndTurn();         // 플레이어의 재화 확보

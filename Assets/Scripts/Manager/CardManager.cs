@@ -247,6 +247,12 @@ public class CardManager : MonoBehaviour
         else
             return null;
     }
+
+    /// <summary>
+    /// 선택한 카드를 플레이어가 구매할 수 있는지 확인
+    /// </summary>
+    /// <param name="cardNum">구매하려는 카드 번호</param>
+    /// <param name="resource">플레이어가 가진 자원</param>
     public bool Is_Buyable(int cardNum, List<int> resource)
     {
         bool buyAble = false;

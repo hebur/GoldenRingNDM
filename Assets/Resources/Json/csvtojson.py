@@ -25,7 +25,7 @@ for i in range(len(ct)):
 with open(file_path, 'w') as outfile:
   outfile.write("{\n")
   outfile.write("  \"cards\": [\n")
-  leng = len(cards);
+  leng = len(cards)
   i = 0
   for card in cards:
     i = i + 1
