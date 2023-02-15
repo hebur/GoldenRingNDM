@@ -739,8 +739,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2705161190510454604}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.03}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalPosition: {x: 10.71, y: -1.97, z: -0.03}
+  m_LocalScale: {x: 1.3, y: 1.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2705161190966929716}
@@ -800,7 +800,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ReqTexts:
-  - {fileID: 0}
+  - {fileID: 7893435254497975106}
   - {fileID: 4208568813827403051}
   - {fileID: 4208568812901396777}
   - {fileID: 4208568813867670168}
@@ -811,7 +811,7 @@ MonoBehaviour:
   - {fileID: 1191698403607162069}
   - {fileID: 6922648176772943261}
   - {fileID: 7363540703886790401}
-  ScoreText: {fileID: 0}
+  ScoreText: {fileID: 7635158316006262448}
   TurnText: {fileID: 4800187969244211541}
   slotObject: {fileID: 393808388293745769}
   slotPrefab: {fileID: 8968914328326059535, guid: 3b709a85f0bf89447aed134e940e24f7, type: 3}

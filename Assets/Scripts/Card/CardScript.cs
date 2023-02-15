@@ -41,7 +41,8 @@ public class CardScript : MonoBehaviour
     public void Initalize(CardData from)
     {
         this._cardData = from;
-        for(int i = 0; i < 4; i++)
+        Debug.Log(ReqTexts.Length);
+        for(int i = 0; i < ReqTexts.Length; i++)
         {
             ReqTexts[i].text = _cardData.Price[i] > 1000000 ? "X" : _cardData.Price[i].ToString();
         }
