@@ -74,6 +74,7 @@ public class Player : MonoBehaviour
         {
             _resource[i] += gain[i];
         }
+         score = 0;
         gain.Add(score);
         UIManager.instance.Get_UpScore(_order).DrawText(gain, is_res);
     }
@@ -150,7 +151,7 @@ public class Player : MonoBehaviour
             for (int i = 0; i < _resource.Count; i++)
                 add[i] += cs.GetEffect()[i];
             
-            score += cs.GetScore();
+            // score += cs.GetScore();
         }
          this.Gain(add, score, false);
 
@@ -179,7 +180,8 @@ public class Player : MonoBehaviour
                 for (int i = 0; i < _resource.Count; i++)
                     add[i] += cs.GetEffect()[i];
 
-                add[_resource.Count] += cs.GetScore();
+                // add[_resource.Count] += cs.GetScore();
+                add[_resource.Count] += 0;
             }
         }
         if (turnEnd)

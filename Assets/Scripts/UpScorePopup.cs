@@ -33,7 +33,7 @@ public class UpScorePopup : MonoBehaviour
         }
         else // ScoreUp_text
         {
-            for (int i = 1; i < text.Count; i++)
+            for (int i = 0; i < text.Count; i++)
                 text[i].text = ColorCode + " + " + rsh[i].ToString() + "</color>";
         }
     }
