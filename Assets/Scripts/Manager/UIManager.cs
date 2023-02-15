@@ -15,7 +15,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject ShoppingBreaker;
 
     [SerializeField] private List<Button> ShoppingButton;
-    [SerializeField] private bool ShoppingButtonAble;
+    [SerializeField] private List<bool> ShoppingButtonAble;
     [SerializeField] private List<TextMeshProUGUI> ShoppingText;
     [SerializeField] private List<int> ShoppingTextResource;
 
@@ -41,6 +41,7 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
+        /*
         if (ispurchasing == true)
         {
             bool isAble = isButtonAble();
@@ -49,10 +50,11 @@ public class UIManager : MonoBehaviour
                 ShoppingButtonAble = isAble;
                 for (int i = 0; i < ShoppingButton.Count; i++)
                 {
-                    ShoppingButton[i].interactable = ShoppingButtonAble;
+                    ShoppingButton[i].interactable = ShoppingButtonAble[i];
                 }
             }
         }
+        */
     }
 
     // 보유 골드와 사용자 자원에 따라 버튼이 사용 가능한 상태인지 리턴
@@ -68,12 +70,13 @@ public class UIManager : MonoBehaviour
         return isAble;
     }
 
-    // 시장 카드에 오버레이했을 때 실행, 플레이어의 바뀔 자원 표시
+    // 시장 카드에 오버레이했을 때 실행, 플레이어의 바뀔 정보 표시
     public void ShowAfterBuy(GameObject card)
     {
+        // 추가될 효과 표시
         CardScript cs = card.GetComponent<CardScript>();
         Player nowPlayer = TableManager.instance.Get_NowPlayerScript();
-        List<int> add = nowPlayer.ShowNextTurn(false); // 현재 플레이어가 다음 턴에 받을 자원, 점수
+        List<int> add = nowPlayer.ShowNextTurn(false);
 
         for (int i = 0; i < add.Count; i++)
             add[i] += cs.GetEffect()[i];
@@ -81,6 +84,7 @@ public class UIManager : MonoBehaviour
 
         Get_UpScore(nowPlayer._order).DrawText(add, false); // 추가될 자원 표시
 
+        /*//  예상 소비 자원 표시
         List<int> curRes = new List<int>();
         for (int i = 0; i < nowPlayer.Resource.Count; i++)
             curRes.Add(0);
@@ -93,10 +97,11 @@ public class UIManager : MonoBehaviour
 
         PlayerInfoPanel playerPanel = TableManager.instance.Get_NowPlayerPanel();
         playerPanel.DrawInfo(true, curRes, nowPlayer.Score);
+        */
     }
 
     // 시장 카드를 클릭했을 때 실행
-    public void Popup_PurchaseUI(int cardNum, bool Able, List<int> price, List<int> playerResource)
+    public void Popup_PurchaseUI(int cardNum, List<bool> Able, List<int> price, List<int> playerResource)
     {
         //구매 진행 중 -> 가능 여부 Update()
         ispurchasing = true;
@@ -117,30 +122,30 @@ public class UIManager : MonoBehaviour
         for (int i = 0; i < ShoppingButton.Count; i++)
         {
             if (ShoppingTextResource[i] < 99999)
+            {
                 ShoppingText[i].text = ShoppingTextResource[i].ToString();
+            }
             else
                 ShoppingButton[i].gameObject.SetActive(false);
         }
+
     }
 
     // 특정 자원으로 구매하면 실행되는 함수
-    public void Popdown_PurchaseUI() // 0: gold, 1: 빨강, ~
+    public void Popdown_PurchaseUI(int res) // 0: gold, 1: 빨강, ~
     {
         //구매 가능 여부 Update() 필요 x
         ispurchasing = false;
 
         List<int> cost = new List<int>();
-        cost.Add(0);
-        for (int i = 1; i < 5; i++)
-        {
-            cost.Add(0);
-            cost[i] = ShoppingTextResource[i-1];  // 소모비용
-        }
+        for (int i = 0; i < 5; i++) cost.Add(0);
+        cost[res] = ShoppingTextResource[res]; // 소모비용
         StartCoroutine(corFunc_PopDownPurchaseUI());
 
-        List<int> usedGold = GoldPanel.GetComponent<GoldButton>().getGoldUsed();
+        /* List<int> usedGold = GoldPanel.GetComponent<GoldButton>().getGoldUsed();
         for (int i = 0; i < usedGold.Count; i++)
             cost[i] -= usedGold[i];
+        */
 
         TableManager.instance.Get_NowPlayerScript().AddCard(CardManager.instance.Get_MarketCard(CardNum));
         TableManager.instance.Get_NowPlayerScript().Use(cost);
@@ -157,7 +162,6 @@ public class UIManager : MonoBehaviour
 
     public void BTN_CancelShopping()
     {
-
         StartCoroutine(corFunc_PopDownPurchaseUI());
     }
 
@@ -180,13 +184,13 @@ public class UIManager : MonoBehaviour
 
         for (int i = 0; i < ShoppingButton.Count; i++)
         {
-            ShoppingButton[i].interactable = ShoppingButtonAble;
+            ShoppingButton[i].interactable = ShoppingButtonAble[i];
         }
     }
 
     private IEnumerator corFunc_PopDownPurchaseUI()
     {
-        GoldPanel.GetComponent<GoldButton>().resetGold();
+        // GoldPanel.GetComponent<GoldButton>().resetGold();
         SoundManager.instance.PlayAudio(SoundType.UIOff);
         ButtonClose();
         ShoppingBreaker.SetActive(false);
