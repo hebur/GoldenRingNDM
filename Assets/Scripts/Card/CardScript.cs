@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class CardScript : MonoBehaviour
 {
+    public GameObject[] Reqs;
     public TextMeshPro[] ReqTexts;
     public TextMeshPro[] EffectTexts;
     public TextMeshPro ScoreText;
@@ -43,10 +44,17 @@ public class CardScript : MonoBehaviour
     public void Initalize(CardData from)
     {
         this._cardData = from;
-        for(int i = 0; i < ReqTexts.Length; i++)
+        List<GameObject> cardReqs = new List<GameObject>(); // 소비 자원 선택지
+        for (int i = 0; i < ReqTexts.Length; i++)
         {
-            ReqTexts[i].text = _cardData.Price[i] > 1000000 ? "X" : _cardData.Price[i].ToString();
+            ReqTexts[i].text = _cardData.Price[i].ToString();
+            if (_cardData.Price[i] > 1000000 || _cardData.Price[i] == 0)
+                Reqs[i].gameObject.SetActive(false);
+            else
+                cardReqs.Add(Reqs[i]);
         }
+        DrawCard(cardReqs);
+
         for (int i = 0; i < 5; i++)
         {
             EffectTexts[i].text = _cardData.Effect[i].ToString();
@@ -66,7 +74,18 @@ public class CardScript : MonoBehaviour
         exitObject.SetActive(_cardData.Effect[5] != 0);
         returnedObject.SetActive(false);
     }
-    
+    // 선택 가능한 자원만 카드에 표시
+    void DrawCard(List<GameObject> cardReqs)
+    {
+        Vector3 firstPos = Reqs[0].transform.position;
+        Vector3 pos = firstPos;
+        for (int i = 0; i < cardReqs.Count; i++)
+        {
+            cardReqs[i].transform.position = pos;
+            pos.y -= 0.2f;
+        }
+    }
+
     /// <summary>
     /// 마우스 올리면 확대
     /// </summary>
