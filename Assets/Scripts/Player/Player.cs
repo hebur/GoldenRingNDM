@@ -135,10 +135,10 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
-    /// 한 턴이 끝날 때마다 필요한 작업
-    /// 필드에 있는 카드 효과 
-    /// 필드에 있는 카드마다 턴 줄이기
-    /// 구매를 하지 않았을 때 돈 또는 자원을 획득
+    /// 한 턴이 끝날 때마다 필요한 작업.
+    /// 필드에 있는 카드 효과(자원 얻기).
+    /// 필드에 있는 카드마다 턴 줄이기.
+    /// 구매를 하지 않았을 때 돈 또는 자원을 획득.
     /// </summary>
     public void EndTurn()
     {
@@ -158,10 +158,14 @@ public class Player : MonoBehaviour
         bool earn_res = GameObject.Find("EarnResource").GetComponent<OnlyEarnResource>().earn_res;
         if (!earn_res)
            ShowNextTurn(true);
-        earn_res = false;
     }
 
-    public List<int> ShowNextTurn(bool turnEnd) // 자원 표시기: 다음 턴에 추가될 자원 표시
+    /// <summary>
+    /// 자원 표시기: 다음 턴에 추가될 자원 표시
+    /// </summary>
+    /// <param name="turnEnd"></param>
+    /// <returns></returns>
+    public List<int> ShowNextTurn(bool turnEnd) 
     {
         List<GameObject> deleteTargets = new List<GameObject>();
         List<int> add = new List<int>(new int[6]);
@@ -195,6 +199,24 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
+    /// 사용자 턴이 끝났을 때 점수 업데이트
+    /// </summary>
+    public void ScoreUpdate()
+    {
+        int min = 9999;
+        for(int i = 1; i < _resource.Count; i++)
+        {
+            if (_resource[i] < min)
+            { min = _resource[i]; }
+        }
+        int pref = _resource[Order+1];
+        int gold = _resource[0];
+
+        _score = min * 8 + pref * 3 + gold;
+        Debug.Log("ScoreUpdate: order-"+ _order.ToString() + ", _score: " + _score.ToString());
+    }
+
+    /// <summary>
     /// 최종 점수 반환
     /// </summary>
     /// <returns>자원 중 플레이어에게 점수가 되는 것</returns>
@@ -206,17 +228,5 @@ public class Player : MonoBehaviour
     public int GetGoldNum()
     {
         return _resource[0];
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }

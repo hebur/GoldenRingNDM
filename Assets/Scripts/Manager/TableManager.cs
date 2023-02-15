@@ -142,23 +142,12 @@ public class TableManager : MonoBehaviour
                 //CardManager.instance.UpdateSaleInfo();
 
                 //플레이어 턴 중 작업
-
-                //GoldPanel.GetComponent<GoldButton>().setCurGold(listPlayer[j].GetComponent<Player>().GetGoldNum());
-
                 Run_PlayerTurn(j);
 
                 yield return new WaitUntil(() => playerTurnEnd == true);
                 playerTurnEnd = false;
 
                 //턴 종료 이후 작업 실행
-
-                //사용한 골드를 사용자에게서 뺌
-                /*int goldusedsum = GoldPanel.GetComponent<GoldButton>().getGoldUsedSum();
-                Debug.Log("goldusedsum: " + goldusedsum.ToString());
-                List<int> used = new List<int>(new int[5]);
-                used[0] = goldusedsum;
-                listPlayer[nowPlayerTurn].Use(used);*/
-              
                 Run_AfterPlayerTurn(j);
 
                 yield return new WaitUntil(() => playerAfterTurnEnd == true);
@@ -223,28 +212,25 @@ public class TableManager : MonoBehaviour
 
     /// <summary>
     /// 플레이어의 턴이 종료된 뒤 실행됩니다.
-    /// 카드의 정렬 추가 이런것들이 필요하며
+    /// 카드의 정렬 추가 필요.
     /// </summary>
-    /// <param name="rsh"></param>
+    /// <param name="rsh">현재 플레이어 번호</param>
     private void Run_AfterPlayerTurn(int rsh)
     {
-        Player nowPlayer = listPlayer[nowPlayerTurn];
+        Player nowPlayer = listPlayer[rsh];
 
-        //플레이어 골드 3보다 작고, 맨 앞에 구매인지 확인 후 골드 지급
-        /*if (nowPlayer.GetComponent<Player>().GetGoldNum() < 3 
-            && CardManager.instance.GetBuyFirst() == true)
-        {
-            List<int> earnOneGold = new List<int>(new int[5]);
-            earnOneGold[0] = 1;
-            nowPlayer.Gain(earnOneGold, 0, true);
-        }*/
+        //플레이어의 재화 확보
         bool earn_res = GameObject.Find("EarnResource").GetComponent<OnlyEarnResource>().earn_res;
         if (!earn_res)
-            nowPlayer.EndTurn();         // 플레이어의 재화 확보
+            nowPlayer.EndTurn();         
         else
             nowPlayer.Invoke("EndTurn", 1f);
 
-        //구매하지 않았으면 제거
+        nowPlayer.ScoreUpdate();
+
+        //TODO - 필요하면 덱 다시 셔플
+
+        //첫 카드 구매하지 않았으면 제거
         CardManager.instance.CheckBuyFirst();
 
         // 턴 종료 메세지 띄우기
