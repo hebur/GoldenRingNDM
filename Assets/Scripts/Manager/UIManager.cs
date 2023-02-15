@@ -121,8 +121,11 @@ public class UIManager : MonoBehaviour
         // 자원별로 가격 표시
         for (int i = 0; i < ShoppingButton.Count; i++)
         {
-            if (ShoppingTextResource[i] < 99999)
+            if(ShoppingTextResource[i] == 0)
+                ShoppingButton[i].gameObject.SetActive(false);
+            else if (ShoppingTextResource[i] < 99999)
             {
+                ShoppingButton[i].gameObject.SetActive(true);
                 ShoppingText[i].text = ShoppingTextResource[i].ToString();
             }
             else
