@@ -264,7 +264,7 @@ public class TableManager : MonoBehaviour
     /// </summary>
     private void CheckGameOver()
     {
-        if (CountEndCards >= 3)
+        if (CountEndCards >= 4)
         {
             StartCoroutine(OverMessage());
         }
@@ -339,6 +339,7 @@ public class TableManager : MonoBehaviour
     public void increaseCEC()
     {
         CountEndCards++;
+        Debug.Log("EndCard Stack: " + CountEndCards.ToString());
     }
 
     /// <summary>

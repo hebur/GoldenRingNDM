@@ -9,15 +9,18 @@ public class CardScript : MonoBehaviour
     public TextMeshPro[] EffectTexts;
     public TextMeshPro ScoreText;
     public TextMeshPro TurnText;
-    public GameObject slotObject, slotPrefab, exitObject, playerSaleObject;
+    public GameObject slotObject, slotPrefab, exitObject, playerSaleObject, returnedObject;
     public float scaleMultiplier;
     private CardData _cardData;
-    bool isPurchased;
+    bool isPurchased, isReturned;
     int turnLeft;
     float targetScale, originScale;
     float targetZ, originZ;
     List<int> originGoldCosts;
     Vector3 v1, v2;
+
+    public bool IsReturned { get { return isReturned; } set => isReturned = value; }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,7 +40,6 @@ public class CardScript : MonoBehaviour
     /// <summary>
     /// 카드 정보 받아와 카드 생성
     /// </summary>
-    /// <param name="from"></param>
     public void Initalize(CardData from)
     {
         this._cardData = from;
@@ -58,9 +60,11 @@ public class CardScript : MonoBehaviour
             newObj.transform.localPosition = Vector3.down * 0.15f * i;
         }
         isPurchased = false;
+        isReturned = false;
         turnLeft = _cardData.Turn;
         originGoldCosts = new List<int>(_cardData.Price);
         exitObject.SetActive(_cardData.Effect[5] != 0);
+        returnedObject.SetActive(false);
     }
     
     /// <summary>
@@ -113,10 +117,7 @@ public class CardScript : MonoBehaviour
             TableManager.instance.Get_NowPlayerScript().RemoveCard(gameObject);
     }
    
-    /// <summary>
-    /// Get 함수들
-    /// </summary>
-    /// <returns></returns>
+    // Get 함수들
     public int GetCardNum()
     {
         return _cardData.CardNum;

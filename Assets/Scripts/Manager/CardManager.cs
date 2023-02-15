@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Unity.VisualScripting;
+
 public class CardManager : MonoBehaviour
 {
     public static CardManager instance;
@@ -18,12 +20,8 @@ public class CardManager : MonoBehaviour
     [SerializeField] private List<Transform> listMarketHolder;   //마켓에 카드가 들어갈 홀더
     [SerializeField] private Deck deck;     //덱...
     [SerializeField] private bool CheckBuyFst;
-    [SerializeField] private bool CheckBuyFro; // 앞의 4 카드 중 하나를 구매했는지 확인
 
-    [SerializeField] private GameObject TestCard;
-    [SerializeField] private int TestAmount;
-
-
+    [SerializeField] private GameObject CardPrefab;
 
     private void OnEnable()
     {
@@ -38,15 +36,7 @@ public class CardManager : MonoBehaviour
 
     private void Update()
     {
-        /*
-        //if(Input.GetKeyDown(KeyCode.I))
-        //    Initialize();
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            //테스트 소모
-            TestSpendCard();
-        }
-        */
+
     }
 
     /// <summary>
@@ -54,12 +44,12 @@ public class CardManager : MonoBehaviour
     /// </summary>
     private void Initialize()
     {
+        marketMax = 8;
         listGenCard = new List<GameObject>();
         listMarketCardGO = new List<GameObject>();
         listMarketCardCS = new List<CardScript>();
         CheckBuyFst = false;
         GenerationCardList();
-
     }
 
     /// <summary>
@@ -87,6 +77,9 @@ public class CardManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// 덱에서 카드 정보를 받아와 게임오브젝트를 만듭니다.
+    /// </summary>
     private void GenerateCardGameObject()
     {
         listOrgData = new List<CardData>();
@@ -96,36 +89,16 @@ public class CardManager : MonoBehaviour
         Debug.Log("Count" + listOrgData.Count);
         for (int i = 0; i < LoopAmount; i++)
         {
-            listGenCard.Add(Instantiate(TestCard));
+            listGenCard.Add(Instantiate(CardPrefab));
             listGenCard[i].GetComponent<CardScript>().Initalize(listOrgData[i]);
-        }
-    }
-
-    private void TestCardMake()
-    {
-        for (int i = 0; i < TestAmount; i++)
-        {
-            listGenCard.Add(Instantiate(TestCard));
-        }
-    }
-    private void TestSpendCard()
-    {
-        if (listMarketCardGO.Count != 0)
-        {
-            listMarketCardGO[0].transform.DOKill(false);
-            Destroy(listMarketCardGO[0]);
-            listMarketCardGO.RemoveAt(0);
-            Add_Market();
-            RePosition_MarketCard();
         }
     }
     
     /// <summary>
-    /// 자신이 가진 모든 카드 리스트를 기반으로 가장 첫번째 인덱스의 카드를 마켓에 추가합니다.
+    /// 덱(남은 카드 리스트)에서 가장 첫번째 인덱스의 카드를 마켓에 추가합니다.
     /// </summary>
     public void Add_Market()
     {
-        marketMax = 8;
         int tmp = marketMax - listMarketCardGO.Count;
         GameObject tmpG;
         if (listMarketCardGO.Count < marketMax)
@@ -134,7 +107,6 @@ public class CardManager : MonoBehaviour
                 tmpG = Get_Card();
                 if (tmpG != null)
                 {
-                    //SoundManager.instance.PlayAudio(SoundType.LoadDeck);
                     listMarketCardGO.Add(tmpG);
                     listMarketCardCS.Add(tmpG.GetComponent<CardScript>());
                 }
@@ -142,10 +114,9 @@ public class CardManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 마켓에서부터 카드를 가져옵니다.
+    /// 마켓에서부터 카드를 구매하여 플레이어로 가져옵니다.
     /// </summary>
     /// <param name="cardNum">카드번호 입니다.</param>
-    /// <returns></returns>
     public GameObject Get_MarketCard(int cardNum)
     {
         GameObject tmpCard;
@@ -154,14 +125,10 @@ public class CardManager : MonoBehaviour
         //선택한 카드 번호를 list에 존재하는지 찾고 해당 리스트 인덱스를 저장
         for (int i = 0; i < listMarketCardGO.Count; i++)
             if (listMarketCardCS[i].GetCardNum() == cardNum)
-                tmpindex = i;
-        //발견시 저장
+                tmpindex = i; //발견시 저장
 
         if (tmpindex == 0)
             CheckBuyFst = true;
-
-        if (tmpindex < 4)
-            CheckBuyFro = true;
 
         if (tmpindex == 99999)
         {
@@ -173,10 +140,10 @@ public class CardManager : MonoBehaviour
         tmpCard = listMarketCardGO[tmpindex];
         listMarketCardGO.RemoveAt(tmpindex);
         listMarketCardCS[tmpindex].IsPurchased = true;
+
+        //종료 카드일 시 TableManager에 ThisEndCard 라는 것을 알리는 함수를 호출
         if (listMarketCardCS[tmpindex].GetEffect()[5] == 1)
         {
-            Debug.Log("END CARD");
-            //TableManager에 ThisEndCard 라는 것을 알리는 함수를 호출
             TableManager.instance.increaseCEC();
         }
         listMarketCardCS.RemoveAt(tmpindex);
@@ -206,14 +173,12 @@ public class CardManager : MonoBehaviour
         Vector3 tmpVec = listMarketHolder[0].transform.position;
         for (int i = 0; i < listMarketCardGO.Count; i++)
         {
-            //1. Transform 을 기준으로     + ( ( ( (2)B-(1)A ) / (Max - 1) ) * i )
+            //Transform 을 기준으로  + ( ( ( (2)B-(1)A ) / (Max - 1) ) * i )
             tmpVec = VecOrg;
             tmpVec.x += (Length * (float)i);
-            listMarketCardGO[i].transform.DOMove(
-                (tmpVec)
-                , 0.3f);
+            listMarketCardGO[i].transform.DOMove((tmpVec), 0.3f);
         }
-/*        for (int i = 0; i < listMarketCardCS.Count; i++)
+       /* for (int i = 0; i < listMarketCardCS.Count; i++)
         {
             if (i < 2)
                 listMarketCardCS[i].UpdateSaleInfo(-1);
@@ -329,41 +294,76 @@ public class CardManager : MonoBehaviour
     /// </summary>
     public void CheckBuyFirst()
     {
-        if (!CheckBuyFst)
+        if(!CheckBuyFst) //첫 카드 구매 안 했을 때
         {
-            GameObject tmpCard;
-            tmpCard = listMarketCardGO[0];
-            listMarketCardGO.RemoveAt(0);
-            listMarketCardCS[0].IsPurchased = true;
-            if (listMarketCardCS[0].GetEffect()[5] == 1)
+            if (listMarketCardCS[0].GetEffect()[5] == 1)//종료 카드라면
             {
-                Debug.Log("END CARD");
-                //TableManager에 ThisEndCard 라는 것을 알리는 함수를 호출
-                TableManager.instance.increaseCEC();
-            }
-            listMarketCardCS.RemoveAt(0);
-            Destroy(tmpCard);
-        }
-        CheckBuyFst = false;
+                if (listMarketCardCS[0].IsReturned)//이미 한 번 돌아온 카드라면
+                {
+                    //TableManager에 ThisEndCard 라는 것을 알리는 함수를 호출
+                    TableManager.instance.increaseCEC();
 
+                    //Market에서 제거
+                    GameObject tmpCard;
+                    tmpCard = listMarketCardGO[0];
+                    listMarketCardGO.RemoveAt(0);
+                    Destroy(tmpCard);
+                    listMarketCardCS[0].IsPurchased = true;
+                    listMarketCardCS.RemoveAt(0);
+                }
+                else//처음 버려지는 카드라면
+                {
+                    //한 번 버려졌다고 표시
+                    listMarketCardCS[0].IsReturned = true;
+                    listMarketCardCS[0].returnedObject.SetActive(true);
+
+                    //덱으로 다시 넣기
+                    int len = listMarketCardCS.Count; 
+                    for (int i = len - 1; i >= 0; i--)
+                    {
+                        listGenCard.Insert(0, listMarketCardGO[i]);
+                    }
+
+                    //시장 비우기
+                    listMarketCardCS.Clear();
+                    listMarketCardGO.Clear();
+
+                    int end = listGenCard.Count - 1; //셔플
+                    for (int i = 0; i < end; i++)
+                    {
+                        // Pick random Element
+                        int j = UnityEngine.Random.Range(i, end + 1);
+
+                        // Swap Elements
+                        GameObject tmp = listGenCard[i];
+                        listGenCard[i] = listGenCard[j];
+                        listGenCard[j] = tmp;
+                    }
+                }
+            }
+            else //종료 카드가 아니라면
+            {
+                //Market에서 제거
+                GameObject tmpCard;
+                tmpCard = listMarketCardGO[0];
+                listMarketCardGO.RemoveAt(0);
+                Destroy(tmpCard);
+                listMarketCardCS[0].IsPurchased = true;
+                listMarketCardCS.RemoveAt(0);
+            }
+        }
+
+        //시장 채우기, 카드 배치
         Add_Market();
         RePosition_MarketCard();
+
+        CheckBuyFst = false;
+
     }
 
-    public bool CheckBuyFront()
-    {
-        return CheckBuyFro;
-    }
-
-    public bool GetBuyFirst()
-    {
-        return CheckBuyFst;
-    }
-    public void SetCBFro()
-    {
-        CheckBuyFro = false;
-    }
-
+    /// <summary>
+    /// SaleObject 배치를 결정합니다.
+    /// </summary>
     public void UpdateSaleInfo()
     {
         for (int i = 0; i < listMarketCardCS.Count; i++)
