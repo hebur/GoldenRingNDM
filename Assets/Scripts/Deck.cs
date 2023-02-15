@@ -9,13 +9,14 @@ public class Deck : MonoBehaviour
 {
     private List<CardData> _cards;
     public bool doShuffle;
+    public List<CardData> cards { get { return _cards; } }
     // Start is called before the first frame update
     void Awake()
     {
         LoadCards();
         if (doShuffle)
-            //Shuffle(_cards.Count);
-            Create_Deck();
+            Shuffle(0, _cards.Count);
+        // Create_Deck();
     }
 
     void LoadCards()
@@ -38,37 +39,6 @@ public class Deck : MonoBehaviour
             _cards.Add(newCard);
         }
     }
-
-    //void Shuffle(int num)
-    //{
-    //    for(int i = 0; i < num - 1 - 4; i++)
-    //    { 
-    //        int rnd = UnityEngine.Random.Range(i, num - 4);
-    //        exchange(i, rnd);
-    //    }
-    //    for(int i = 1; i <= 4; i++)
-    //    {
-    //        int rnd = UnityEngine.Random.Range((num - 4)/3, num - 4 + i);
-    //        exchange(num - 1 - 4 + i, rnd);
-    //    }
-    //}
-
-    // 바뀔 카드 셔플: 프로토타입에서만 임시로 사용
-    void Create_Deck()
-    {
-        int[] num = new int[] { 0, 14, 7, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }; // 단계별 카드
-        int start = 0;
-        for (int i = 1; i < num.Length; i++)
-        {
-            if (num[i] != 0)
-            {
-                int[] level_deck = new int[num[i]];
-                Shuffle(start, num[i]);
-                start += num[i];
-            }
-        }
-    }
-
     void Shuffle(int start, int num)
     {
         int end = start + num - 1;
@@ -84,7 +54,37 @@ public class Deck : MonoBehaviour
         }
     }
 
-    public List<CardData> cards { get { return _cards; } }
+    //void Shuffle(int num)
+    //{
+    //    for(int i = 0; i < num - 1 - 4; i++)
+    //    { 
+    //        int rnd = UnityEngine.Random.Range(i, num - 4);
+    //        exchange(i, rnd);
+    //    }
+    //    for(int i = 1; i <= 4; i++)
+    //    {
+    //        int rnd = UnityEngine.Random.Range((num - 4)/3, num - 4 + i);
+    //        exchange(num - 1 - 4 + i, rnd);
+    //    }
+    //}
+
+    /*
+    void Create_Deck()
+    {
+        int[] num = new int[] { 0, 14, 7, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }; // 단계별 카드
+        int start = 0;
+
+        for (int i = 1; i < num.Length; i++)
+        {
+            if (num[i] != 0)
+            {
+                int[] level_deck = new int[num[i]];
+                Shuffle(start, num[i]);
+                start += num[i];
+            }
+        }
+    }
+    */
 }
 
 public class CardLoadData
