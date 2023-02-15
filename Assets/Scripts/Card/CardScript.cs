@@ -113,8 +113,8 @@ public class CardScript : MonoBehaviour
             else
                 TableManager.instance.Get_NowPlayerScript().FlashRed();
         }
-        else
-            TableManager.instance.Get_NowPlayerScript().RemoveCard(gameObject);
+        /*else
+            TableManager.instance.Get_NowPlayerScript().RemoveCard(gameObject);*/
     }
    
     // Get 함수들
