@@ -26407,7 +26407,7 @@ MonoBehaviour:
   - {fileID: 1917877764}
   deck: {fileID: 2109343946}
   CheckBuyFst: 0
-  CardPrefab: {fileID: 1810937909}
+  CardPrefab: {fileID: 45874135}
 --- !u!114 &2109343946
 MonoBehaviour:
   m_ObjectHideFlags: 0
