@@ -9,7 +9,9 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
 
-    [SerializeField] private RectTransform ShoppingPannel;
+    [SerializeField] private GameObject BuyUIOn;
+    [SerializeField] private GameObject BuyUIOff;
+    [SerializeField] private GameObject ShoppingPannel;
     [SerializeField] private GameObject ShoppingClickBlocker;
     [SerializeField] private GameObject ShoppingWorldClickBlocker;
     [SerializeField] private GameObject ShoppingBreaker;
@@ -177,9 +179,17 @@ public class UIManager : MonoBehaviour
     {
         SoundManager.instance.PlayAudio(SoundType.UIOn);
         ButtonClose();
-        ShoppingPannel.DOMoveY(1080 * 2, 0f);
+
+        Vector3 VecOn = BuyUIOn.transform.position;
+        Vector3 VecOff = BuyUIOff.transform.position;
+
+        ShoppingPannel.transform.position = VecOff;
         ShoppingPannel.gameObject.SetActive(true);
-        ShoppingPannel.DOMoveY(1080 / 2f, 0.5f).SetEase(Ease.InOutBack);
+        ShoppingPannel.transform.DOMove(VecOn, 0.3f).SetEase(Ease.InOutBack);
+
+        /*ShoppingPannel.DOMoveY(1080 * 2, 0f);
+        ShoppingPannel.gameObject.SetActive(true);
+        ShoppingPannel.DOMoveY(1080 / 2f, 0.5f).SetEase(Ease.InOutBack);*/
 
         yield return new WaitForSeconds(0.5f);
 
@@ -191,14 +201,21 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 구매 취소 또는 구매 선택 했을 때 팝업창이 사라짐.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator corFunc_PopDownPurchaseUI()
     {
         // GoldPanel.GetComponent<GoldButton>().resetGold();
         SoundManager.instance.PlayAudio(SoundType.UIOff);
         ButtonClose();
+
+        Vector3 VecOff = BuyUIOff.transform.position;
+        ShoppingPannel.transform.DOMove(VecOff, 0.5f).SetEase(Ease.InOutBack);
         ShoppingBreaker.SetActive(false);
         ShoppingPannel.gameObject.SetActive(true);
-        ShoppingPannel.DOMoveY(1080 * 2f, 0.5f).SetEase(Ease.InOutBack);
+        //ShoppingPannel.DOMoveY(1080 * 2f, 0.5f).SetEase(Ease.InOutBack);
 
         yield return new WaitForSeconds(0.5f);
 

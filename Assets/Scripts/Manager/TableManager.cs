@@ -120,7 +120,6 @@ public class TableManager : MonoBehaviour
             End_TableTurn();*/
     }
 
-
     /// <summary>
     /// 턴을 진행시킵니다.
     /// </summary>
@@ -227,8 +226,6 @@ public class TableManager : MonoBehaviour
             nowPlayer.Invoke("EndTurn", 1f);
 
         nowPlayer.ScoreUpdate();
-
-        //TODO - 필요하면 덱 다시 셔플
 
         //첫 카드 구매하지 않았으면 제거
         CardManager.instance.CheckBuyFirst();
@@ -343,11 +340,10 @@ public class TableManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 테이블 턴이 시작될 때 호출
+    /// 한 라운드가 끝났을 때 호출
     /// </summary>
     private void Run_TableTurn()
     {
-        //테이블 턴 시작시 함수 호출
         End_TableTurn();
     }
 

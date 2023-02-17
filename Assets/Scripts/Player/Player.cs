@@ -163,8 +163,6 @@ public class Player : MonoBehaviour
     /// <summary>
     /// 자원 표시기: 다음 턴에 추가될 자원 표시
     /// </summary>
-    /// <param name="turnEnd"></param>
-    /// <returns></returns>
     public List<int> ShowNextTurn(bool turnEnd) 
     {
         List<GameObject> deleteTargets = new List<GameObject>();

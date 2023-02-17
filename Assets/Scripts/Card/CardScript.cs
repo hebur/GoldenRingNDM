@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CardScript : MonoBehaviour
 {
+    [SerializeField] private GameObject Blocker;
     public GameObject[] Reqs;
     public TextMeshPro[] ReqTexts;
     public TextMeshPro[] EffectTexts;
@@ -91,13 +93,16 @@ public class CardScript : MonoBehaviour
     /// </summary>
     public void OnMouseEnter()
     {
-        targetScale = originScale * scaleMultiplier;
-        targetZ = originZ - 0.25f;
-        Vector3 before = transform.localPosition;
-        before.z = targetZ;
-        transform.localPosition = before;
+        if (!Blocker.gameObject.activeSelf)
+        {
+            targetScale = originScale * scaleMultiplier;
+            targetZ = originZ - 0.25f;
+            Vector3 before = transform.localPosition;
+            before.z = targetZ;
+            transform.localPosition = before;
 
-        UIManager.instance.ShowAfterBuy(this.gameObject);
+            UIManager.instance.ShowAfterBuy(this.gameObject);
+        }
     }
     
     /// <summary>
@@ -105,14 +110,17 @@ public class CardScript : MonoBehaviour
     /// </summary>
     public void OnMouseExit()
     {
-        targetScale = originScale;
-        targetZ = originZ;
+        if (!Blocker.gameObject.activeSelf)
+        {
+            targetScale = originScale;
+            targetZ = originZ;
 
-        Player nowPlayer = TableManager.instance.Get_NowPlayerScript();
-        PlayerInfoPanel playerPanel = TableManager.instance.Get_NowPlayerPanel();
+            Player nowPlayer = TableManager.instance.Get_NowPlayerScript();
+            PlayerInfoPanel playerPanel = TableManager.instance.Get_NowPlayerPanel();
 
-        nowPlayer.ShowNextTurn(false);
-        playerPanel.DrawInfo(true, nowPlayer.Resource, nowPlayer.Score);
+            nowPlayer.ShowNextTurn(false);
+            playerPanel.DrawInfo(true, nowPlayer.Resource, nowPlayer.Score);
+        }
     }
 
     /// <summary>
@@ -121,19 +129,23 @@ public class CardScript : MonoBehaviour
     /// </summary>
     public void OnMouseDown()
     {
-        if (!isPurchased)
+        OnMouseExit();
+        if (!Blocker.gameObject.activeSelf)
         {
-            if (TableManager.instance.Get_NowPlayerScript().SlotLeft >= this._cardData.Slot)
+            if (!isPurchased)
             {
-                List<int> playerResource = TableManager.instance.Get_NowPlayerResource();
-                UIManager.instance.Popup_PurchaseUI(this._cardData.CardNum, CardManager.instance.Is_Buyable(this._cardData.CardNum, playerResource), 
-                    this._cardData.Price, playerResource);
+                if (TableManager.instance.Get_NowPlayerScript().SlotLeft >= this._cardData.Slot)
+                {
+                    List<int> playerResource = TableManager.instance.Get_NowPlayerResource();
+                    UIManager.instance.Popup_PurchaseUI(this._cardData.CardNum, CardManager.instance.Is_Buyable(this._cardData.CardNum, playerResource),
+                        this._cardData.Price, playerResource);
+                }
+                else
+                    TableManager.instance.Get_NowPlayerScript().FlashRed();
             }
-            else
-                TableManager.instance.Get_NowPlayerScript().FlashRed();
+            /*else
+                TableManager.instance.Get_NowPlayerScript().RemoveCard(gameObject);*/
         }
-        /*else
-            TableManager.instance.Get_NowPlayerScript().RemoveCard(gameObject);*/
     }
    
     // Get 함수들
