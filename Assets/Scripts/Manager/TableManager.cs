@@ -32,6 +32,7 @@ public class TableManager : MonoBehaviour
     [SerializeField] private bool TableAfterTurnEnd;
 
     [SerializeField] private List<Player> listPlayer;
+    [SerializeField] private GameObject RightButton;
 
     [SerializeField] private TextMeshProUGUI tmpSpendTurn;  //지난 턴
     [SerializeField] private TextMeshProUGUI tmpLimitTurn;  //최대 턴
@@ -130,13 +131,14 @@ public class TableManager : MonoBehaviour
 
         for (int i = 0; i < maxTurn; i++) // 라운드를 나타냄 (4 턴 = 1 라운드)
         {
-            Debug.Log("Now Turn : " + i);
+            Debug.Log("Now Round : " + i);
 
             //EarnResource.GetComponent<OnlyEarnResource>().TurnCheck(i + 1);
 
             for (int j = 0; j < maxPlayer; j++) // 턴을 나타냄 (1 턴 = 1 행동)
             {
                 nowPlayerTurn = j;
+                RightButton.GetComponent<PlayerButton>().CurTurn = nowPlayerTurn;
                 DrawPannel();
                 //CardManager.instance.UpdateSaleInfo();
 
@@ -220,7 +222,7 @@ public class TableManager : MonoBehaviour
     }
 
     /// <summary>
-    /// (현재 동작 없음) 해당하는 플레이어 턴을 실행한다.
+    /// 해당하는 플레이어 턴을 실행한다.
     /// </summary>
     private void Run_PlayerTurn(int rsh)
     {
