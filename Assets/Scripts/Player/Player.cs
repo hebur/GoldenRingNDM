@@ -68,17 +68,16 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
-    /// 턴 종류 후 카드 효과에 의한 돈,자원의 증가를 반영합니다.
+    /// 턴 종료 후 카드 효과에 의한 돈,자원의 증가를 반영합니다.
     /// </summary>
     /// <param name="gain">얼마나 얻었는지</param>
     public void Gain(List<int> gain, int score, bool is_res)  
     {
-        //_score += score;
         for (int i = 0; i < _resource.Count; i++)
         {
             _resource[i] += gain[i];
         }
-         score = 0;
+        score = 0;
         gain.Add(score);
         UIManager.instance.Get_UpScore(_order).DrawText(gain, is_res);
     }
