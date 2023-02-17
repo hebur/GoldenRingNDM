@@ -132,7 +132,7 @@ public class TableManager : MonoBehaviour
         {
             Debug.Log("Now Turn : " + i);
 
-            EarnResource.GetComponent<OnlyEarnResource>().TurnCheck(i + 1);
+            //EarnResource.GetComponent<OnlyEarnResource>().TurnCheck(i + 1);
 
             for (int j = 0; j < maxPlayer; j++) // 턴을 나타냄 (1 턴 = 1 행동)
             {
