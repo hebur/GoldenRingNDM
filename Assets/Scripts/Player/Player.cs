@@ -10,13 +10,17 @@ public class Player : MonoBehaviour
     public int _order;            // 플레이 순서
     [SerializeField] private int _scorehappy;       // 점수가 될 자원
     [SerializeField] private List<int> _resource;   // 갖고 있는 돈과 자원
+    private int _score; // 플레이어의 점수
     //private List<Card> _hands;   // 핸드에 있는 카드 리스트
     private List<GameObject> _fields;    // 필드에 있는 카드 리스트
+    [SerializeField] private List<GameObject> holders; // 카드 위치를 고정시키기 위한 홀더
+    [SerializeField] private GameObject collectHolder; // 카드를 뺄 때 위치를 알려주는 홀더
+    [SerializeField] private List<GameObject> otherHolders; // 위쪽 필드에 배치할 때의 홀더
     private int slotUsed;
     public const int maxSlot = 4;
     public float cardGap;  // 카드 사이의 간격
     public TextMeshProUGUI slotText;
-    private int _score;
+
     public int Order { get => _order; set => _order = value; }
     public int Scorehappy { get => _scorehappy; set => _scorehappy = value; }
     public List<int> Resource { get => _resource; set => _resource = value; }
@@ -113,16 +117,62 @@ public class Player : MonoBehaviour
         _fields.Add(newcard);
         SlotUsed += card.GetSlot();
         card.IsPurchased = true;
-        int index = _fields.Count-1;
-        _fields[index].transform.parent = transform;
-        _fields[index].transform.DOLocalMove(Vector3.right * cardGap * index, 0.5f);
+        RePosition_PlayerCard();
+    }
+
+    /// <summary>
+    /// 플레이어의 카드를 필드에 재정렬 합니다.
+    /// </summary>
+    public void RePosition_PlayerCard()
+    {
+
+        SoundManager.instance.PlayAudio(SoundType.LoadDeck);
+
+        float Length = ((holders[1].transform.position.x - holders[0].transform.position.x) / 4f);
+        Vector3 VecOrg = holders[0].transform.position;
+        Vector3 tmpVec;
+        for (int i = 0; i < _fields.Count; i++)
+        {
+            tmpVec = VecOrg;
+            tmpVec.x += Length * i;
+            _fields[i].transform.DOMove(tmpVec, 0.3f);
+        }
+    }
+
+    /// <summary>
+    /// 필드에 있는 카드를 회수합니다.
+    /// </summary>
+    public void CollectCard()
+    {
+        for(int i = 0; i < _fields.Count; i++)
+        {
+            _fields[i].transform.DOMove(collectHolder.transform.position, 0.3f);
+        }
+    }
+
+    /// <summary>
+    /// 플레이어의 카드를 위쪽 필드에 재정렬 합니다.
+    /// </summary>
+    public void RePosition_OtherField()
+    {
+        SoundManager.instance.PlayAudio(SoundType.LoadDeck);
+
+        float Length = ((otherHolders[1].transform.position.x - otherHolders[0].transform.position.x) / 4f);
+        Vector3 VecOrg = otherHolders[0].transform.position;
+        Vector3 tmpVec;
+        for (int i = 0; i < _fields.Count; i++)
+        {
+            tmpVec = VecOrg;
+            tmpVec.x += Length * i;
+            _fields[i].transform.DOMove(tmpVec, 0.3f);
+        }
     }
 
     /// <summary>
     /// 사용자 필드에서 카드 제거
     /// </summary>
     /// <param name="card">제거할 카드</param>
-    public void RemoveCard(GameObject card) // 
+    public void RemoveCard(GameObject card)
     {
         int cardNum = card.GetComponent<CardScript>().GetCardNum();
         int i;

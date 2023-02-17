@@ -102,7 +102,9 @@ public class UIManager : MonoBehaviour
         */
     }
 
-    // 시장 카드를 클릭했을 때 실행
+    /// <summary>
+    /// 시장 카드를 클릭했을 때 실행
+    /// </summary>
     public void Popup_PurchaseUI(int cardNum, List<bool> Able, List<int> price, List<int> playerResource)
     {
         //구매 진행 중 -> 가능 여부 Update()
@@ -135,7 +137,9 @@ public class UIManager : MonoBehaviour
 
     }
 
-    // 특정 자원으로 구매하면 실행되는 함수
+    /// <summary>
+    /// 특정 자원으로 구매하면 실행되는 함수
+    /// </summary>
     public void Popdown_PurchaseUI(int res) // 0: gold, 1: 빨강, ~
     {
         //구매 가능 여부 Update() 필요 x

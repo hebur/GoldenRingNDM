@@ -140,6 +140,10 @@ public class TableManager : MonoBehaviour
                 DrawPannel();
                 //CardManager.instance.UpdateSaleInfo();
 
+                //플레이어 턴 시작 전 작업
+                Run_BeforePlayerTurn(j);
+
+
                 //플레이어 턴 중 작업
                 Run_PlayerTurn(j);
 
@@ -154,7 +158,12 @@ public class TableManager : MonoBehaviour
 
                 yield return new WaitForSeconds(0.5f);
 
+                //턴 마무리 작업
                 SoundManager.instance.PlayAudio(SoundType.Bell);
+
+                Run_AtTurnEnd();
+
+                yield return new WaitForSeconds(0.5f);
 
                 DrawPannel();
             }
@@ -200,6 +209,17 @@ public class TableManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 플레이어가 턴을 시작하기 전에 필요한 정보를 필드에 입력합니다.
+    /// </summary>
+    /// <param name="rsh"></param>
+    private void Run_BeforePlayerTurn(int cur)
+    {
+        int bef = (cur + listPlayer.Count - 1) % listPlayer.Count;
+        listPlayer[cur].RePosition_PlayerCard();
+        listPlayer[bef].RePosition_OtherField();
+    }
+
+    /// <summary>
     /// (현재 동작 없음) 해당하는 플레이어 턴을 실행한다.
     /// </summary>
     private void Run_PlayerTurn(int rsh)
@@ -207,7 +227,6 @@ public class TableManager : MonoBehaviour
         //실행 부분
         //플레이어의 제어권 확보
     }
-
 
     /// <summary>
     /// 플레이어의 턴이 종료된 뒤 실행됩니다.
@@ -354,6 +373,14 @@ public class TableManager : MonoBehaviour
     {
         //테이블 턴 종료시의 함수 호출
         End_AfterTableTurn();
+    }
+
+    private void Run_AtTurnEnd()
+    {
+        for(int i = 0; i < listPlayer.Count; i++)
+        {
+            listPlayer[i].CollectCard();
+        }
     }
 
     public void End_PlayerSelfEnd(int rsh)

@@ -76,11 +76,10 @@ public class CardScript : MonoBehaviour
         exitObject.SetActive(_cardData.Effect[5] != 0);
         returnedObject.SetActive(false);
     }
-    
+
     /// <summary>
     /// 선택 가능한 자원만 카드에 표시
     /// </summary>
-    /// <param name="cardReqs"></param>
     void DrawCard(List<GameObject> cardReqs)
     {
         Vector3 firstPos = Reqs[0].transform.position;
