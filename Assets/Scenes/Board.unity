@@ -15886,7 +15886,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &873254627
 Transform:
   m_ObjectHideFlags: 0
@@ -37043,6 +37043,10 @@ PrefabInstance:
     - target: {fileID: 313496703290602443, guid: 00958cb52e5d16f42bbb5f08a9443eae, type: 3}
       propertyPath: m_Name
       value: EndBonusCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 313496703290602443, guid: 00958cb52e5d16f42bbb5f08a9443eae, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 313496703290602455, guid: 00958cb52e5d16f42bbb5f08a9443eae, type: 3}
       propertyPath: m_Pivot.x
