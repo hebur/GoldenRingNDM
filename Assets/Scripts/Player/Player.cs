@@ -91,6 +91,18 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void ApplyEndEffect(int turn) // 현재 플레이어: 0, 이전 턴 플레이어: 1
+    {
+        if(turn == 0)
+        {
+            _resource[Order + 1] -= 2;
+        }
+        else if (turn == 1)
+            _resource[Order + 1] -= 1;
+        if (_resource[Order + 1] < 0)
+            _resource[Order + 1] = 0;
+    }
+
     /// <summary>
     /// 사용자 필드에 카드(newcard) 추가
     /// </summary>

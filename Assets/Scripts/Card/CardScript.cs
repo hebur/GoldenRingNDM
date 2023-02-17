@@ -50,7 +50,7 @@ public class CardScript : MonoBehaviour
         for (int i = 0; i < ReqTexts.Length; i++)
         {
             ReqTexts[i].text = _cardData.Price[i].ToString();
-            if (_cardData.Price[i] > 1000000 || _cardData.Price[i] == 0)
+            if (_cardData.Price[i] > 99) // || _cardData.Price[i] == 0
                 Reqs[i].gameObject.SetActive(false);
             else
                 cardReqs.Add(Reqs[i]);

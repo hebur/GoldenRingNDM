@@ -298,6 +298,12 @@ public class CardManager : MonoBehaviour
         {
             if (listMarketCardCS[0].GetEffect()[5] == 1)//종료 카드라면
             {
+                TableManager.instance.Get_NowPlayerScript().ApplyEndEffect(0);
+                int nowTurn = TableManager.instance.Get_NowPlayerTurn();
+                int prevTurn = nowTurn - 1;
+                if (prevTurn < 0) prevTurn = TableManager.instance.Get_MaxPlayer() - 1;
+                TableManager.instance.Get_PlayerScript(prevTurn).ApplyEndEffect(1);
+
                 if (listMarketCardCS[0].IsReturned)//이미 한 번 돌아온 카드라면
                 {
                     //TableManager에 ThisEndCard 라는 것을 알리는 함수를 호출
@@ -317,6 +323,12 @@ public class CardManager : MonoBehaviour
                     listMarketCardCS[0].IsReturned = true;
                     listMarketCardCS[0].returnedObject.SetActive(true);
 
+                    // 시장에서 제거
+                    // 덱으로 다시 넣기
+                    listGenCard.Insert(0, listMarketCardGO[0]);
+                    listMarketCardGO.RemoveAt(0);
+                    listMarketCardCS.RemoveAt(0);
+                    /*
                     //덱으로 다시 넣기
                     int len = listMarketCardCS.Count; 
                     for (int i = len - 1; i >= 0; i--)
@@ -327,6 +339,7 @@ public class CardManager : MonoBehaviour
                     //시장 비우기
                     listMarketCardCS.Clear();
                     listMarketCardGO.Clear();
+                    */
 
                     int end = listGenCard.Count - 1; //셔플
                     for (int i = 0; i < end; i++)

@@ -386,23 +386,31 @@ public class TableManager : MonoBehaviour
     {
         TableAfterTurnEnd = true;
     }
+    public int Get_MaxPlayer()
+    {
+        return maxPlayer;
+    }
 
-    public int Get_NowPlayer()
+    public int Get_NowPlayerTurn()
     {
         return nowPlayerTurn;
     }
 
     public List<int> Get_NowPlayerResource()
     {
-
         return listPlayer[nowPlayerTurn].Resource;
-
     }
 
     public Player Get_NowPlayerScript()
     {
         return listPlayer[nowPlayerTurn];
     }
+
+    public Player Get_PlayerScript(int turn)
+    {
+        return listPlayer[turn];
+    }
+
     public PlayerInfoPanel Get_NowPlayerPanel()
     {
         return playerInfoPanel[nowPlayerTurn];

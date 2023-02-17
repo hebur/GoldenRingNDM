@@ -9068,7 +9068,7 @@ GameObject:
   m_Component:
   - component: {fileID: 705717005}
   m_Layer: 5
-  m_Name: TestSection
+  m_Name: PlayerStates
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14597,13 +14597,13 @@ MonoBehaviour:
   - {fileID: 578682945}
   - {fileID: 1666024584}
   ShoppingButtonAble: 0000000000
-  ShoppingText:
+  PriceText:
   - {fileID: 1595192677}
   - {fileID: 2025408059}
   - {fileID: 623232916}
   - {fileID: 51943276}
   - {fileID: 2121982667}
-  ShoppingTextResource: 
+  Price: 
   GoldPanel: {fileID: 961894028}
   upScorePopup:
   - {fileID: 346525616}

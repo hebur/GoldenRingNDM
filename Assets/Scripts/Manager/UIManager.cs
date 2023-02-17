@@ -18,8 +18,8 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private List<Button> ShoppingButton;
     [SerializeField] private List<bool> ShoppingButtonAble;
-    [SerializeField] private List<TextMeshProUGUI> ShoppingText;
-    [SerializeField] private List<int> ShoppingTextResource;
+    [SerializeField] private List<TextMeshProUGUI> PriceText;
+    [SerializeField] private List<int> Price;
 
     [SerializeField] private GameObject GoldPanel;
     
@@ -114,7 +114,7 @@ public class UIManager : MonoBehaviour
 
         CardNum = cardNum;
         ShoppingButtonAble = Able;
-        ShoppingTextResource = price;
+        Price = price;
         curPrice = price;
         curPlayRes = playerResource;
         GoldPanel.GetComponent<GoldButton>().setCurCardPrice(curPrice);
@@ -123,12 +123,11 @@ public class UIManager : MonoBehaviour
         // 자원별로 가격 표시
         for (int i = 0; i < ShoppingButton.Count; i++)
         {
-            if(ShoppingTextResource[i] == 0)
-                ShoppingButton[i].gameObject.SetActive(false);
-            else if (ShoppingTextResource[i] < 99999)
+
+            if (Price[i] < 99)
             {
                 ShoppingButton[i].gameObject.SetActive(true);
-                ShoppingText[i].text = ShoppingTextResource[i].ToString();
+                PriceText[i].text = Price[i].ToString();
             }
             else
                 ShoppingButton[i].gameObject.SetActive(false);
@@ -144,7 +143,7 @@ public class UIManager : MonoBehaviour
 
         List<int> cost = new List<int>();
         for (int i = 0; i < 5; i++) cost.Add(0);
-        cost[res] = ShoppingTextResource[res]; // 소모비용
+        cost[res] = Price[res]; // 소모비용
         StartCoroutine(corFunc_PopDownPurchaseUI());
 
         /* List<int> usedGold = GoldPanel.GetComponent<GoldButton>().getGoldUsed();
