@@ -144,7 +144,7 @@ public class CardScript : MonoBehaviour
                         this._cardData.Price, playerResource);
                 }
                 else
-                    TableManager.instance.Get_NowPlayerScript().FlashRed();
+                    TableManager.instance.FlashRed();
             }
             /*else
                 TableManager.instance.Get_NowPlayerScript().RemoveCard(gameObject);*/

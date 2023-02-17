@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
+using static Unity.Burst.Intrinsics.X86.Avx;
 
 /// <summary>
 /// 테이블의 진행을 관리하는 메니저입니다.
@@ -39,7 +40,10 @@ public class TableManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI tmpNowTurn;
 
-    [SerializeField] private List<PlayerInfoPanel> playerInfoPanel;
+    [SerializeField] private List<PlayerInfoPanel> playerInfoPanel; //우측 플레이어 정보
+    [SerializeField] private List<Image> Slots;               //우측 슬롯 정보
+    [SerializeField] private Sprite voidSlotImage;
+    [SerializeField] private Sprite SlotImage;
 
     [SerializeField] private TextMeshProUGUI TurnEndMessage;
     [SerializeField] private GameObject TurnEndBlock;
@@ -113,12 +117,7 @@ public class TableManager : MonoBehaviour
 
     private void Update()
     {
-/*        if (Input.GetKeyDown(KeyCode.End))
-            StartTable();
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-            End_PlayerTurn();
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-            End_TableTurn();*/
+
     }
 
     /// <summary>
@@ -138,7 +137,6 @@ public class TableManager : MonoBehaviour
             for (int j = 0; j < maxPlayer; j++) // 턴을 나타냄 (1 턴 = 1 행동)
             {
                 nowPlayerTurn = j;
-                RightButton.GetComponent<PlayerButton>().CurTurn = nowPlayerTurn;
                 DrawPannel();
                 //CardManager.instance.UpdateSaleInfo();
 
@@ -200,25 +198,28 @@ public class TableManager : MonoBehaviour
     private void DrawPannel()
     {
         bool tmp = false;
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < listPlayer.Count; i++)
         {
             if (i == nowPlayerTurn)
                 tmp = true;
             else
                 tmp = false;
             playerInfoPanel[i].DrawInfo(tmp, listPlayer[i].Resource, listPlayer[i].Score);
+            for (int j = 0; j < 4; j++)
+                Slots[i * 4 + j].sprite = voidSlotImage;
+            for (int j = 0; j < listPlayer[i].SlotUsed; j++)
+                Slots[i * 4 + j].sprite = SlotImage;
         }
     }
 
     /// <summary>
     /// 플레이어가 턴을 시작하기 전에 필요한 정보를 필드에 입력합니다.
+    /// 필드에 있는 카드, 정보, 슬롯.
     /// </summary>
     /// <param name="rsh"></param>
     private void Run_BeforePlayerTurn(int cur)
     {
-        int bef = (cur + listPlayer.Count - 1) % listPlayer.Count;
-        listPlayer[cur].RePosition_PlayerCard();
-        listPlayer[bef].RePosition_OtherField();
+        RightButton.GetComponent<Field>().UpdateTurn(cur);
     }
 
     /// <summary>
@@ -419,7 +420,6 @@ public class TableManager : MonoBehaviour
     {
         return maxPlayer;
     }
-
     public int Get_NowPlayerTurn()
     {
         return nowPlayerTurn;
@@ -443,5 +443,31 @@ public class TableManager : MonoBehaviour
     public PlayerInfoPanel Get_NowPlayerPanel()
     {
         return playerInfoPanel[nowPlayerTurn];
+    }
+
+    /// <summary>
+    /// 슬롯이 부족할 때 CS에서 호출. Field의 FlashRed를 호출.
+    /// </summary>
+    public void FlashRed()
+    {
+        StopAllCoroutines();
+        StartCoroutine(RunFlashRed(nowPlayerTurn));
+        RightButton.GetComponent<Field>().FlashRed();
+    }
+
+    private IEnumerator RunFlashRed(int rsh)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            Slots[rsh * 4 + i].sprite = voidSlotImage;
+            Slots[rsh * 4 + i].color = Color.red;
+        }
+        yield return new WaitForSeconds(1.0f);
+        for (int j = 0; j < 4; j++)
+            Slots[rsh * 4 + j].sprite = voidSlotImage;
+        for (int j = 0; j < listPlayer[rsh].SlotUsed; j++)
+            Slots[rsh * 4 + j].sprite = SlotImage;
+        for(int j = listPlayer[rsh].SlotUsed;j<4;j++)
+            Slots[rsh * 4 + j].color = Color.white;
     }
 }
