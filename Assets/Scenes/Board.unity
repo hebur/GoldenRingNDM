@@ -37044,6 +37044,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EndBonusCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 313496703290602443, guid: 00958cb52e5d16f42bbb5f08a9443eae, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 313496703290602455, guid: 00958cb52e5d16f42bbb5f08a9443eae, type: 3}
       propertyPath: m_Pivot.x
       value: 0
