@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class CardScript : MonoBehaviour
 {
-    [SerializeField] private GameObject Blocker;
+    [SerializeField] private GameObject Blocker, UIBlocker;
     public GameObject[] Reqs;
     public TextMeshPro[] ReqTexts;
     public TextMeshPro[] EffectTexts;
@@ -45,6 +45,7 @@ public class CardScript : MonoBehaviour
     /// </summary>
     public void Initalize(CardData from)
     {
+        UIBlocker = GameObject.Find("EndBonusCanvas").transform.GetChild(0).gameObject;
         this._cardData = from;
         List<GameObject> cardReqs = new List<GameObject>(); // 소비 자원 선택지
         for (int i = 0; i < ReqTexts.Length; i++)
@@ -96,7 +97,7 @@ public class CardScript : MonoBehaviour
     /// </summary>
     public void OnMouseEnter()
     {
-        if (!Blocker.gameObject.activeSelf)
+        if (!Blocker.gameObject.activeSelf && !UIBlocker.gameObject.activeSelf)
         {
             targetScale = originScale * scaleMultiplier;
             targetZ = originZ - 0.25f;
@@ -113,7 +114,7 @@ public class CardScript : MonoBehaviour
     /// </summary>
     public void OnMouseExit()
     {
-        if (!Blocker.gameObject.activeSelf)
+        if (!Blocker.gameObject.activeSelf && !UIBlocker.gameObject.activeSelf)
         {
             targetScale = originScale;
             targetZ = originZ;
@@ -133,7 +134,7 @@ public class CardScript : MonoBehaviour
     public void OnMouseDown()
     {
         OnMouseExit();
-        if (!Blocker.gameObject.activeSelf)
+        if (!Blocker.gameObject.activeSelf && !UIBlocker.gameObject.activeSelf)
         {
             if (!isPurchased)
             {

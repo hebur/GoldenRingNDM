@@ -145,6 +145,7 @@ public class CardManager : MonoBehaviour
         if (listMarketCardCS[tmpindex].GetEffect()[5] == 1)
         {
             TableManager.instance.increaseCEC();
+            UIManager.instance.Popup_EndBonusUI();
         }
         listMarketCardCS.RemoveAt(tmpindex);
 
@@ -187,6 +188,7 @@ public class CardManager : MonoBehaviour
         }*/ 
         
     }
+
 
     /// <summary>
     /// 마켓 카드 홀더 Transform 을 지역변수로 저장하게.

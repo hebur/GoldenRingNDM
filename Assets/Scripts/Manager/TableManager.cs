@@ -253,6 +253,7 @@ public class TableManager : MonoBehaviour
         CardManager.instance.CheckBuyFirst();
 
         // 턴 종료 메세지 띄우기
+        Debug.Log("player GoldNum: " + nowPlayer.GetGoldNum());
         StartCoroutine(EndMessage());
 
         End_AfterPlayerTurn();
@@ -349,7 +350,7 @@ public class TableManager : MonoBehaviour
 
     public void BTN_ReturnMain()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("MainMenu");
     }
 
     /// <summary>
