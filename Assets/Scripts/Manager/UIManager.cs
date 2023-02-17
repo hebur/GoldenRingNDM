@@ -16,6 +16,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject ShoppingWorldClickBlocker;
     [SerializeField] private GameObject ShoppingBreaker;
 
+    [SerializeField] private GameObject EndBonusUI;
+    GameObject worldBlocker;
+
     [SerializeField] private List<Button> ShoppingButton;
     [SerializeField] private List<bool> ShoppingButtonAble;
     [SerializeField] private List<TextMeshProUGUI> PriceText;
@@ -148,6 +151,8 @@ public class UIManager : MonoBehaviour
         List<int> cost = new List<int>();
         for (int i = 0; i < 5; i++) cost.Add(0);
         cost[res] = Price[res]; // 소모비용
+
+
         StartCoroutine(corFunc_PopDownPurchaseUI());
 
         /* List<int> usedGold = GoldPanel.GetComponent<GoldButton>().getGoldUsed();
@@ -155,9 +160,22 @@ public class UIManager : MonoBehaviour
             cost[i] -= usedGold[i];
         */
 
+        
+
         TableManager.instance.Get_NowPlayerScript().AddCard(CardManager.instance.Get_MarketCard(CardNum));
         TableManager.instance.Get_NowPlayerScript().Use(cost);
+
         TableManager.instance.End_PlayerTurn();
+    }
+
+    public void Popup_EndBonusUI()
+    {
+        EndBonusUI.SetActive(true);
+    }
+
+    public void Popdown_EndBonusUI()
+    {
+        EndBonusUI.SetActive(false);
     }
 
     public void ButtonClose()
@@ -231,5 +249,4 @@ public class UIManager : MonoBehaviour
     {
         return upScorePopup[rsh];
     }
-
 }
