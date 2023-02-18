@@ -98,6 +98,7 @@ public class OnlyEarnResource : MonoBehaviour
     {
         earn_res = true;
         TableManager.instance.Get_NowPlayerScript().Gain(listResource[rsh], 0, true);
+        TableManager.instance.End_PlayerTurn();
         earn_res = false;
     }
 }
