@@ -48,6 +48,6 @@ public class EndBonusResource : MonoBehaviour
         earn_res = true;
         TableManager.instance.Get_NowPlayerScript().Gain(EndBonuslistResource[rsh], 0, true);
         UIManager.instance.Popdown_EndBonusUI();
-        // TableManager.instance.End_PlayerTurn();
+        TableManager.instance.End_PlayerTurn();
     }
 }

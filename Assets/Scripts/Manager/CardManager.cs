@@ -145,7 +145,6 @@ public class CardManager : MonoBehaviour
         if (listMarketCardCS[tmpindex].GetEffect()[5] == 1)
         {
             TableManager.instance.increaseCEC();
-            UIManager.instance.Popup_EndBonusUI();
         }
         listMarketCardCS.RemoveAt(tmpindex);
 
