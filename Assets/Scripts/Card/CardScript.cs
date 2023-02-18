@@ -105,7 +105,8 @@ public class CardScript : MonoBehaviour
             before.z = targetZ;
             transform.localPosition = before;
 
-            UIManager.instance.ShowAfterBuy(this.gameObject);
+            if(!isPurchased)
+                UIManager.instance.ShowAfterBuy(this.gameObject);
         }
     }
     

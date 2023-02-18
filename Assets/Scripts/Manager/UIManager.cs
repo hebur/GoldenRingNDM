@@ -26,7 +26,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private GameObject GoldPanel;
     
-    [SerializeField] private List<UpScorePopup> upScorePopup;
+    [SerializeField] private UpScorePopup curUpScorePopup;
 
     [SerializeField] private int CardNum;
 
@@ -46,7 +46,7 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        /*
+        /* 골드를 다른 자원 대신 사용할 때 썼던 코드
         if (ispurchasing == true)
         {
             bool isAble = isButtonAble();
@@ -75,7 +75,9 @@ public class UIManager : MonoBehaviour
         return isAble;
     }
 
-    // 시장 카드에 오버레이했을 때 실행, 플레이어의 바뀔 정보 표시
+    /// <summary>
+    /// 시장 카드에 오버레이했을 때 실행, 플레이어의 바뀔 정보 표시
+    /// </summary>
     public void ShowAfterBuy(GameObject card)
     {
         // 추가될 효과 표시
@@ -87,7 +89,7 @@ public class UIManager : MonoBehaviour
             add[i] += cs.GetEffect()[i];
         // add[add.Count - 1] += cs.GetScore();
 
-        Get_UpScore(nowPlayer._order).DrawText(add, false); // 추가될 자원 표시
+        Get_UpScore().DrawText(add, false); // 추가될 자원 표시
 
         /*//  예상 소비 자원 표시
         List<int> curRes = new List<int>();
@@ -245,8 +247,8 @@ public class UIManager : MonoBehaviour
         ShoppingWorldClickBlocker.SetActive(false);
     }
 
-    public UpScorePopup Get_UpScore(int rsh)
+    public UpScorePopup Get_UpScore()
     {
-        return upScorePopup[rsh];
+        return curUpScorePopup;
     }
 }

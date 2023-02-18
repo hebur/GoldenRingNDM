@@ -220,6 +220,7 @@ public class TableManager : MonoBehaviour
     private void Run_BeforePlayerTurn(int cur)
     {
         RightButton.GetComponent<Field>().UpdateTurn(cur);
+
     }
 
     /// <summary>
