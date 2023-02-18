@@ -37,6 +37,7 @@ public class UIManager : MonoBehaviour
     private List<int> curPlayRes = new List<int>();
 
     private bool ispurchasing = false;
+    private bool isEndCard = false;
 
     private void OnEnable()
     {
@@ -110,10 +111,11 @@ public class UIManager : MonoBehaviour
     /// <summary>
     /// 시장 카드를 클릭했을 때 실행
     /// </summary>
-    public void Popup_PurchaseUI(int cardNum, List<bool> Able, List<int> price, List<int> playerResource)
+    public void Popup_PurchaseUI(int cardNum, List<bool> Able, List<int> price, List<int> playerResource, bool isendCard)
     {
         //구매 진행 중 -> 가능 여부 Update()
         ispurchasing = true;
+        isEndCard = isendCard;
 
         // 배경 클릭 막기
         ShoppingClickBlocker.SetActive(true);
@@ -162,11 +164,14 @@ public class UIManager : MonoBehaviour
             cost[i] -= usedGold[i];
         */
 
-        
-
         TableManager.instance.Get_NowPlayerScript().AddCard(CardManager.instance.Get_MarketCard(CardNum));
         TableManager.instance.Get_NowPlayerScript().Use(cost);
 
+        if (isEndCard)
+        {
+            Popup_EndBonusUI();
+            return;
+        }
         TableManager.instance.End_PlayerTurn();
     }
 

@@ -15,7 +15,7 @@ public class CardScript : MonoBehaviour
     public GameObject slotObject, slotPrefab, exitObject, playerSaleObject, returnedObject;
     public float scaleMultiplier;
     private CardData _cardData;
-    bool isPurchased, isReturned;
+    bool isPurchased, isReturned, isEndCard;
     int turnLeft;
     float targetScale, originScale;
     float targetZ, originZ;
@@ -72,6 +72,11 @@ public class CardScript : MonoBehaviour
         }
         isPurchased = false;
         isReturned = false;
+        if (_cardData.Effect[5] == 1)
+            isEndCard = true;
+        else
+            isEndCard = false;
+
         turnLeft = _cardData.Turn;
         originGoldCosts = new List<int>(_cardData.Price);
         exitObject.SetActive(_cardData.Effect[5] != 0);
@@ -143,7 +148,7 @@ public class CardScript : MonoBehaviour
                 {
                     List<int> playerResource = TableManager.instance.Get_NowPlayerResource();
                     UIManager.instance.Popup_PurchaseUI(this._cardData.CardNum, CardManager.instance.Is_Buyable(this._cardData.CardNum, playerResource),
-                        this._cardData.Price, playerResource);
+                        this._cardData.Price, playerResource, isEndCard);
                 }
                 else
                     TableManager.instance.FlashRed();
