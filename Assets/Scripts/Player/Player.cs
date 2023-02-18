@@ -79,7 +79,7 @@ public class Player : MonoBehaviour
         }
         score = 0;
         gain.Add(score);
-        UIManager.instance.Get_UpScore(_order).DrawText(gain, is_res);
+        UIManager.instance.Get_UpScore().DrawText(gain, is_res);
     }
 
     /// <summary>
@@ -253,7 +253,7 @@ public class Player : MonoBehaviour
             RemoveCard(target);
         }
        
-        UIManager.instance.Get_UpScore(_order).DrawText(add, false);
+        UIManager.instance.Get_UpScore().DrawText(add, false);
         return add;
     }
 
