@@ -8,7 +8,6 @@ using DG.Tweening;
 
 public class MainMenuController : MonoBehaviour
 {
-
     [SerializeField] private GameObject ExitText, QuitConfirm;
 
     [SerializeField] private GameObject RuleBookHolder, title;
@@ -48,7 +47,7 @@ public class MainMenuController : MonoBehaviour
                 SoundClick();
                 break;
             case "ONLINE":
-                SceneManager.LoadScene("OnlineLobby");
+                // SceneManager.LoadScene("OnlineLobby");
                 SoundClick();
                 break;
         }
@@ -123,10 +122,34 @@ public class MainMenuController : MonoBehaviour
                 isOpenRule = false;
                 RuleNowPage = 0;
                 RuleBookHolder.SetActive(false);
-                title.SetActive(true);
                 return;
 
+            default:
+                break;
+        }
+    }
 
+    public void BTN_BackRulePage()
+    {
+        SoundClick();
+        switch (RuleNowPage)
+        {
+            case 0:
+                Rules[0].SetActive(false);
+                isOpenRule = false;
+                RuleNowPage = 0;
+                RuleBookHolder.SetActive(false);
+                return;
+            case 1:
+                Rules[1].SetActive(false);
+                Rules[0].SetActive(true);
+                RuleNowPage--;
+                break;
+            case 2:
+                Rules[2].SetActive(false);
+                Rules[1].SetActive(true);
+                RuleNowPage--;
+                break;
             default:
                 break;
         }

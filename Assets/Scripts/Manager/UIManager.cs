@@ -17,7 +17,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject ShoppingBreaker;
 
     [SerializeField] private GameObject EndBonusUI;
-    GameObject worldBlocker;
 
     [SerializeField] private List<Button> ShoppingButton;
     [SerializeField] private List<bool> ShoppingButtonAble;
@@ -177,11 +176,13 @@ public class UIManager : MonoBehaviour
 
     public void Popup_EndBonusUI()
     {
+        TableManager.instance.CardMouseEffectOn = false;
         EndBonusUI.SetActive(true);
     }
 
     public void Popdown_EndBonusUI()
     {
+        TableManager.instance.CardMouseEffectOn = true;
         EndBonusUI.SetActive(false);
     }
 

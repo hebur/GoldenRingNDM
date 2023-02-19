@@ -49,10 +49,7 @@ public class TableManager : MonoBehaviour
     [SerializeField] private GameObject TurnEndBlock;
     [SerializeField] private GameObject TurnEndBlockImg;
 
-    [SerializeField] private TextMeshProUGUI GameOverMessage;
-    [SerializeField] private GameObject GameOverBlock;
-    [SerializeField] private GameObject GameOverBlockImg;
-
+    [SerializeField] private GameObject GameOverCanvas;
     [SerializeField] private GameObject WinnerPanel;
     [SerializeField] private Image WinnerFill;
     [SerializeField] private List<TextMeshProUGUI> WinnerRank;
@@ -60,8 +57,9 @@ public class TableManager : MonoBehaviour
     [SerializeField] private Button ReturnButton;
 
     private int CountEndCards = 0;
-
     private bool hasInit = false;
+
+    public bool CardMouseEffectOn;
 
     private void OnEnable()
     {
@@ -76,9 +74,7 @@ public class TableManager : MonoBehaviour
         TurnEndBlockImg.SetActive(false);
         TurnEndMessage.gameObject.SetActive(false);
         // 게임이 끝났을 때 클릭 방지 (흐린 화면 뜸)
-        GameOverBlock.SetActive(false);
-        GameOverBlockImg.SetActive(false);
-        GameOverMessage.gameObject.SetActive(false);
+        GameOverCanvas.SetActive(false);
 
         if (!hasInit)
             Initialize();
@@ -102,6 +98,7 @@ public class TableManager : MonoBehaviour
         playerAfterTurnEnd = false;
         TableTurnEnd = false;
         TableAfterTurnEnd = false;
+        CardMouseEffectOn = true;
 
         WinnerPanel.gameObject.SetActive(false);
         ReturnButton.interactable = false;
@@ -286,7 +283,8 @@ public class TableManager : MonoBehaviour
     /// </summary>
     private void CheckGameOver()
     {
-        if (CountEndCards >= 4)
+        // 게임오버 UI 테스트를 위해 4 -> 1로 조정
+        if (CountEndCards >= 1)
         {
             StartCoroutine(OverMessage());
         }
@@ -298,12 +296,10 @@ public class TableManager : MonoBehaviour
     /// <returns></returns>
     private IEnumerator OverMessage()
     {
-        GameOverMessage.gameObject.SetActive(true);
-        GameOverBlock.SetActive(true);
-        GameOverBlockImg.SetActive(true);
+        GameOverCanvas.SetActive(true);
+        TableManager.instance.CardMouseEffectOn = false;
 
         //스코어 계산
-
         List<int> Score = new List<int>();
         List<int> Player = new List<int>();
         for (int i = 0; i < maxPlayer; i++)
