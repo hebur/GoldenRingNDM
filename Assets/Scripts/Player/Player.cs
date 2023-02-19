@@ -176,11 +176,10 @@ public class Player : MonoBehaviour
         int cardNum = card.GetComponent<CardScript>().GetCardNum();
         int i;
         bool found = false;
-        for(i=0;i<_fields.Count;i++)
+        for(i = 0; i < _fields.Count; i++)
         {
             if (_fields[i].GetComponent<CardScript>().GetCardNum() == cardNum)
             {
-                
                 found = true;
                 break;
             }
@@ -190,6 +189,7 @@ public class Player : MonoBehaviour
         {
             _fields[i].transform.DOMove(collectHolder.transform.position, 0.3f);
             _fields.RemoveAt(i);
+            SlotUsed -= card.GetComponent<CardScript>().GetSlot();
         }
         else return;
 
@@ -198,7 +198,6 @@ public class Player : MonoBehaviour
             _fields[i].transform.DOLocalMove(Vector3.right * cardGap * i, 0.5f);
         }*/
         /*card.gameObject.SetActive(false);
-        SlotUsed -= card.GetComponent<CardScript>().GetSlot();
         Destroy(card);*/
     }
 
@@ -242,7 +241,8 @@ public class Player : MonoBehaviour
             CardScript cs = card.GetComponent<CardScript>();
             if (turnEnd)
             {
-                if (--(cs.TurnLeft) == 0)
+                cs.TurnLeft--;
+                if (cs.TurnLeft == 0)
                     deleteTargets.Add(card);
             }
             if (cs.TurnLeft > 0)

@@ -116,6 +116,6 @@ public class UpScorePopup : MonoBehaviour
         yield return new WaitForSeconds(1f);
         tempUp.SetActive(false);
         Player nowPlayer = TableManager.instance.Get_NowPlayerScript();
-        nowPlayer.ShowNextTurn(true);     // 다음 턴에 얻을 자원 표시
+        nowPlayer.ShowNextTurn(false);     // 다음 턴에 얻을 자원 표시
     }
 }

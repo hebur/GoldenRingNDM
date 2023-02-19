@@ -102,7 +102,7 @@ public class Field : MonoBehaviour
             curSlots[j].sprite = voidSlotImage;
         for (int j = 0; j < listPlayer[_curTurn].SlotUsed; j++)
             curSlots[j].sprite = SlotImage;
-        for (int j = listPlayer[_curTurn].SlotUsed; j < 4; j++)
+        for (int j = 0; j < 4; j++)
             curSlots[j].color = Color.white;
     }
 }

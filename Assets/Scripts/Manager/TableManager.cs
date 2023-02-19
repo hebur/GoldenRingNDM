@@ -469,7 +469,7 @@ public class TableManager : MonoBehaviour
             Slots[rsh * 4 + j].sprite = voidSlotImage;
         for (int j = 0; j < listPlayer[rsh].SlotUsed; j++)
             Slots[rsh * 4 + j].sprite = SlotImage;
-        for(int j = listPlayer[rsh].SlotUsed;j<4;j++)
+        for(int j = listPlayer[rsh].SlotUsed; j < 4; j++)
             Slots[rsh * 4 + j].color = Color.white;
     }
 }
