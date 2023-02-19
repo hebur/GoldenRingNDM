@@ -180,19 +180,26 @@ public class Player : MonoBehaviour
         {
             if (_fields[i].GetComponent<CardScript>().GetCardNum() == cardNum)
             {
-                _fields.RemoveAt(i);
+                
                 found = true;
                 break;
             }
         }
-        if (!found) return;
-        for(; i<_fields.Count;i++)
+
+        if (found)
+        {
+            _fields[i].transform.DOMove(collectHolder.transform.position, 0.3f);
+            _fields.RemoveAt(i);
+        }
+        else return;
+
+        /*for(; i<_fields.Count;i++)
         {
             _fields[i].transform.DOLocalMove(Vector3.right * cardGap * i, 0.5f);
-        }
-        card.gameObject.SetActive(false);
+        }*/
+        /*card.gameObject.SetActive(false);
         SlotUsed -= card.GetComponent<CardScript>().GetSlot();
-        Destroy(card);
+        Destroy(card);*/
     }
 
     /// <summary>

@@ -452,7 +452,7 @@ public class TableManager : MonoBehaviour
     /// </summary>
     public void FlashRed()
     {
-        StopAllCoroutines();
+        //StopAllCoroutines();
         StartCoroutine(RunFlashRed(nowPlayerTurn));
         RightButton.GetComponent<Field>().FlashRed();
     }
