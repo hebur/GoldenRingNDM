@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 using static Unity.Burst.Intrinsics.X86.Avx;
 
 /// <summary>
-/// Å×ÀÌºíÀÇ ÁøÇàÀ» °ü¸®ÇÏ´Â ¸Ş´ÏÀúÀÔ´Ï´Ù.
+/// í…Œì´ë¸”ì˜ ì§„í–‰ì„ ê´€ë¦¬í•˜ëŠ” ë©”ë‹ˆì €ì…ë‹ˆë‹¤.
 /// </summary>
 public class TableManager : MonoBehaviour
 {
@@ -17,10 +17,10 @@ public class TableManager : MonoBehaviour
 
     public bool IsDebuging;
 
-    [Tooltip("ÃÖ´ë ÅÏ È½¼ö ÀÔ´Ï´Ù.")]
+    [Tooltip("ìµœëŒ€ í„´ íšŸìˆ˜ ì…ë‹ˆë‹¤.")]
     [SerializeField] private int maxTurn;
 
-    [Tooltip("4¸íÀ» ? È¤Àº 2ÀÎÀ» ±âÁØÀ¸·Î Á¦ÀÛ")]
+    [Tooltip("4ëª…ì„ ? í˜¹ì€ 2ì¸ì„ ê¸°ì¤€ìœ¼ë¡œ ì œì‘")]
     [SerializeField] private int maxPlayer;
     [SerializeField] private int nowPlayerTurn;
 
@@ -35,13 +35,13 @@ public class TableManager : MonoBehaviour
     [SerializeField] private List<Player> listPlayer;
     [SerializeField] private GameObject RightButton;
 
-    [SerializeField] private TextMeshProUGUI tmpSpendTurn;  //Áö³­ ÅÏ
-    [SerializeField] private TextMeshProUGUI tmpLimitTurn;  //ÃÖ´ë ÅÏ
+    [SerializeField] private TextMeshProUGUI tmpSpendTurn;  //ì§€ë‚œ í„´
+    [SerializeField] private TextMeshProUGUI tmpLimitTurn;  //ìµœëŒ€ í„´
 
     [SerializeField] private TextMeshProUGUI tmpNowTurn;
 
-    [SerializeField] private List<PlayerInfoPanel> playerInfoPanel; //¿ìÃø ÇÃ·¹ÀÌ¾î Á¤º¸
-    [SerializeField] private List<Image> Slots;               //¿ìÃø ½½·Ô Á¤º¸
+    [SerializeField] private List<PlayerInfoPanel> playerInfoPanel; //ìš°ì¸¡ í”Œë ˆì´ì–´ ì •ë³´
+    [SerializeField] private List<Image> Slots;               //ìš°ì¸¡ ìŠ¬ë¡¯ ì •ë³´
     [SerializeField] private Sprite voidSlotImage;
     [SerializeField] private Sprite SlotImage;
 
@@ -71,11 +71,11 @@ public class TableManager : MonoBehaviour
 
     private void Awake()
     {
-        // ÅÏÀÌ ³¡³µÀ» ¶§ Å¬¸¯ ¹æÁö (Èå¸° È­¸é ¶ä)
+        // í„´ì´ ëë‚¬ì„ ë•Œ í´ë¦­ ë°©ì§€ (íë¦° í™”ë©´ ëœ¸)
         TurnEndBlock.SetActive(false);
         TurnEndBlockImg.SetActive(false);
         TurnEndMessage.gameObject.SetActive(false);
-        // °ÔÀÓÀÌ ³¡³µÀ» ¶§ Å¬¸¯ ¹æÁö (Èå¸° È­¸é ¶ä)
+        // ê²Œì„ì´ ëë‚¬ì„ ë•Œ í´ë¦­ ë°©ì§€ (íë¦° í™”ë©´ ëœ¸)
         GameOverBlock.SetActive(false);
         GameOverBlockImg.SetActive(false);
         GameOverMessage.gameObject.SetActive(false);
@@ -108,7 +108,7 @@ public class TableManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Å×ÀÌºíÀ» ½ÃÀÛÇÕ´Ï´Ù
+    /// í…Œì´ë¸”ì„ ì‹œì‘í•©ë‹ˆë‹¤
     /// </summary>
     public void StartTable()
     {
@@ -121,36 +121,36 @@ public class TableManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ÅÏÀ» ÁøÇà½ÃÅµ´Ï´Ù.
+    /// í„´ì„ ì§„í–‰ì‹œí‚µë‹ˆë‹¤.
     /// </summary>
     /// <returns></returns>
     private IEnumerator corFunc_RollTable()
     {
         DrawPannel();
 
-        for (int i = 0; i < maxTurn; i++) // ¶ó¿îµå¸¦ ³ªÅ¸³¿ (4 ÅÏ = 1 ¶ó¿îµå)
+        for (int i = 0; i < maxTurn; i++) // ë¼ìš´ë“œë¥¼ ë‚˜íƒ€ëƒ„ (4 í„´ = 1 ë¼ìš´ë“œ)
         {
             Debug.Log("Now Round : " + i);
 
             //EarnResource.GetComponent<OnlyEarnResource>().TurnCheck(i + 1);
 
-            for (int j = 0; j < maxPlayer; j++) // ÅÏÀ» ³ªÅ¸³¿ (1 ÅÏ = 1 Çàµ¿)
+            for (int j = 0; j < maxPlayer; j++) // í„´ì„ ë‚˜íƒ€ëƒ„ (1 í„´ = 1 í–‰ë™)
             {
                 nowPlayerTurn = j;
                 DrawPannel();
                 //CardManager.instance.UpdateSaleInfo();
 
-                //ÇÃ·¹ÀÌ¾î ÅÏ ½ÃÀÛ Àü ÀÛ¾÷
+                //í”Œë ˆì´ì–´ í„´ ì‹œì‘ ì „ ì‘ì—…
                 Run_BeforePlayerTurn(j);
 
 
-                //ÇÃ·¹ÀÌ¾î ÅÏ Áß ÀÛ¾÷
+                //í”Œë ˆì´ì–´ í„´ ì¤‘ ì‘ì—…
                 Run_PlayerTurn(j);
 
                 yield return new WaitUntil(() => playerTurnEnd == true);
                 playerTurnEnd = false;
 
-                //ÅÏ Á¾·á ÀÌÈÄ ÀÛ¾÷ ½ÇÇà
+                //í„´ ì¢…ë£Œ ì´í›„ ì‘ì—… ì‹¤í–‰
                 Run_AfterPlayerTurn(j);
 
                 yield return new WaitUntil(() => playerAfterTurnEnd == true);
@@ -158,7 +158,7 @@ public class TableManager : MonoBehaviour
 
                 yield return new WaitForSeconds(0.5f);
 
-                //ÅÏ ¸¶¹«¸® ÀÛ¾÷
+                //í„´ ë§ˆë¬´ë¦¬ ì‘ì—…
                 SoundManager.instance.PlayAudio(SoundType.Bell);
 
                 Run_AtTurnEnd();
@@ -168,16 +168,16 @@ public class TableManager : MonoBehaviour
                 DrawPannel();
             }
 
-            //Å×ÀÌºí ÀÚÃ¼¿¡ ¾î¶°ÇÑ È¿°ú°¡ ³ª¿Í¾ß ÇÑ´Ù¸é È£Ãâ
+            //í…Œì´ë¸” ìì²´ì— ì–´ë– í•œ íš¨ê³¼ê°€ ë‚˜ì™€ì•¼ í•œë‹¤ë©´ í˜¸ì¶œ
             Run_TableTurn();
 
             yield return new WaitUntil(() => TableTurnEnd == true);
             TableTurnEnd = false;
 
-            //Å×ÀÌºí ÅÏÀÌ ³¡³¯½Ã¿¡ È£Ãâ
+            //í…Œì´ë¸” í„´ì´ ëë‚ ì‹œì— í˜¸ì¶œ
             Run_AfterTableTurn();
 
-            // °ÔÀÓ Á¾·á Á¶°Ç È®ÀÎÇÏ±â
+            // ê²Œì„ ì¢…ë£Œ ì¡°ê±´ í™•ì¸í•˜ê¸°
             CheckGameOver();
 
             yield return new WaitUntil(() => TableAfterTurnEnd == true);
@@ -186,14 +186,14 @@ public class TableManager : MonoBehaviour
         }
     }
 
-    // °ÔÀÓ ·ÎÁ÷
-    // ½ÃÀå¿¡ Ä«µå°¡ µé¾î¿Â´Ù
-    // Ä«µå¸¦ ±¸¸Å - »ç¿ëÇÑ´Ù
-    // ´ÙÀ½ ÇÃ·¹ÀÌ¾î¿¡°Ô ³Ñ±ä´Ù.
-    // ¹İº¹
+    // ê²Œì„ ë¡œì§
+    // ì‹œì¥ì— ì¹´ë“œê°€ ë“¤ì–´ì˜¨ë‹¤
+    // ì¹´ë“œë¥¼ êµ¬ë§¤ - ì‚¬ìš©í•œë‹¤
+    // ë‹¤ìŒ í”Œë ˆì´ì–´ì—ê²Œ ë„˜ê¸´ë‹¤.
+    // ë°˜ë³µ
 
     /// <summary>
-    /// »ç¿ëÀÚ¿¡ µû¶ó Á¤º¸ ÅØ½ºÆ®¸¦ ¾÷µ¥ÀÌÆ® ÇÕ´Ï´Ù.
+    /// ì‚¬ìš©ìì— ë”°ë¼ ì •ë³´ í…ìŠ¤íŠ¸ë¥¼ ì—…ë°ì´íŠ¸ í•©ë‹ˆë‹¤.
     /// </summary>
     private void DrawPannel()
     {
@@ -213,8 +213,8 @@ public class TableManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î°¡ ÅÏÀ» ½ÃÀÛÇÏ±â Àü¿¡ ÇÊ¿äÇÑ Á¤º¸¸¦ ÇÊµå¿¡ ÀÔ·ÂÇÕ´Ï´Ù.
-    /// ÇÊµå¿¡ ÀÖ´Â Ä«µå, Á¤º¸, ½½·Ô.
+    /// í”Œë ˆì´ì–´ê°€ í„´ì„ ì‹œì‘í•˜ê¸° ì „ì— í•„ìš”í•œ ì •ë³´ë¥¼ í•„ë“œì— ì…ë ¥í•©ë‹ˆë‹¤.
+    /// í•„ë“œì— ìˆëŠ” ì¹´ë“œ, ì •ë³´, ìŠ¬ë¡¯.
     /// </summary>
     /// <param name="rsh"></param>
     private void Run_BeforePlayerTurn(int cur)
@@ -224,24 +224,25 @@ public class TableManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ÇØ´çÇÏ´Â ÇÃ·¹ÀÌ¾î ÅÏÀ» ½ÇÇàÇÑ´Ù.
+    /// í•´ë‹¹í•˜ëŠ” í”Œë ˆì´ì–´ í„´ì„ ì‹¤í–‰í•œë‹¤.
     /// </summary>
     private void Run_PlayerTurn(int rsh)
     {
-        //½ÇÇà ºÎºĞ
-        //ÇÃ·¹ÀÌ¾îÀÇ Á¦¾î±Ç È®º¸
+        //ì‹¤í–‰ ë¶€ë¶„
+        //í”Œë ˆì´ì–´ì˜ ì œì–´ê¶Œ í™•ë³´
+        Get_NowPlayerScript().ShowNextTurn(false);
     }
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾îÀÇ ÅÏÀÌ Á¾·áµÈ µÚ ½ÇÇàµË´Ï´Ù.
-    /// Ä«µåÀÇ Á¤·Ä Ãß°¡ ÇÊ¿ä.
+    /// í”Œë ˆì´ì–´ì˜ í„´ì´ ì¢…ë£Œëœ ë’¤ ì‹¤í–‰ë©ë‹ˆë‹¤.
+    /// ì¹´ë“œì˜ ì •ë ¬ ì¶”ê°€ í•„ìš”.
     /// </summary>
-    /// <param name="rsh">ÇöÀç ÇÃ·¹ÀÌ¾î ¹øÈ£</param>
+    /// <param name="rsh">í˜„ì¬ í”Œë ˆì´ì–´ ë²ˆí˜¸</param>
     private void Run_AfterPlayerTurn(int rsh)
     {
         Player nowPlayer = listPlayer[rsh];
 
-        //ÇÃ·¹ÀÌ¾îÀÇ ÀçÈ­ È®º¸
+        //í”Œë ˆì´ì–´ì˜ ì¬í™” í™•ë³´
         bool earn_res = GameObject.Find("EarnResource").GetComponent<OnlyEarnResource>().earn_res;
         if (!earn_res)
             nowPlayer.EndTurn();         
@@ -250,10 +251,10 @@ public class TableManager : MonoBehaviour
 
         nowPlayer.ScoreUpdate();
 
-        //Ã¹ Ä«µå ±¸¸ÅÇÏÁö ¾Ê¾ÒÀ¸¸é Á¦°Å
+        //ì²« ì¹´ë“œ êµ¬ë§¤í•˜ì§€ ì•Šì•˜ìœ¼ë©´ ì œê±°
         CardManager.instance.CheckBuyFirst();
 
-        // ÅÏ Á¾·á ¸Ş¼¼Áö ¶ç¿ì±â
+        // í„´ ì¢…ë£Œ ë©”ì„¸ì§€ ë„ìš°ê¸°
         Debug.Log("player GoldNum: " + nowPlayer.GetGoldNum());
         StartCoroutine(EndMessage());
 
@@ -261,7 +262,7 @@ public class TableManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ÅÏ Á¾·á ¸Ş¼¼Áö¸¦ ¶ç¿î´Ù.
+    /// í„´ ì¢…ë£Œ ë©”ì„¸ì§€ë¥¼ ë„ìš´ë‹¤.
     /// </summary>
     /// <returns></returns>
     private IEnumerator EndMessage()
@@ -280,8 +281,8 @@ public class TableManager : MonoBehaviour
     }
 
     /// <summary>
-    /// °ÔÀÓ Á¾·á Á¶°ÇÀ» È®ÀÎÇÑ´Ù. 
-    /// Á¶°ÇÀÌ ¸ÂÀ¸¸é °ÔÀÓ Á¾·á ¹®±¸¸¦ Ãâ·ÂÇÑ´Ù.
+    /// ê²Œì„ ì¢…ë£Œ ì¡°ê±´ì„ í™•ì¸í•œë‹¤. 
+    /// ì¡°ê±´ì´ ë§ìœ¼ë©´ ê²Œì„ ì¢…ë£Œ ë¬¸êµ¬ë¥¼ ì¶œë ¥í•œë‹¤.
     /// </summary>
     private void CheckGameOver()
     {
@@ -292,7 +293,7 @@ public class TableManager : MonoBehaviour
     }
 
     /// <summary>
-    /// °ÔÀÓ Á¾·á ¹®±¸¸¦ Ãâ·ÂÇÑ´Ù.
+    /// ê²Œì„ ì¢…ë£Œ ë¬¸êµ¬ë¥¼ ì¶œë ¥í•œë‹¤.
     /// </summary>
     /// <returns></returns>
     private IEnumerator OverMessage()
@@ -301,7 +302,7 @@ public class TableManager : MonoBehaviour
         GameOverBlock.SetActive(true);
         GameOverBlockImg.SetActive(true);
 
-        //½ºÄÚ¾î °è»ê
+        //ìŠ¤ì½”ì–´ ê³„ì‚°
 
         List<int> Score = new List<int>();
         List<int> Player = new List<int>();
@@ -345,7 +346,7 @@ public class TableManager : MonoBehaviour
 
         ReturnButton.interactable = true;
 
-        //Á¾·á È®ÀÎ ¹öÆ° -> ¸ŞÀÎÀ¸·Î µ¹¾Æ°¨
+        //ì¢…ë£Œ í™•ì¸ ë²„íŠ¼ -> ë©”ì¸ìœ¼ë¡œ ëŒì•„ê°
 
     }
 
@@ -355,7 +356,7 @@ public class TableManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Cardmanager¿¡¼­ È£Ãâ °¡´ÉÇÏ´Ù. Á¾·á Ä«µå ¼ö¸¦ Áõ°¡½ÃÅ²´Ù.
+    /// Cardmanagerì—ì„œ í˜¸ì¶œ ê°€ëŠ¥í•˜ë‹¤. ì¢…ë£Œ ì¹´ë“œ ìˆ˜ë¥¼ ì¦ê°€ì‹œí‚¨ë‹¤.
     /// </summary>
     public void increaseCEC()
     {
@@ -364,7 +365,7 @@ public class TableManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ÇÑ ¶ó¿îµå°¡ ³¡³µÀ» ¶§ È£Ãâ
+    /// í•œ ë¼ìš´ë“œê°€ ëë‚¬ì„ ë•Œ í˜¸ì¶œ
     /// </summary>
     private void Run_TableTurn()
     {
@@ -372,11 +373,11 @@ public class TableManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Å×ÀÌºí ÅÏÀÌ Á¾·áµÉ ‹š È£Ãâ
+    /// í…Œì´ë¸” í„´ì´ ì¢…ë£Œë  ë–„ í˜¸ì¶œ
     /// </summary>
     private void Run_AfterTableTurn()
     {
-        //Å×ÀÌºí ÅÏ Á¾·á½ÃÀÇ ÇÔ¼ö È£Ãâ
+        //í…Œì´ë¸” í„´ ì¢…ë£Œì‹œì˜ í•¨ìˆ˜ í˜¸ì¶œ
         End_AfterTableTurn();
     }
 
@@ -394,7 +395,7 @@ public class TableManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾îÀÇ ÅÏ Á¾·á½Ã È£ÃâÇØ¾ß ÇÕ´Ï´Ù.
+    /// í”Œë ˆì´ì–´ì˜ í„´ ì¢…ë£Œì‹œ í˜¸ì¶œí•´ì•¼ í•©ë‹ˆë‹¤.
     /// </summary>
     public void End_PlayerTurn()
     {
@@ -407,7 +408,7 @@ public class TableManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Å×ÀÌºíÀÇ ÅÏ Á¾·á½Ã È£ÃâµÇ¾î¾ß ÇÕ´Ï´Ù.
+    /// í…Œì´ë¸”ì˜ í„´ ì¢…ë£Œì‹œ í˜¸ì¶œë˜ì–´ì•¼ í•©ë‹ˆë‹¤.
     /// </summary>
     public void End_TableTurn()
     {
@@ -448,11 +449,11 @@ public class TableManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ½½·ÔÀÌ ºÎÁ·ÇÒ ¶§ CS¿¡¼­ È£Ãâ. FieldÀÇ FlashRed¸¦ È£Ãâ.
+    /// ìŠ¬ë¡¯ì´ ë¶€ì¡±í•  ë•Œ CSì—ì„œ í˜¸ì¶œ. Fieldì˜ FlashRedë¥¼ í˜¸ì¶œ.
     /// </summary>
     public void FlashRed()
     {
-        StopAllCoroutines();
+        //StopAllCoroutines();
         StartCoroutine(RunFlashRed(nowPlayerTurn));
         RightButton.GetComponent<Field>().FlashRed();
     }
@@ -469,7 +470,7 @@ public class TableManager : MonoBehaviour
             Slots[rsh * 4 + j].sprite = voidSlotImage;
         for (int j = 0; j < listPlayer[rsh].SlotUsed; j++)
             Slots[rsh * 4 + j].sprite = SlotImage;
-        for(int j = listPlayer[rsh].SlotUsed;j<4;j++)
+        for(int j = listPlayer[rsh].SlotUsed; j < 4; j++)
             Slots[rsh * 4 + j].color = Color.white;
     }
 }

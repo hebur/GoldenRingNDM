@@ -6,6 +6,8 @@ using Unity.VisualScripting;
 
 public class CardManager : MonoBehaviour
 {
+    [SerializeField] private GameObject Collectholder;
+
     public static CardManager instance;
 
     private List<GameObject> listGenCard;   //Game Object 형태로 생성된 카드를 보관
@@ -321,6 +323,7 @@ public class CardManager : MonoBehaviour
                 else//처음 버려지는 카드라면
                 {
                     //한 번 버려졌다고 표시
+                    listMarketCardGO[0].transform.DOMove(Collectholder.transform.position, 0.3f);
                     listMarketCardCS[0].IsReturned = true;
                     listMarketCardCS[0].returnedObject.SetActive(true);
 
