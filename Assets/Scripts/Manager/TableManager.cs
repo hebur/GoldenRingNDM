@@ -283,8 +283,7 @@ public class TableManager : MonoBehaviour
     /// </summary>
     private void CheckGameOver()
     {
-        // 게임오버 UI 테스트를 위해 4 -> 1로 조정
-        if (CountEndCards >= 1)
+        if (CountEndCards >= 4)
         {
             StartCoroutine(OverMessage());
         }
@@ -297,7 +296,7 @@ public class TableManager : MonoBehaviour
     private IEnumerator OverMessage()
     {
         GameOverCanvas.SetActive(true);
-        TableManager.instance.CardMouseEffectOn = false;
+        CardMouseEffectOn = false;
 
         //스코어 계산
         List<int> Score = new List<int>();

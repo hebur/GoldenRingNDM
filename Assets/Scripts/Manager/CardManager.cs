@@ -322,6 +322,9 @@ public class CardManager : MonoBehaviour
                 }
                 else//처음 버려지는 카드라면
                 {
+                    //TableManager에 ThisEndCard 라는 것을 알리는 함수를 호출
+                    TableManager.instance.increaseCEC();
+
                     //한 번 버려졌다고 표시
                     listMarketCardGO[0].transform.DOMove(Collectholder.transform.position, 0.3f);
                     listMarketCardCS[0].IsReturned = true;
