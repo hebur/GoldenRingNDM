@@ -48,7 +48,7 @@ public class MainMenuController : MonoBehaviour
                 SoundClick();
                 break;
             case "ONLINE":
-                SceneManager.LoadScene("OnlineLobby");
+                // SceneManager.LoadScene("OnlineLobby");
                 SoundClick();
                 break;
         }
@@ -123,9 +123,7 @@ public class MainMenuController : MonoBehaviour
                 isOpenRule = false;
                 RuleNowPage = 0;
                 RuleBookHolder.SetActive(false);
-                title.SetActive(true);
                 return;
-
 
             default:
                 break;
@@ -142,7 +140,6 @@ public class MainMenuController : MonoBehaviour
                 isOpenRule = false;
                 RuleNowPage = 0;
                 RuleBookHolder.SetActive(false);
-                title.SetActive(true);
                 return;
             case 1:
                 Rules[1].SetActive(false);
