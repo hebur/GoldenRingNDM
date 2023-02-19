@@ -102,7 +102,7 @@ public class CardScript : MonoBehaviour
     /// </summary>
     public void OnMouseEnter()
     {
-        if (!Blocker.gameObject.activeSelf && !UIBlocker.gameObject.activeSelf)
+        if (!Blocker.gameObject.activeSelf && TableManager.instance.CardMouseEffectOn)
         {
             targetScale = originScale * scaleMultiplier;
             targetZ = originZ - 0.25f;
@@ -120,7 +120,7 @@ public class CardScript : MonoBehaviour
     /// </summary>
     public void OnMouseExit()
     {
-        if (!Blocker.gameObject.activeSelf && !UIBlocker.gameObject.activeSelf)
+        if (!Blocker.gameObject.activeSelf && TableManager.instance.CardMouseEffectOn)
         {
             targetScale = originScale;
             targetZ = originZ;
@@ -140,7 +140,7 @@ public class CardScript : MonoBehaviour
     public void OnMouseDown()
     {
         OnMouseExit();
-        if (!Blocker.gameObject.activeSelf && !UIBlocker.gameObject.activeSelf)
+        if (!Blocker.gameObject.activeSelf && TableManager.instance.CardMouseEffectOn)
         {
             if (!isPurchased)
             {

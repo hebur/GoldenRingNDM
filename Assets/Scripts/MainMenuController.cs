@@ -8,7 +8,6 @@ using DG.Tweening;
 
 public class MainMenuController : MonoBehaviour
 {
-
     [SerializeField] private GameObject ExitText, QuitConfirm;
 
     [SerializeField] private GameObject RuleBookHolder, title;
