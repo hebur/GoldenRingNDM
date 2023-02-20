@@ -249,7 +249,7 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         ShoppingPannel.gameObject.SetActive(false);
-        ShoppingClickBlocker.SetActive(false);
+        //ShoppingClickBlocker.SetActive(false);
         ShoppingWorldClickBlocker.SetActive(false);
     }
 
