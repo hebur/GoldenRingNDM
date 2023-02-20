@@ -139,6 +139,7 @@ public class MainMenuController : MonoBehaviour
                 isOpenRule = false;
                 RuleNowPage = 0;
                 RuleBookHolder.SetActive(false);
+                // title.SetActive(true);
                 return;
             case 1:
                 Rules[1].SetActive(false);
@@ -154,7 +155,7 @@ public class MainMenuController : MonoBehaviour
                 break;
         }
     }
-
+    /*
     public void BTN_BackRulePage()
     {
         SoundClick();
@@ -165,7 +166,7 @@ public class MainMenuController : MonoBehaviour
                 isOpenRule = false;
                 RuleNowPage = 0;
                 RuleBookHolder.SetActive(false);
-                title.SetActive(true);
+               // title.SetActive(true);
                 return;
             case 1:
                 Rules[1].SetActive(false);
@@ -181,4 +182,5 @@ public class MainMenuController : MonoBehaviour
                 break;
         }
     }
+    */
 }
