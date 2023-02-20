@@ -322,9 +322,6 @@ public class CardManager : MonoBehaviour
                 }
                 else//처음 버려지는 카드라면
                 {
-                    //TableManager에 ThisEndCard 라는 것을 알리는 함수를 호출
-                    TableManager.instance.increaseCEC();
-
                     //한 번 버려졌다고 표시
                     listMarketCardGO[0].transform.DOMove(Collectholder.transform.position, 0.3f);
                     listMarketCardCS[0].IsReturned = true;
@@ -335,18 +332,6 @@ public class CardManager : MonoBehaviour
                     listGenCard.Insert(0, listMarketCardGO[0]);
                     listMarketCardGO.RemoveAt(0);
                     listMarketCardCS.RemoveAt(0);
-                    /*
-                    //덱으로 다시 넣기
-                    int len = listMarketCardCS.Count; 
-                    for (int i = len - 1; i >= 0; i--)
-                    {
-                        listGenCard.Insert(0, listMarketCardGO[i]);
-                    }
-
-                    //시장 비우기
-                    listMarketCardCS.Clear();
-                    listMarketCardGO.Clear();
-                    */
 
                     int end = listGenCard.Count - 1; //셔플
                     for (int i = 0; i < end; i++)
