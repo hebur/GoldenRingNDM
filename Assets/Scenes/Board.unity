@@ -27841,7 +27841,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsDebuging: 0
-  maxTurn: 20
+  maxTurn: 50
   maxPlayer: 4
   nowPlayerTurn: 0
   EarnResource: {fileID: 668608922}

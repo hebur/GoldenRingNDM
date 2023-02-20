@@ -297,6 +297,9 @@ public class CardManager : MonoBehaviour
     /// </summary>
     public void CheckBuyFirst()
     {
+        if (listMarketCardCS.Count <= 0)
+            return;
+
         if(!CheckBuyFst) //첫 카드 구매 안 했을 때
         {
             if (listMarketCardCS[0].GetEffect()[5] == 1)//종료 카드라면

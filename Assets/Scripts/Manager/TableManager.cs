@@ -283,7 +283,8 @@ public class TableManager : MonoBehaviour
     /// </summary>
     private void CheckGameOver()
     {
-        if (CountEndCards >= 4)
+        // test를 위해 4-> 6 변경
+        if (CountEndCards >= 6)
         {
             StartCoroutine(OverMessage());
         }
