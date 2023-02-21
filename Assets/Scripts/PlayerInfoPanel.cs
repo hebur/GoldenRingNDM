@@ -18,12 +18,12 @@ public class PlayerInfoPanel : MonoBehaviour
     private void Awake()
     {
         _Name = new List<string>();
-        _Name.Add("Gold : ");
-        _Name.Add("A : ");
-        _Name.Add("B : ");
-        _Name.Add("C : ");
-        _Name.Add("D : ");
-        _Name.Add("Score : ");
+        _Name.Add(": ");
+        _Name.Add(": ");
+        _Name.Add(": ");
+        _Name.Add(": ");
+        _Name.Add(": ");
+        _Name.Add("");
 
     }
 
