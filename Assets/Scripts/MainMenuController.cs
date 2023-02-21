@@ -19,11 +19,6 @@ public class MainMenuController : MonoBehaviour
     private void Start()
     {
         ExitText.SetActive(false);
-        isOpenRule = false;
-        RuleBookHolder.SetActive(false);
-        RuleNowPage = 0;
-        for (int i = 0; i < Rules.Count; i++)
-            Rules[i].SetActive(false);
     }
 
     private void SoundClick()
@@ -91,96 +86,4 @@ public class MainMenuController : MonoBehaviour
 
         ExitText.gameObject.SetActive(false);
     }
-
-    public void BTN_CallRuleBook()
-    {
-        SoundClick();
-        isOpenRule = true;
-        //·êºÏÀ» ¿±´Ï´Ù.
-        RuleBookHolder.SetActive(true);
-        Rules[0].SetActive(true);
-        title.SetActive(false);
-    }
-
-    public void BTN_ContinueRule()
-    {
-        SoundClick();
-        switch (RuleNowPage)
-        {
-            case 0:
-                Rules[0].SetActive(false);
-                Rules[1].SetActive(true);
-                RuleNowPage++;
-                break;
-            case 1:
-                Rules[1].SetActive(false);
-                Rules[2].SetActive(true);
-                RuleNowPage++;
-                break;
-            case 2:
-                Rules[2].SetActive(false);
-                isOpenRule = false;
-                RuleNowPage = 0;
-                RuleBookHolder.SetActive(false);
-                return;
-
-            default:
-                break;
-        }
-    }
-
-    public void BTN_BackRulePage()
-    {
-        SoundClick();
-        switch (RuleNowPage)
-        {
-            case 0:
-                Rules[0].SetActive(false);
-                isOpenRule = false;
-                RuleNowPage = 0;
-                RuleBookHolder.SetActive(false);
-                // title.SetActive(true);
-                return;
-            case 1:
-                Rules[1].SetActive(false);
-                Rules[0].SetActive(true);
-                RuleNowPage--;
-                break;
-            case 2:
-                Rules[2].SetActive(false);
-                Rules[1].SetActive(true);
-                RuleNowPage--;
-                break;
-            default:
-                break;
-        }
-    }
-    /*
-    public void BTN_BackRulePage()
-    {
-        SoundClick();
-        switch (RuleNowPage)
-        {
-            case 0:
-                Rules[0].SetActive(false);
-                isOpenRule = false;
-                RuleNowPage = 0;
-                RuleBookHolder.SetActive(false);
-               // title.SetActive(true);
-                return;
-            case 1:
-                Rules[1].SetActive(false);
-                Rules[0].SetActive(true);
-                RuleNowPage--;
-                break;
-            case 2:
-                Rules[2].SetActive(false);
-                Rules[1].SetActive(true);
-                RuleNowPage--;
-                break;
-            default:
-                break;
-        }
-    }
-    */
 }
