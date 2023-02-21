@@ -7,17 +7,7 @@ public class RuleBookController : MonoBehaviour
     [SerializeField] private GameObject RuleBookHolder;
     [SerializeField] private List<GameObject> Rules;
 
-    [SerializeField] private bool isOpenRule;
     [SerializeField] private int RuleNowPage;
-
-    private void Start()
-    {
-        isOpenRule = false;
-        RuleBookHolder.SetActive(false);
-        RuleNowPage = 0;
-        for (int i = 0; i < Rules.Count; i++)
-            Rules[i].SetActive(false);
-    }
 
     private void SoundClick()
     {
@@ -27,8 +17,8 @@ public class RuleBookController : MonoBehaviour
 
     public void BTN_CallRuleBook()
     {
+        RuleNowPage = 0;
         SoundClick();
-        isOpenRule = true;
         //·êºÏÀ» ¿±´Ï´Ù.
         RuleBookHolder.SetActive(true);
         Rules[0].SetActive(true);
@@ -51,7 +41,6 @@ public class RuleBookController : MonoBehaviour
                 break;
             case 2:
                 Rules[2].SetActive(false);
-                isOpenRule = false;
                 RuleNowPage = 0;
                 RuleBookHolder.SetActive(false);
                 return;
@@ -68,7 +57,6 @@ public class RuleBookController : MonoBehaviour
         {
             case 0:
                 Rules[0].SetActive(false);
-                isOpenRule = false;
                 RuleNowPage = 0;
                 RuleBookHolder.SetActive(false);
                 return;

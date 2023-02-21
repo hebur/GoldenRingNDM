@@ -8077,6 +8077,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RuleBook
       objectReference: {fileID: 0}
+    - target: {fileID: 1313291810670379831, guid: 7391e91655206de4c8398f8982807c95, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1313291810670379832, guid: 7391e91655206de4c8398f8982807c95, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
