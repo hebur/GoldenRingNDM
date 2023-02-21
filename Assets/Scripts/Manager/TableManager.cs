@@ -6,6 +6,8 @@ using TMPro;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
 using static Unity.Burst.Intrinsics.X86.Avx;
+using System.Runtime.ExceptionServices;
+using UnityEditor;
 
 /// <summary>
 /// 테이블의 진행을 관리하는 메니저입니다.
@@ -15,7 +17,7 @@ public class TableManager : MonoBehaviour
     
     public static TableManager instance;
 
-    public bool IsDebuging;
+    public bool IsDebuging; //TurnEnd 메세지 짧게 띄움.
 
     [Tooltip("최대 턴 횟수 입니다.")]
     [SerializeField] private int maxTurn;
@@ -35,18 +37,17 @@ public class TableManager : MonoBehaviour
     [SerializeField] private List<Player> listPlayer;
     [SerializeField] private GameObject RightButton;
 
-    [SerializeField] private TextMeshProUGUI tmpSpendTurn;  //지난 턴
+    [SerializeField] private TextMeshProUGUI tmpSpendTurn;  //지난 턴 TODO
     [SerializeField] private TextMeshProUGUI tmpLimitTurn;  //최대 턴
-
-    [SerializeField] private TextMeshProUGUI tmpNowTurn;
+    [SerializeField] private TextMeshProUGUI tmpNowTurn; //현재 턴
 
     [SerializeField] private List<PlayerInfoPanel> playerInfoPanel; //우측 플레이어 정보
     [SerializeField] private List<Image> Slots;               //우측 슬롯 정보
     [SerializeField] private Sprite voidSlotImage;
     [SerializeField] private Sprite SlotImage;
 
-    [SerializeField] private TextMeshProUGUI TurnEndMessage;
-    [SerializeField] private GameObject TurnEndBlock;
+    [SerializeField] private TextMeshProUGUI TurnEndMessage; //턴 끝날 때 마다 나옴
+    [SerializeField] private GameObject TurnEndBlock;        //클릭 방지
     [SerializeField] private GameObject TurnEndBlockImg;
 
     [SerializeField] private GameObject GameOverCanvas;
@@ -133,6 +134,7 @@ public class TableManager : MonoBehaviour
 
             for (int j = 0; j < maxPlayer; j++) // 턴을 나타냄 (1 턴 = 1 행동)
             {
+                Debug.Log("Now (Round, Turn): (" + i.ToString() + ", " + j.ToString() + ")" );
                 nowPlayerTurn = j;
                 DrawPannel();
                 //CardManager.instance.UpdateSaleInfo();
@@ -358,6 +360,99 @@ public class TableManager : MonoBehaviour
     {
         CountEndCards++;
         Debug.Log("EndCard Stack: " + CountEndCards.ToString());
+    }
+
+    /// <summary>
+    /// 공격 카드가 구매되었을 때 CardManager에서 호출됨.
+    /// </summary>
+    public void UseAttackCard(int resource) 
+    {
+        // resource = 몇 번 자원으로 사용
+        int num;
+        int first, second, third;
+        int max = -1, secondmax = -1;
+        first = second = third = -1;
+
+        num = nowPlayerTurn;
+
+        //전 플레이어
+        num = (num + listPlayer.Count - 1) % listPlayer.Count;
+        max = listPlayer[num].Resource[resource];
+        first = num;
+
+        //전전 플레이어
+        num = (num + listPlayer.Count - 1) % listPlayer.Count;
+        if (max < listPlayer[num].Resource[resource])
+        {
+            secondmax = max;
+            max = listPlayer[num].Resource[resource];
+            second = first;
+            first = num;
+        }
+        else
+        {
+            second = num;
+            secondmax = listPlayer[num].Resource[resource];
+        }
+
+        //전전전 플레이어
+        num = (num + listPlayer.Count - 1) % listPlayer.Count;
+        if(max < listPlayer[num].Resource[resource])
+        {
+            third = second;
+            second = first;
+            first = num;
+        }
+        else if(secondmax < listPlayer[num].Resource[resource])
+        {
+            third = second;
+            second = num;
+        }
+        else
+        {
+            third = num;
+        }
+
+        List<int> useResource = new List<int>();
+        if (resource == 0) // 골드를 사용했을 경우 - 9, 6, 3
+        {
+            useResource.Add(9);
+            useResource.Add(6);
+            useResource.Add(3);
+        }
+        else // 다른 자원 - 3, 2, 1
+        {
+            useResource.Add(3);
+            useResource.Add(2);
+            useResource.Add(1);
+        }
+
+        List<int> use = new List<int>(new int[5]);
+
+        if (listPlayer[first].Resource[resource] <= useResource[0])
+        {
+            use[resource] = listPlayer[first].Resource[resource];
+        }
+        else { use[resource] = useResource[0]; }
+        listPlayer[first].Use(use);
+
+        use.Clear();
+        use = new List<int>(new int[5]);
+        if (listPlayer[second].Resource[resource] <= useResource[1])
+        {
+            use[resource] = listPlayer[second].Resource[resource];
+        }
+        else { use[resource] = useResource[1]; }
+        listPlayer[second].Use(use);
+
+        use.Clear();
+        use = new List<int>(new int[5]);
+        if (listPlayer[third].Resource[resource] <= useResource[2])
+        {
+            use[resource] = listPlayer[third].Resource[resource];
+        }
+        else { use[resource] = useResource[2]; }
+        listPlayer[third].Use(use);
     }
 
     /// <summary>

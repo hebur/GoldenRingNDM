@@ -119,7 +119,7 @@ public class CardManager : MonoBehaviour
     /// 마켓에서부터 카드를 구매하여 플레이어로 가져옵니다.
     /// </summary>
     /// <param name="cardNum">카드번호 입니다.</param>
-    public GameObject Get_MarketCard(int cardNum)
+    public GameObject Get_MarketCard(int cardNum, int resource)
     {
         GameObject tmpCard;
         int tmpindex = 99999;
@@ -147,6 +147,10 @@ public class CardManager : MonoBehaviour
         if (listMarketCardCS[tmpindex].GetEffect()[5] == 1)
         {
             TableManager.instance.increaseCEC();
+        }
+        else if (listMarketCardCS[tmpindex].GetEffect()[5] == 2) //공격카드 일 때
+        {
+            TableManager.instance.UseAttackCard(resource);
         }
         listMarketCardCS.RemoveAt(tmpindex);
 

@@ -163,7 +163,7 @@ public class UIManager : MonoBehaviour
             cost[i] -= usedGold[i];
         */
 
-        TableManager.instance.Get_NowPlayerScript().AddCard(CardManager.instance.Get_MarketCard(CardNum));
+        TableManager.instance.Get_NowPlayerScript().AddCard(CardManager.instance.Get_MarketCard(CardNum, res));
         TableManager.instance.Get_NowPlayerScript().Use(cost);
 
         if (isEndCard)

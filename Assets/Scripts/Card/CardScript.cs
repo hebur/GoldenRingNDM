@@ -153,7 +153,7 @@ public class CardScript : MonoBehaviour
                 else
                     TableManager.instance.FlashRed();
             }
-            /*else
+            /*else //플레이어 필드에서 카드를 버리는 코드
                 TableManager.instance.Get_NowPlayerScript().RemoveCard(gameObject);*/
         }
     }
