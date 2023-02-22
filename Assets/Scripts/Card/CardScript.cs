@@ -10,9 +10,9 @@ public class CardScript : MonoBehaviour
     public GameObject[] Reqs;
     public TextMeshPro[] ReqTexts;
     public TextMeshPro[] EffectTexts;
-    public TextMeshPro ScoreText;
-    public TextMeshPro TurnText;
-    public GameObject slotObject, slotPrefab, exitObject, playerSaleObject, returnedObject;
+    //public TextMeshPro ScoreText;
+    //public TextMeshPro TurnText;
+    public GameObject slotObject, slotPrefab, exitObject, returnedObject;
     public float scaleMultiplier;
     private CardData _cardData;
     bool isPurchased, isReturned, isEndCard;
@@ -62,8 +62,8 @@ public class CardScript : MonoBehaviour
         {
             EffectTexts[i].text = _cardData.Effect[i].ToString();
         }
-        ScoreText.text = _cardData.Score.ToString();
-        TurnText.text = _cardData.Turn.ToString();
+        //ScoreText.text = _cardData.Score.ToString();
+        //TurnText.text = _cardData.Turn.ToString();
         for(int i = 0; i < _cardData.Slot; i++)
         {
             var newObj = Instantiate(slotPrefab);
@@ -181,7 +181,7 @@ public class CardScript : MonoBehaviour
         set
         {
             turnLeft = value;
-            TurnText.text = turnLeft.ToString();
+            //TurnText.text = turnLeft.ToString();
         }
     }
     public int GetSlot()
@@ -194,7 +194,7 @@ public class CardScript : MonoBehaviour
     /// 매 턴마다 사용자 순서에 따라 해당 턴 사용자 자원 할인 정보 갱신
     /// </summary>
     /// <param name="curPlayer"></param>
-    public void UpdateResourceSaleInfo()
+    /*public void UpdateResourceSaleInfo()
     {
         int maxRes = 0; // 할인 적용할 자원
         int maxCost = 0; // 최고 비용
@@ -227,5 +227,5 @@ public class CardScript : MonoBehaviour
             ReqTexts[maxRes].text = _cardData.Price[maxRes].ToString();
         }
         
-    }
+    }*/
 }

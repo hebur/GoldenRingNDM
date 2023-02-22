@@ -376,7 +376,7 @@ public class CardManager : MonoBehaviour
     /// <summary>
     /// SaleObject 배치를 결정합니다.
     /// </summary>
-    public void UpdateSaleInfo()
+    /*public void UpdateSaleInfo()
     {
         for (int i = 0; i < listMarketCardCS.Count; i++)
         {
@@ -384,5 +384,5 @@ public class CardManager : MonoBehaviour
                 listMarketCardCS[i].UpdateResourceSaleInfo();
         }
             
-    }
+    }*/
 }
