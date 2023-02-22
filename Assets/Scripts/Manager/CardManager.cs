@@ -59,8 +59,6 @@ public class CardManager : MonoBehaviour
     /// </summary>
     private void GenerationCardList()
     {
-        //테스트 생성
-        //TestCardMake();
         GenerateCardGameObject();
 
         //listGenCard에 생성된 카드를 가져와 저장함.
