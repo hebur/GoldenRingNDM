@@ -423,14 +423,14 @@ public class TableManager : MonoBehaviour
         if (resource == 0) // 골드를 사용했을 경우 - 9, 6, 3
         {
             useResource.Add(9);
-            useResource.Add(6);
-            useResource.Add(3);
+            useResource.Add(9);
+            useResource.Add(9);
         }
         else // 다른 자원 - 3, 2, 1
         {
             useResource.Add(3);
-            useResource.Add(2);
-            useResource.Add(1);
+            useResource.Add(3);
+            useResource.Add(3);
         }
 
         List<int> use = new List<int>(new int[5]);
