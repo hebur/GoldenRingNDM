@@ -150,7 +150,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 393808388293745769}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.4, y: 0.43, z: -0.001}
+  m_LocalPosition: {x: -0.008, y: 0.599, z: -0.001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1034,6 +1034,8 @@ MonoBehaviour:
   exitObject: {fileID: 706055564375162405}
   returnedObject: {fileID: 6816929351699972674}
   scaleMultiplier: 2.5
+  background: {fileID: 2705161190966929719}
+  BackGrounds: []
 --- !u!1 &2705161190966929717
 GameObject:
   m_ObjectHideFlags: 0

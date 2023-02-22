@@ -94,6 +94,10 @@ public class Player : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// 종료 카드의 효과로 선호자원을 잃습니다.
+    /// </summary>
     public void ApplyEndEffect(int turn) // 현재 플레이어: 0, 이전 턴 플레이어: 1
     {
         if(turn == 0)
@@ -102,6 +106,7 @@ public class Player : MonoBehaviour
         }
         else if (turn == 1)
             _resource[Order + 1] -= 1;
+
         if (_resource[Order + 1] < 0)
             _resource[Order + 1] = 0;
     }
@@ -241,7 +246,7 @@ public class Player : MonoBehaviour
             CardScript cs = card.GetComponent<CardScript>();
             if (turnEnd)
             {
-                cs.TurnLeft--;
+                cs.TurnDecrese();
                 if (cs.TurnLeft == 0)
                     deleteTargets.Add(card);
             }

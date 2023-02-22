@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class CardScript : MonoBehaviour
 {
@@ -10,17 +11,20 @@ public class CardScript : MonoBehaviour
     public GameObject[] Reqs;
     public TextMeshPro[] ReqTexts;
     public TextMeshPro[] EffectTexts;
-    //public TextMeshPro ScoreText;
-    //public TextMeshPro TurnText;
     public GameObject slotObject, slotPrefab, exitObject, returnedObject;
     public float scaleMultiplier;
     private CardData _cardData;
-    bool isPurchased, isReturned, isEndCard;
+    bool isPurchased; //사용자에게 속해 있는지 여부
+    bool isReturned; //종료카드에면서 한 번 버려졌는지 여부
+    bool isEndCard; //종료카드인지 여부
     int turnLeft;
     float targetScale, originScale;
     float targetZ, originZ;
     List<int> originGoldCosts;
     Vector3 v1, v2;
+
+    [SerializeField] private SpriteRenderer background;
+    [SerializeField] private List<Sprite> BackGrounds;
 
     public bool IsReturned { get { return isReturned; } set => isReturned = value; }
 
@@ -47,7 +51,9 @@ public class CardScript : MonoBehaviour
     {
         UIBlocker = GameObject.Find("EndBonusCanvas").transform.GetChild(0).gameObject;
         this._cardData = from;
-        List<GameObject> cardReqs = new List<GameObject>(); // 소비 자원 선택지
+
+        // 소비 자원 선택지 작성
+        List<GameObject> cardReqs = new List<GameObject>();
         for (int i = 0; i < ReqTexts.Length; i++)
         {
             ReqTexts[i].text = _cardData.Price[i].ToString();
@@ -56,20 +62,23 @@ public class CardScript : MonoBehaviour
             else
                 cardReqs.Add(Reqs[i]);
         }
-        DrawCard(cardReqs);
+        DrawCardReq(cardReqs);
 
+        // 효과 설명 작성
         for (int i = 0; i < 5; i++)
         {
             EffectTexts[i].text = _cardData.Effect[i].ToString();
         }
-        //ScoreText.text = _cardData.Score.ToString();
-        //TurnText.text = _cardData.Turn.ToString();
-        for(int i = 0; i < _cardData.Slot; i++)
+
+        // 슬롯 정보 작성
+        for (int i = 0; i < _cardData.Slot; i++)
         {
             var newObj = Instantiate(slotPrefab);
             newObj.transform.parent = slotObject.transform;
             newObj.transform.localPosition = Vector3.down * 0.15f * i;
         }
+
+        //상태정보 초기화
         isPurchased = false;
         isReturned = false;
         if (_cardData.Effect[5] == 1)
@@ -77,16 +86,19 @@ public class CardScript : MonoBehaviour
         else
             isEndCard = false;
 
+        //턴 정보 작성
         turnLeft = _cardData.Turn;
+        background.sprite = BackGrounds[turnLeft];
+
         originGoldCosts = new List<int>(_cardData.Price);
         exitObject.SetActive(_cardData.Effect[5] != 0);
         returnedObject.SetActive(false);
     }
 
     /// <summary>
-    /// 선택 가능한 자원만 카드에 표시
+    /// 선택 가능한 소비 자원만 카드에 표시
     /// </summary>
-    void DrawCard(List<GameObject> cardReqs)
+    void DrawCardReq(List<GameObject> cardReqs)
     {
         Vector3 firstPos = Reqs[0].transform.position;
         Vector3 pos = firstPos;
@@ -94,6 +106,18 @@ public class CardScript : MonoBehaviour
         {
             cardReqs[i].transform.position = pos;
             pos.y -= 0.2f;
+        }
+    }
+
+    /// <summary>
+    /// 한 턴이 지날 때 마다 TurnLeft 줄이고 배경 바꿈.
+    /// </summary>
+    public void TurnDecrese()
+    {
+        turnLeft--;
+        if(turnLeft != 0)
+        {
+            background.sprite = BackGrounds[turnLeft];
         }
     }
 
