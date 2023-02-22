@@ -17,7 +17,7 @@ public class CardScript : MonoBehaviour
     public int MaxSlot;
     [SerializeField] private List<GameObject> slots;
     public float scaleMultiplier;
-    private CardData _cardData;
+    public CardData _cardData;
     bool isPurchased; //사용자에게 속해 있는지 여부
     bool isReturned; //종료카드에면서 한 번 버려졌는지 여부
     bool isEndCard; //종료카드인지 여부
