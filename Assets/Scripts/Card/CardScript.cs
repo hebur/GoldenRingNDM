@@ -8,10 +8,14 @@ using UnityEngine.UI;
 public class CardScript : MonoBehaviour
 {
     [SerializeField] private GameObject Blocker, UIBlocker;
+    [SerializeField] private GameObject ReqHolder;
     public GameObject[] Reqs;
     public TextMeshPro[] ReqTexts;
+    [SerializeField] private List<GameObject> slash;
     public TextMeshPro[] EffectTexts;
-    public GameObject slotObject, slotPrefab, exitObject, returnedObject;
+    public GameObject endObject, returnedObject, attackObject;
+    public int MaxSlot;
+    [SerializeField] private List<GameObject> slots;
     public float scaleMultiplier;
     private CardData _cardData;
     bool isPurchased; //사용자에게 속해 있는지 여부
@@ -71,11 +75,12 @@ public class CardScript : MonoBehaviour
         }
 
         // 슬롯 정보 작성
-        for (int i = 0; i < _cardData.Slot; i++)
+        for (int i = 0; i < MaxSlot; i++)
         {
-            var newObj = Instantiate(slotPrefab);
-            newObj.transform.parent = slotObject.transform;
-            newObj.transform.localPosition = Vector3.down * 0.15f * i;
+            if (i < _cardData.Slot)
+            { slots[i].SetActive(true); }
+            else
+            { slots[i].SetActive(false); }
         }
 
         //상태정보 초기화
@@ -91,8 +96,11 @@ public class CardScript : MonoBehaviour
         background.sprite = BackGrounds[turnLeft];
 
         originGoldCosts = new List<int>(_cardData.Price);
-        exitObject.SetActive(_cardData.Effect[5] != 0);
+
+        //특수 카드 이미지 설정
+        endObject.SetActive(_cardData.Effect[5] == 1);
         returnedObject.SetActive(false);
+        attackObject.SetActive(_cardData.Effect[5] == 2);
     }
 
     /// <summary>
@@ -100,12 +108,19 @@ public class CardScript : MonoBehaviour
     /// </summary>
     void DrawCardReq(List<GameObject> cardReqs)
     {
-        Vector3 firstPos = Reqs[0].transform.position;
+        Vector3 firstPos = ReqHolder.transform.position;
         Vector3 pos = firstPos;
         for (int i = 0; i < cardReqs.Count; i++)
         {
             cardReqs[i].transform.position = pos;
-            pos.y -= 0.2f;
+            pos.y -= 0.26f;
+        }
+        for(int i = 0; i < MaxSlot - 1; i++)
+        {
+            if(i<cardReqs.Count - 1) 
+            { slash[i].SetActive(true); }
+            else
+            { slash[i].SetActive(false); }
         }
     }
 
