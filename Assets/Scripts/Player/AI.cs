@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class AI : MonoBehaviour
 {
+    public GameObject ClickBlocker;
     private List<int> resource = new List<int>();
     private List<int> options = new List<int>();
     private List<GameObject> listMarketCardGO = new List<GameObject>();
@@ -26,6 +27,7 @@ public class AI : MonoBehaviour
     {
         ShoppingButton = UIManager.instance.ShoppingButton;
         Resource = UIManager.instance.Resource;
+        ClickBlocker.SetActive(false);
     }
 
     // Update is called once per frame
@@ -36,6 +38,7 @@ public class AI : MonoBehaviour
 
     public void Run_AI()
     {
+        ClickBlocker.SetActive(true);
         choice = -1;
         options.Clear();
         cards.Clear();
@@ -144,6 +147,7 @@ public class AI : MonoBehaviour
         }
 
         GameObject.Find("EarnResource").GetComponent<OnlyEarnResource>().BTN_CallButton(minIdx);
+        ClickBlocker.SetActive(false);
     }
 
     bool Check_First() // 첫 번째 조건: 선호자원을 보상으로 줌
@@ -231,6 +235,8 @@ public class AI : MonoBehaviour
             Invoke("Invoke_PopUp", 3f);
         }
         UIManager.instance.ShoppingBreaker.gameObject.SetActive(false);
+        TableManager.instance.TurnEndBlock.gameObject.SetActive(false);
+        ClickBlocker.SetActive(false);
     }
 
     private void Invoke_PopUp()

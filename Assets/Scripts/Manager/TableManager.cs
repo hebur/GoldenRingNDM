@@ -47,7 +47,7 @@ public class TableManager : MonoBehaviour
     [SerializeField] private Sprite SlotImage;
 
     [SerializeField] private TextMeshProUGUI TurnEndMessage; //턴 끝날 때 마다 나옴
-    [SerializeField] private GameObject TurnEndBlock;        //클릭 방지
+    [SerializeField] public GameObject TurnEndBlock;        //클릭 방지
     [SerializeField] private GameObject TurnEndBlockImg;
 
     [SerializeField] private GameObject GameOverCanvas;
@@ -113,6 +113,7 @@ public class TableManager : MonoBehaviour
     public void StartTable()
     {
         StartCoroutine(corFunc_RollTable());
+        UIManager.instance.Popup_GameStart();
     }
 
     private void Update()

@@ -9,6 +9,8 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
 
+    [SerializeField] private GameObject GameStart;
+
     [SerializeField] private GameObject BuyUIOn;
     [SerializeField] private GameObject BuyUIOff;
     [SerializeField] private GameObject ShoppingPannel;
@@ -62,6 +64,10 @@ public class UIManager : MonoBehaviour
             }
         }
         */
+    }
+    public void Popup_GameStart()
+    {
+
     }
 
     // 보유 골드와 사용자 자원에 따라 버튼이 사용 가능한 상태인지 리턴
