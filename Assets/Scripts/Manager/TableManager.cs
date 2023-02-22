@@ -53,8 +53,8 @@ public class TableManager : MonoBehaviour
     [SerializeField] private GameObject GameOverCanvas;
     [SerializeField] private GameObject WinnerPanel;
     [SerializeField] private Image WinnerFill;
-    [SerializeField] private List<TextMeshProUGUI> WinnerRank;
-    [SerializeField] private List<TextMeshProUGUI> WinnerPlayer;
+    [SerializeField] private List<TextMeshProUGUI> PlayerName;
+    [SerializeField] private List<TextMeshProUGUI> PlayerScore;
     [SerializeField] private Button ReturnButton;
 
     private int CountEndCards = 0;
@@ -291,8 +291,7 @@ public class TableManager : MonoBehaviour
     /// </summary>
     private void CheckGameOver()
     {
-        // test를 위해 4-> 6 변경
-        if (CountEndCards >= 6)
+        if (CountEndCards >= 4)
         {
             StartCoroutine(OverMessage());
         }
@@ -342,13 +341,13 @@ public class TableManager : MonoBehaviour
 
         for (int i = 0; i < maxPlayer; i++)
         {
-            WinnerRank[i].text = (i + 1).ToString();
-            WinnerPlayer[i].text = "Player : " + Player[i].ToString() +"\nScore : " + Score[i].ToString();
+            PlayerName[i].text = listPlayer[Player[i]].nickname;
+            PlayerScore[i].text = Score[i].ToString();
         }
 
         yield return new WaitForSeconds(10f);
 
-        ReturnButton.interactable = true;
+        // ReturnButton.interactable = true;
 
         //종료 확인 버튼 -> 메인으로 돌아감
 

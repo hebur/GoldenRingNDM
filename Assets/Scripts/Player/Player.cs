@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     public float cardGap;  // 카드 사이의 간격
     public TextMeshProUGUI slotText;
     public bool IsAI = false;
+    public string nickname = "";
 
     public int Order { get => _order; set => _order = value; }
     public int Scorehappy { get => _scorehappy; set => _scorehappy = value; }
