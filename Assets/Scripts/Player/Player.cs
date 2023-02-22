@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     public const int maxSlot = 4;
     public float cardGap;  // 카드 사이의 간격
     public TextMeshProUGUI slotText;
+    public bool IsAI = false;
 
     public int Order { get => _order; set => _order = value; }
     public int Scorehappy { get => _scorehappy; set => _scorehappy = value; }
@@ -45,19 +46,6 @@ public class Player : MonoBehaviour
         SlotUsed = 0;        
     }
 
-    public void FlashRed()
-    {
-        StopAllCoroutines();
-        StartCoroutine(RunFlashRed());
-    }
-
-    IEnumerator RunFlashRed()
-    {
-        slotText.color = Color.red;
-        yield return new WaitForSeconds(1.0f);
-        slotText.color = Color.white;
-    }
-    
     /// <summary>
     /// _resource와 _fields를 초기화
     /// </summary>
@@ -222,14 +210,11 @@ public class Player : MonoBehaviour
 
             for (int i = 0; i < _resource.Count; i++)
                 add[i] += cs.GetEffect()[i];
-            
-            // score += cs.GetScore();
         }
          this.Gain(add, score, false);
 
         bool earn_res = GameObject.Find("EarnResource").GetComponent<OnlyEarnResource>().earn_res;
-        if (!earn_res)
-           ShowNextTurn(true);
+        ShowNextTurn(true);
     }
 
     /// <summary>
@@ -255,7 +240,6 @@ public class Player : MonoBehaviour
                 for (int i = 0; i < _resource.Count; i++)
                     add[i] += cs.GetEffect()[i];
 
-                // add[_resource.Count] += cs.GetScore();
                 add[_resource.Count] += 0;
             }
         }
@@ -284,7 +268,7 @@ public class Player : MonoBehaviour
         int gold = _resource[0];
 
         _score = min * 8 + pref * 3 + gold;
-        Debug.Log("ScoreUpdate: order-"+ _order.ToString() + ", _score: " + _score.ToString());
+        // Debug.Log("ScoreUpdate: order-"+ _order.ToString() + ", _score: " + _score.ToString());
     }
 
     /// <summary>

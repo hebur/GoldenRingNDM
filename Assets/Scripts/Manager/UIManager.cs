@@ -14,11 +14,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject ShoppingPannel;
     [SerializeField] private GameObject ShoppingClickBlocker;
     [SerializeField] private GameObject ShoppingWorldClickBlocker;
-    [SerializeField] private GameObject ShoppingBreaker;
+    [SerializeField] public GameObject ShoppingBreaker;
 
     [SerializeField] private GameObject EndBonusUI;
 
-    [SerializeField] private List<Button> ShoppingButton;
+    [SerializeField] public List<Button> ShoppingButton;
     [SerializeField] private List<bool> ShoppingButtonAble;
     [SerializeField] private List<TextMeshProUGUI> PriceText;
     [SerializeField] private List<int> Price;
@@ -34,6 +34,8 @@ public class UIManager : MonoBehaviour
 
     private List<int> curPrice = new List<int>();
     private List<int> curPlayRes = new List<int>();
+
+    public List<Button> Resource;
 
     private bool ispurchasing = false;
     private bool isEndCard = false;

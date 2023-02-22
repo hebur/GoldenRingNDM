@@ -1115,6 +1115,7 @@ GameObject:
   - component: {fileID: 568678642444348783}
   - component: {fileID: 5248197333128680327}
   - component: {fileID: 8588881401026007850}
+  - component: {fileID: 3761963673015703051}
   m_Layer: 0
   m_Name: CardPrefab
   m_TagString: Untagged

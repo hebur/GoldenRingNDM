@@ -61,6 +61,8 @@ public class TableManager : MonoBehaviour
     private bool hasInit = false;
 
     public bool CardMouseEffectOn;
+    public int tableTurn = 0;
+    public GameObject AI;
 
     private void OnEnable()
     {
@@ -128,9 +130,12 @@ public class TableManager : MonoBehaviour
 
         for (int i = 0; i < maxTurn; i++) // 라운드를 나타냄 (4 턴 = 1 라운드)
         {
-            Debug.Log("Now Round : " + i);
+            tableTurn = i;
+            // Debug.Log("Now Round : " + i);
 
             //EarnResource.GetComponent<OnlyEarnResource>().TurnCheck(i + 1);
+
+            listPlayer[0].IsAI = true;            ///////////////////////////////////////
 
             for (int j = 0; j < maxPlayer; j++) // 턴을 나타냄 (1 턴 = 1 행동)
             {
@@ -219,16 +224,17 @@ public class TableManager : MonoBehaviour
     private void Run_BeforePlayerTurn(int cur)
     {
         RightButton.GetComponent<Field>().UpdateTurn(cur);
-
     }
 
     /// <summary>
     /// 해당하는 플레이어 턴을 실행한다.
     /// </summary>
-    private void Run_PlayerTurn(int rsh)
+    private void Run_PlayerTurn(int cur)
     {
         //실행 부분
         //플레이어의 제어권 확보
+        if (listPlayer[cur].IsAI)
+            AI.GetComponent<AI>().Run_AI();
         Get_NowPlayerScript().ShowNextTurn(false);
     }
 
@@ -254,7 +260,7 @@ public class TableManager : MonoBehaviour
         CardManager.instance.CheckBuyFirst();
 
         // 턴 종료 메세지 띄우기
-        Debug.Log("player GoldNum: " + nowPlayer.GetGoldNum());
+        // Debug.Log("player GoldNum: " + nowPlayer.GetGoldNum());
         StartCoroutine(EndMessage());
 
         End_AfterPlayerTurn();

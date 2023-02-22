@@ -13,8 +13,8 @@ public class CardManager : MonoBehaviour
     private List<GameObject> listGenCard;   //Game Object 형태로 생성된 카드를 보관
 
     [SerializeField] private int marketMax; //마켓에 최대로 들어갈 수 있는 카드의 갯수
-    private List<GameObject> listMarketCardGO;//마켓 카드 리스트
-    private List<CardScript> listMarketCardCS;//마켓 카드 리스트
+    public List<GameObject> listMarketCardGO;//마켓 카드 리스트
+    public List<CardScript> listMarketCardCS;//마켓 카드 리스트
     private List<CardData> listOrgData;
 
     private List<List<GameObject>> listPlayerCard;  //플레이어들이 가진 카드 리스트
