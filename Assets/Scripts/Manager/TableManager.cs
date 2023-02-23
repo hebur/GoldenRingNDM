@@ -137,6 +137,9 @@ public class TableManager : MonoBehaviour
             //EarnResource.GetComponent<OnlyEarnResource>().TurnCheck(i + 1);
 
             listPlayer[0].IsAI = true;            ///////////////////////////////////////
+            listPlayer[1].IsAI = false;            // AI 설정 부분
+            listPlayer[2].IsAI = false;
+            listPlayer[3].IsAI = false;
 
             for (int j = 0; j < maxPlayer; j++) // 턴을 나타냄 (1 턴 = 1 행동)
             {
@@ -314,7 +317,7 @@ public class TableManager : MonoBehaviour
         {
             Score.Add(listPlayer[i].Score);
             // Score.Add(listPlayer[i].Resource[i + 1]);
-            Player.Add(i + 1);
+            Player.Add(i);
         }
         int tmpint;
         for (int i = 0; i < maxPlayer - 1; i++)
