@@ -57,6 +57,8 @@ public class TableManager : MonoBehaviour
     [SerializeField] private List<TextMeshProUGUI> PlayerScore;
     [SerializeField] private Button ReturnButton;
 
+    [SerializeField] private List<GameObject> stacks;
+
     private int CountEndCards = 0;
     private bool hasInit = false;
 
@@ -105,6 +107,11 @@ public class TableManager : MonoBehaviour
 
         WinnerPanel.gameObject.SetActive(false);
         ReturnButton.interactable = false;
+
+        for(int i=0;i<4;i++)
+        {
+            stacks[i].SetActive(false);
+        }
     }
 
     /// <summary>
@@ -136,10 +143,10 @@ public class TableManager : MonoBehaviour
 
             //EarnResource.GetComponent<OnlyEarnResource>().TurnCheck(i + 1);
 
-            listPlayer[0].IsAI = true;            ///////////////////////////////////////
-            listPlayer[1].IsAI = false;            // AI 설정 부분
-            listPlayer[2].IsAI = false;
-            listPlayer[3].IsAI = false;
+            listPlayer[0].IsAI = false;            ///////////////////////////////////////
+            listPlayer[1].IsAI = true;            // AI 설정 부분
+            listPlayer[2].IsAI = true;
+            listPlayer[3].IsAI = true;
 
             for (int j = 0; j < maxPlayer; j++) // 턴을 나타냄 (1 턴 = 1 행동)
             {
@@ -369,6 +376,15 @@ public class TableManager : MonoBehaviour
     {
         CountEndCards++;
         Debug.Log("EndCard Stack: " + CountEndCards.ToString());
+        DrawStack();
+    }
+
+    private void DrawStack()
+    {
+        for(int i=0;i<CountEndCards;i++)
+        {
+            stacks[i].SetActive(true);
+        }
     }
 
     /// <summary>
