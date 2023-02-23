@@ -66,6 +66,8 @@ public class TableManager : MonoBehaviour
     public int tableTurn = 0;
     public GameObject AI;
 
+    // public GameObject ClickBlocker;
+
     private void OnEnable()
     {
         if(instance == null)
@@ -245,7 +247,10 @@ public class TableManager : MonoBehaviour
         //실행 부분
         //플레이어의 제어권 확보
         if (listPlayer[cur].IsAI)
+        {
+           //  ClickBlocker.SetActive(true);
             AI.GetComponent<AI>().Run_AI();
+        }
         Get_NowPlayerScript().ShowNextTurn(false);
     }
 

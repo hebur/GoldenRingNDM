@@ -9,13 +9,11 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
 
-    [SerializeField] private GameObject GameStart;
-
     [SerializeField] private GameObject BuyUIOn;
     [SerializeField] private GameObject BuyUIOff;
     [SerializeField] private GameObject ShoppingPannel;
     [SerializeField] private GameObject ShoppingClickBlocker;
-    [SerializeField] private GameObject ShoppingWorldClickBlocker;
+    [SerializeField] public GameObject ShoppingWorldClickBlocker;
     [SerializeField] public GameObject ShoppingBreaker;
 
     [SerializeField] private GameObject EndBonusUI;

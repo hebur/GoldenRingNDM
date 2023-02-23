@@ -22,8 +22,8 @@ public class CardScript : MonoBehaviour
     bool isReturned; //종료카드에면서 한 번 버려졌는지 여부
     bool isEndCard; //종료카드인지 여부
     int turnLeft;
-    float targetScale, originScale;
-    float targetZ, originZ;
+    public float targetScale, originScale;
+    public float targetZ, originZ;
     List<int> originGoldCosts;
     Vector3 v1, v2;
 
@@ -141,7 +141,7 @@ public class CardScript : MonoBehaviour
     /// </summary>
     public void OnMouseEnter()
     {
-        if (!Blocker.gameObject.activeSelf && TableManager.instance.CardMouseEffectOn)
+        if ((!Blocker.gameObject.activeSelf && TableManager.instance.CardMouseEffectOn) || TableManager.instance.Get_NowPlayerScript().IsAI)
         {
             targetScale = originScale * scaleMultiplier;
             targetZ = originZ - 0.25f;
@@ -159,7 +159,7 @@ public class CardScript : MonoBehaviour
     /// </summary>
     public void OnMouseExit()
     {
-        if (!Blocker.gameObject.activeSelf && TableManager.instance.CardMouseEffectOn)
+        if ((!Blocker.gameObject.activeSelf && TableManager.instance.CardMouseEffectOn) || TableManager.instance.Get_NowPlayerScript().IsAI)
         {
             targetScale = originScale;
             targetZ = originZ;
