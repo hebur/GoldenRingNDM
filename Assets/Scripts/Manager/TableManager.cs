@@ -59,7 +59,7 @@ public class TableManager : MonoBehaviour
 
     [SerializeField] private List<GameObject> stacks;
 
-    private int CountEndCards = 0;
+    public int CountEndCards = 0;
     private bool hasInit = false;
 
     public bool CardMouseEffectOn;
@@ -114,6 +114,16 @@ public class TableManager : MonoBehaviour
         {
             stacks[i].SetActive(false);
         }
+
+        listPlayer[0].IsAI = false;     ///////////////////////////////////////
+        listPlayer[1].IsAI = false;     // AI 설정 부분
+        listPlayer[2].IsAI = false;
+        listPlayer[3].IsAI = false;
+
+        for(int i = 0; i < 4; i++)
+        {
+            listPlayer[i].nickname = "Player" + (i + 1).ToString();
+        }
     }
 
     /// <summary>
@@ -144,11 +154,6 @@ public class TableManager : MonoBehaviour
             // Debug.Log("Now Round : " + i);
 
             //EarnResource.GetComponent<OnlyEarnResource>().TurnCheck(i + 1);
-
-            listPlayer[0].IsAI = false;            ///////////////////////////////////////
-            listPlayer[1].IsAI = true;            // AI 설정 부분
-            listPlayer[2].IsAI = true;
-            listPlayer[3].IsAI = true;
 
             for (int j = 0; j < maxPlayer; j++) // 턴을 나타냄 (1 턴 = 1 행동)
             {
@@ -363,7 +368,7 @@ public class TableManager : MonoBehaviour
 
         yield return new WaitForSeconds(10f);
 
-        // ReturnButton.interactable = true;
+        ReturnButton.interactable = true;
 
         //종료 확인 버튼 -> 메인으로 돌아감
 
@@ -386,8 +391,10 @@ public class TableManager : MonoBehaviour
 
     private void DrawStack()
     {
-        for(int i=0;i<CountEndCards;i++)
+        for (int i = 0; i < CountEndCards; i++)
         {
+            if (i >= 4)
+                break;
             stacks[i].SetActive(true);
         }
     }
@@ -593,5 +600,14 @@ public class TableManager : MonoBehaviour
             Slots[rsh * 4 + j].sprite = SlotImage;
         for(int j = 0; j < 4; j++)
             Slots[rsh * 4 + j].color = Color.white;
+    }
+    
+    /// <summary>
+    /// 플레이어를 AI로 설정하거나 해제합니다.
+    /// </summary>
+    /// <param name="playernum"></param>
+    public void SetAIPlayer(int playernum, bool set)
+    {
+        listPlayer[playernum].IsAI = set;
     }
 }

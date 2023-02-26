@@ -58,6 +58,18 @@ public class CardScript : MonoBehaviour
 
         // 소비 자원 선택지 작성
         List<GameObject> cardReqs = new List<GameObject>();
+        int pricesum = 0;
+        for(int i=0;i<ReqTexts.Length;i++) // 무료 카드인지 확인하는 로직
+        {
+            pricesum = _cardData.Price[i];
+        }
+        if(pricesum == 0)
+        {
+            for (int i = 1; i < ReqTexts.Length; i++)
+            {
+                _cardData.Price[i] = 100;
+            }
+        }
         for (int i = 0; i < ReqTexts.Length; i++)
         {
             ReqTexts[i].text = _cardData.Price[i].ToString();

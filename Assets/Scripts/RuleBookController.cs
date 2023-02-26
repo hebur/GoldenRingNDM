@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public class RuleBookController : MonoBehaviour
 {
     [SerializeField] private GameObject RuleBookHolder;
-    [SerializeField] private List<GameObject> Rules;
+    [SerializeField] private Image RulePage;
+    [SerializeField] private List<Sprite> Rules;
 
-    [SerializeField] private int RuleNowPage;
+    private int RuleNowPage = 0;
 
     private void SoundClick()
     {
@@ -15,63 +18,37 @@ public class RuleBookController : MonoBehaviour
             SoundManager.instance.PlayAudio(SoundType.UIBtn);
     }
 
+    /// <summary>
+    /// ∑Í∫œ¿ª ø±¥œ¥Ÿ.
+    /// </summary>
     public void BTN_CallRuleBook()
     {
         RuleNowPage = 0;
         SoundClick();
         //∑Í∫œ¿ª ø±¥œ¥Ÿ.
         RuleBookHolder.SetActive(true);
-        Rules[0].SetActive(true);
+        RulePage.sprite = Rules[0];
     }
 
-    public void BTN_ContinueRule()
+    public void BTN_NextPage()
     {
         SoundClick();
-        switch (RuleNowPage)
+        RuleNowPage++;
+        if(RuleNowPage == Rules.Count )
         {
-            case 0:
-                Rules[0].SetActive(false);
-                Rules[1].SetActive(true);
-                RuleNowPage++;
-                break;
-            case 1:
-                Rules[1].SetActive(false);
-                Rules[2].SetActive(true);
-                RuleNowPage++;
-                break;
-            case 2:
-                Rules[2].SetActive(false);
-                RuleNowPage = 0;
-                RuleBookHolder.SetActive(false);
-                return;
-
-            default:
-                break;
+            RuleBookHolder.SetActive(false);
         }
+        RulePage.sprite = Rules[RuleNowPage];
     }
 
-    public void BTN_BackRulePage()
+    public void BTN_BackPage()
     {
         SoundClick();
-        switch (RuleNowPage)
+        RuleNowPage--;
+        if(RuleNowPage < 0)
         {
-            case 0:
-                Rules[0].SetActive(false);
-                RuleNowPage = 0;
-                RuleBookHolder.SetActive(false);
-                return;
-            case 1:
-                Rules[1].SetActive(false);
-                Rules[0].SetActive(true);
-                RuleNowPage--;
-                break;
-            case 2:
-                Rules[2].SetActive(false);
-                Rules[1].SetActive(true);
-                RuleNowPage--;
-                break;
-            default:
-                break;
+            RuleBookHolder.SetActive(false);
         }
+        RulePage.sprite = Rules[RuleNowPage];
     }
 }

@@ -6,6 +6,10 @@ using UnityEngine.UI;
 
 public class AI : MonoBehaviour
 {
+    [SerializeField] private List<Image> AIButtons;
+    [SerializeField] private Sprite box, boxcheck;
+
+    public GameObject ClickBlocker;
     private List<int> resource = new List<int>();
     private List<int> options = new List<int>();
     private List<GameObject> listMarketCardGO = new List<GameObject>();
@@ -18,7 +22,7 @@ public class AI : MonoBehaviour
     CardScript cs = new CardScript();
     private bool isEndCard = false;
     int pref = 0;
-    int choice = -1; // ±¸¸ÅÇÒ Ä«µå
+    int choice = -1; // êµ¬ë§¤í•  ì¹´ë“œ
     int res = -1;
 
     // Start is called before the first frame update
@@ -41,39 +45,39 @@ public class AI : MonoBehaviour
         options.Clear();
         cards.Clear();
         int nowTurn = TableManager.instance.Get_NowPlayerTurn();
-        pref = nowTurn + 1; // ¼±È£ÀÚ¿ø
+        pref = nowTurn + 1; // ì„ í˜¸ìì›
         resource = TableManager.instance.Get_NowPlayerResource();
-        listMarketCardGO = CardManager.instance.listMarketCardGO; // ¸¶ÄÏ Ä«µå ¸®½ºÆ®
+        listMarketCardGO = CardManager.instance.listMarketCardGO; // ë§ˆì¼“ ì¹´ë“œ ë¦¬ìŠ¤íŠ¸
         listMarketCardCS = CardManager.instance.listMarketCardCS;
 
-        Debug.Log("ÇÃ·¹ÀÌ¾îÀÇ ³²Àº ½½·Ô "+TableManager.instance.Get_NowPlayerScript().SlotLeft);
+        Debug.Log("í”Œë ˆì´ì–´ì˜ ë‚¨ì€ ìŠ¬ë¡¯ "+TableManager.instance.Get_NowPlayerScript().SlotLeft);
 
-        // ¸¶ÄÏ Ä«µå¸¦ ¼øÈ¸ÇÏ¸é¼­ ±¸¸Å °¡´ÉÇÑ Ä«µå ¸®½ºÆ®¿¡ ÀúÀå
+        // ë§ˆì¼“ ì¹´ë“œë¥¼ ìˆœíšŒí•˜ë©´ì„œ êµ¬ë§¤ ê°€ëŠ¥í•œ ì¹´ë“œ ë¦¬ìŠ¤íŠ¸ì— ì €ì¥
         for (int i = 0; i < listMarketCardGO.Count; i++)
         {
             int cardNum = listMarketCardCS[i].GetCardNum();
             price = listMarketCardCS[i].GetPrice();
 
             buyAble = CardManager.instance.Is_Buyable(cardNum, resource);
-            bool check = false; // ±¸¸Å °¡´É ¿©ºÎ
+            bool check = false; // êµ¬ë§¤ ê°€ëŠ¥ ì—¬ë¶€
             for (int j = 0; j < buyAble.Count; j++)
                 if (buyAble[j])
                     check = true;
-            if (TableManager.instance.Get_NowPlayerScript().SlotLeft >= listMarketCardCS[i]._cardData.Slot) // ½½·ÔÀÌ ³²¾ÆÀÖ°í
-                if (check && Check_Price() && listMarketCardCS[i].GetEffect()[5] == 0) // ±¸¸ÅÇÒ Ä«µå: ¼±È£ÀÚ¿ø °¡°İ Á¶°Ç ¸¸Á·ÇÏ´Â Ä«µå Áß Á¾·á Ä«µå, °ø°İ Ä«µå Á¦¿Ü
+            if (TableManager.instance.Get_NowPlayerScript().SlotLeft >= listMarketCardCS[i]._cardData.Slot) // ìŠ¬ë¡¯ì´ ë‚¨ì•„ìˆê³ 
+                if (check && Check_Price() && listMarketCardCS[i].GetEffect()[5] == 0) // êµ¬ë§¤í•  ì¹´ë“œ: ì„ í˜¸ìì› ê°€ê²© ì¡°ê±´ ë§Œì¡±í•˜ëŠ” ì¹´ë“œ ì¤‘ ì¢…ë£Œ ì¹´ë“œ, ê³µê²© ì¹´ë“œ ì œì™¸
                 { 
                     options.Add(i);
                     cards.Add(listMarketCardCS[i]);
                 }
         }
 
-        if (!options.Any())  // ±¸¸ÅÇÒ Ä«µå°¡ ¾øÀ¸¸é ÀÚ¿øÀ» ¾òÀ½: °¡Àå ÀûÀº ÀÚ¿ø
+        if (!options.Any())  // êµ¬ë§¤í•  ì¹´ë“œê°€ ì—†ìœ¼ë©´ ìì›ì„ ì–»ìŒ: ê°€ì¥ ì ì€ ìì›
         {
             Gain_MinResource();
         }
-        else // ±¸¸ÅÇÒ Ä«µå°¡ ÀÖ´Ù¸é Ä«µå ±¸¸Å
+        else // êµ¬ë§¤í•  ì¹´ë“œê°€ ìˆë‹¤ë©´ ì¹´ë“œ êµ¬ë§¤
         {
-            if (TableManager.instance.tableTurn <= 4) // ÃÊ¹İ¿¡´Â °ñµå¸¦ ¸ğÀ¸´Â Àü·«
+            if (TableManager.instance.tableTurn <= 4) // ì´ˆë°˜ì—ëŠ” ê³¨ë“œë¥¼ ëª¨ìœ¼ëŠ” ì „ëµ
             {
                 if(Check_Gold())
                 {
@@ -81,7 +85,7 @@ public class AI : MonoBehaviour
                 }
                 else if (Check_First())
                 {
-                    BuyCard_AI(choice); // ¼±È£ÀÚ¿øÀ» º¸»óÀ¸·Î ÁÖ´Â Ä«µå Áß °¡Àå ¸¹ÀÌ ÁÖ´Â Ä«µå
+                    BuyCard_AI(choice); // ì„ í˜¸ìì›ì„ ë³´ìƒìœ¼ë¡œ ì£¼ëŠ” ì¹´ë“œ ì¤‘ ê°€ì¥ ë§ì´ ì£¼ëŠ” ì¹´ë“œ
                 }
                 else if (Check_Second())
                 {
@@ -93,10 +97,10 @@ public class AI : MonoBehaviour
                     BuyCard_AI(choice);
                 }
             }
-            // ¿ì¼±¼øÀ§: 1. º¸»óÀÌ ¼±È£ÀÚ¿ø 2. º¸»óÀÌ °¡Àå ÀûÀº ÀÚ¿ø  3. ±× ¿Ü
+            // ìš°ì„ ìˆœìœ„: 1. ë³´ìƒì´ ì„ í˜¸ìì› 2. ë³´ìƒì´ ê°€ì¥ ì ì€ ìì›  3. ê·¸ ì™¸
             else if (Check_First())
             {
-                BuyCard_AI(choice); // ¼±È£ÀÚ¿øÀ» º¸»óÀ¸·Î ÁÖ´Â Ä«µå Áß °¡Àå ¸¹ÀÌ ÁÖ´Â Ä«µå
+                BuyCard_AI(choice); // ì„ í˜¸ìì›ì„ ë³´ìƒìœ¼ë¡œ ì£¼ëŠ” ì¹´ë“œ ì¤‘ ê°€ì¥ ë§ì´ ì£¼ëŠ” ì¹´ë“œ
             }
             else if (Check_Second())
             {
@@ -113,14 +117,14 @@ public class AI : MonoBehaviour
     bool Check_Gold()
     {
         int max = 0;
-        max = Get_Max(0); // °ñµå¸¦ °¡Àå ¸¹ÀÌ ÁÖ´Â Ä«µå
+        max = Get_Max(0); // ê³¨ë“œë¥¼ ê°€ì¥ ë§ì´ ì£¼ëŠ” ì¹´ë“œ
         if (max > 0)
             return true;
         else
             return false;
     }
 
-    bool Check_Price() // ¼±È£ÀÚ¿ø Á¦¿Ü ´Ù¸¥ ÀÚ¿øÀ¸·Î »ì ¼ö ÀÖ´ÂÁö || ÇöÀç º¸À¯ÇÑ ¼±È£ÀÚ¿ø/2 º¸´Ù °¡°İÀÌ ³·ÀºÁö
+    bool Check_Price() // ì„ í˜¸ìì› ì œì™¸ ë‹¤ë¥¸ ìì›ìœ¼ë¡œ ì‚´ ìˆ˜ ìˆëŠ”ì§€ || í˜„ì¬ ë³´ìœ í•œ ì„ í˜¸ìì›/2 ë³´ë‹¤ ê°€ê²©ì´ ë‚®ì€ì§€
     {
         bool otherBuyAble = false;
         for (int i = 0; i < 5; i++)
@@ -131,7 +135,7 @@ public class AI : MonoBehaviour
         return otherBuyAble || price[pref] < resource[pref] / 3;
     }
 
-    private void Gain_MinResource() // °¡Àå Àû°Ô º¸À¯ÇÑ ÀÚ¿øÀ» ¾òÀ½
+    private void Gain_MinResource() // ê°€ì¥ ì ê²Œ ë³´ìœ í•œ ìì›ì„ ì–»ìŒ
     {
         int min = resource[0];
         int minIdx = 0;
@@ -149,7 +153,7 @@ public class AI : MonoBehaviour
 
     }
 
-    bool Check_First() // Ã¹ ¹øÂ° Á¶°Ç: ¼±È£ÀÚ¿øÀ» º¸»óÀ¸·Î ÁÜ
+    bool Check_First() // ì²« ë²ˆì§¸ ì¡°ê±´: ì„ í˜¸ìì›ì„ ë³´ìƒìœ¼ë¡œ ì¤Œ
     {
         int max = 0;
         max = Get_Max(pref); 
@@ -158,7 +162,7 @@ public class AI : MonoBehaviour
         else
             return false;
     }
-    int Get_Max(int target) // target ÀÚ¿øÀ» °¡Àå ¸¹ÀÌ »ı»êÇÏ´Â Ä«µåÀÇ »ı»ê·® ¹İÈ¯, choice ¾÷µ¥ÀÌÆ®
+    int Get_Max(int target) // target ìì›ì„ ê°€ì¥ ë§ì´ ìƒì‚°í•˜ëŠ” ì¹´ë“œì˜ ìƒì‚°ëŸ‰ ë°˜í™˜, choice ì—…ë°ì´íŠ¸
     {
         int max = 0;
         foreach (var card in cards)
@@ -173,7 +177,7 @@ public class AI : MonoBehaviour
         return max;
     }
 
-    bool Check_Second() // µÎ ¹øÂ° Á¶°Ç: °¡Àå ÀûÀº ÀÚ¿øÀ» º¸»óÀ¸·Î ÁÜ
+    bool Check_Second() // ë‘ ë²ˆì§¸ ì¡°ê±´: ê°€ì¥ ì ì€ ìì›ì„ ë³´ìƒìœ¼ë¡œ ì¤Œ
     {
         int min = resource[0];
         int minIdx = 0;
@@ -200,13 +204,13 @@ public class AI : MonoBehaviour
             return false;
     }
 
-    private void BuyCard_AI(int choice) // ¼±ÅÃÇÑ Ä«µå ±¸¸Å
+    private void BuyCard_AI(int choice) // ì„ íƒí•œ ì¹´ë“œ êµ¬ë§¤
     {
         int index = 0;
-        //¼±ÅÃÇÑ Ä«µå ¹øÈ£¸¦ list¿¡ Á¸ÀçÇÏ´ÂÁö Ã£°í ÇØ´ç ¸®½ºÆ® ÀÎµ¦½º¸¦ ÀúÀå
+        //ì„ íƒí•œ ì¹´ë“œ ë²ˆí˜¸ë¥¼ listì— ì¡´ì¬í•˜ëŠ”ì§€ ì°¾ê³  í•´ë‹¹ ë¦¬ìŠ¤íŠ¸ ì¸ë±ìŠ¤ë¥¼ ì €ì¥
         for (int i = 0; i < listMarketCardGO.Count; i++)
             if (listMarketCardCS[i].GetCardNum() == choice)
-                index = i; //¹ß°ß½Ã ÀúÀå
+                index = i; //ë°œê²¬ì‹œ ì €ì¥
 
         cs = listMarketCardCS[index];
 
@@ -220,7 +224,7 @@ public class AI : MonoBehaviour
 
 
         res = -1;
-        for (int i = 0; i < 5; i++) // ±¸¸ÅÇÒ ÀÚ¿ø °í¸£±â
+        for (int i = 0; i < 5; i++) // êµ¬ë§¤í•  ìì› ê³ ë¥´ê¸°
         {
             if (buyAble[i])
             {
@@ -243,6 +247,26 @@ public class AI : MonoBehaviour
     {
         UIManager.instance.Popup_PurchaseUI(cs.GetCardNum(), buyAble, price, resource, isEndCard);
         UIManager.instance.Popdown_PurchaseUI(res);
+    }
+
+    /// <summary>
+    /// í”Œë ˆì´ì–´ë³„ AI ì„¤ì • ë²„íŠ¼
+    /// </summary>
+    public void OnClickAIButton(int playernum)
+    {
+        bool set;
+
+        if (AIButtons[playernum].sprite == box)
+        {
+            set = true;
+            AIButtons[playernum].sprite = boxcheck;
+        }
+        else
+        {
+            set = false;
+            AIButtons[playernum].sprite = box;
+        }
+        TableManager.instance.SetAIPlayer(playernum, set);
     }
 }
 
