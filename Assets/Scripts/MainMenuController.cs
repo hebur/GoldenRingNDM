@@ -8,6 +8,8 @@ using DG.Tweening;
 
 public class MainMenuController : MonoBehaviour
 {
+    public static MainMenuController instance;
+
     [SerializeField] private GameObject ExitText, QuitConfirm;
 
     [SerializeField] private GameObject RuleBookHolder, title;
@@ -16,10 +18,21 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] private bool isOpenRule;
     [SerializeField] private int RuleNowPage;
 
+    private int version = 0;
+
+    public int Version { get { return version; } set => version = value; }
+
+    private void OnEnable()
+    {
+        if (instance == null)
+            instance = this;
+    }
+
     private void Start()
     {
         ExitText.SetActive(false);
     }
+
 
     private void SoundClick()
     {

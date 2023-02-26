@@ -27,12 +27,26 @@ public class OnlyEarnResource : MonoBehaviour
                 listResource[i].Add(0);
         }
 
-        // 플레이어가 Gain할 때 리스트 형태로 받습니다.
-        listResource[0][0] = 5;
-        listResource[1][1] = 2; 
-        listResource[2][2] = 2;
-        listResource[3][3] = 2;
-        listResource[4][4] = 2;
+        int version = MainMenuController.instance.Version;
+
+        if(version == 0)
+        {
+            // 플레이어가 Gain할 때 리스트 형태로 받습니다.
+            listResource[0][0] = 5;
+            listResource[1][1] = 2; 
+            listResource[2][2] = 2;
+            listResource[3][3] = 2;
+            listResource[4][4] = 2;
+        }
+        else if(version == 1)
+        {
+            listResource[0][0] = 7;
+            listResource[1][1] = 3;
+            listResource[2][2] = 3;
+            listResource[3][3] = 3;
+            listResource[4][4] = 3;
+        }
+
         for(int i = 0; i < EarnText.Count; i++) 
         {
             EarnText[i].text = listResource[i][i].ToString();

@@ -38,7 +38,23 @@ public class FullDeck : MonoBehaviour
     /// </summary>
     private void LoadCardsData()
     {
-        StreamReader fs = new StreamReader(Path.Combine(Application.streamingAssetsPath, "cards_.json"));
+        int version = MainMenuController.instance.Version;
+
+        StreamReader fs;
+
+        if (version == 0)
+        {
+            fs = new StreamReader(Path.Combine(Application.streamingAssetsPath, "cards_short.json"));
+        }
+        else if (version == 1)
+        {
+            fs = new StreamReader(Path.Combine(Application.streamingAssetsPath, "cards_delux.json"));
+        }
+        else
+        {
+            fs = new StreamReader(Path.Combine(Application.streamingAssetsPath, "cards_.json"));
+        }
+
         string str = fs.ReadToEnd();
         var json = JsonUtility.FromJson<CardLoadData>(str);
         _cards = new List<CardData>();
