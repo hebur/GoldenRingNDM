@@ -14721,6 +14721,57 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 837443279}
   m_CullTransparentMesh: 1
+--- !u!1 &840246664
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 840246665}
+  - component: {fileID: 840246666}
+  m_Layer: 0
+  m_Name: MainMenuController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &840246665
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840246664}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1929963264}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &840246666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840246664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d020395c42c4fc43b50de63853225e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ExitText: {fileID: 0}
+  QuitConfirm: {fileID: 0}
+  RuleBookHolder: {fileID: 0}
+  title: {fileID: 0}
+  Rules: []
+  isOpenRule: 0
+  RuleNowPage: 0
 --- !u!1 &841658322
 GameObject:
   m_ObjectHideFlags: 0
@@ -18490,7 +18541,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50ce8e8fa75cb3848937fc8cf1b76a44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameStart: {fileID: 0}
   BuyUIOn: {fileID: 2139829090}
   BuyUIOff: {fileID: 270774271}
   ShoppingPannel: {fileID: 1963460824}
@@ -32799,6 +32849,7 @@ Transform:
   - {fileID: 2117775643}
   - {fileID: 2109343944}
   - {fileID: 1059906929}
+  - {fileID: 840246665}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -36379,6 +36430,7 @@ MonoBehaviour:
   - {fileID: 1858112012}
   - {fileID: 431764590}
   - {fileID: 513543466}
+  CountEndCards: 0
   CardMouseEffectOn: 0
   tableTurn: 0
   AI: {fileID: 800302239}

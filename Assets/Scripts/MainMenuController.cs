@@ -10,7 +10,7 @@ public class MainMenuController : MonoBehaviour
 {
     public static MainMenuController instance;
 
-    [SerializeField] private GameObject ExitText, QuitConfirm;
+    [SerializeField] private GameObject QuitConfirm;
 
     [SerializeField] private GameObject RuleBookHolder, title;
     [SerializeField] private List<GameObject> Rules;
@@ -30,7 +30,7 @@ public class MainMenuController : MonoBehaviour
 
     private void Start()
     {
-        ExitText.SetActive(false);
+
     }
 
 
@@ -38,12 +38,6 @@ public class MainMenuController : MonoBehaviour
     {
         if (SoundManager.instance != null)
             SoundManager.instance.PlayAudio(SoundType.UIBtn);
-    }
-
-    public void BTN_CallExit()
-    {
-        StartCoroutine(ExitAuto());
-        SoundClick();
     }
 
     public void BTN_CallStart(string value)
@@ -80,23 +74,5 @@ public class MainMenuController : MonoBehaviour
                 SoundClick();
                 break;
         }
-    }
-
-    private IEnumerator ExitAuto()
-    {
-        ExitText.gameObject.SetActive(true);
-        yield return new WaitForSeconds(2f);
-
-        for (int i = 0; i < 20; i++)
-        {
-            if (i % 2 != 0)
-                ExitText.gameObject.SetActive(true);
-            else
-                ExitText.gameObject.SetActive(false);
-            yield return new WaitForSeconds(0.05f);
-
-        }
-
-        ExitText.gameObject.SetActive(false);
     }
 }
