@@ -5,8 +5,6 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance;
-    // Start is called before the first frame update
-
     public bool isSetUp = false;
 
     [SerializeField] private AudioSource Source;

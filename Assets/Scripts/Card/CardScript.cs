@@ -153,7 +153,12 @@ public class CardScript : MonoBehaviour
     /// </summary>
     public void OnMouseEnter()
     {
-        if ((!Blocker.gameObject.activeSelf && TableManager.instance.CardMouseEffectOn) || TableManager.instance.Get_NowPlayerScript().IsAI)
+        Enlarge_CardSize(false);
+    }
+
+    public void Enlarge_CardSize(bool isAI)
+    {
+        if ((!Blocker.gameObject.activeSelf && TableManager.instance.CardMouseEffectOn) || isAI)
         {
             targetScale = originScale * scaleMultiplier;
             targetZ = originZ - 0.25f;
@@ -161,7 +166,7 @@ public class CardScript : MonoBehaviour
             before.z = targetZ;
             transform.localPosition = before;
 
-            if(!isPurchased)
+            if (!isPurchased)
                 UIManager.instance.ShowAfterBuy(this.gameObject);
         }
     }
@@ -171,7 +176,11 @@ public class CardScript : MonoBehaviour
     /// </summary>
     public void OnMouseExit()
     {
-        if ((!Blocker.gameObject.activeSelf && TableManager.instance.CardMouseEffectOn) || TableManager.instance.Get_NowPlayerScript().IsAI)
+        Reset_CardSize(false);
+    }
+    public void Reset_CardSize(bool isAI)
+    {
+        if ((!Blocker.gameObject.activeSelf && TableManager.instance.CardMouseEffectOn) || isAI)
         {
             targetScale = originScale;
             targetZ = originZ;
