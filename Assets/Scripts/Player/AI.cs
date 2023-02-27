@@ -149,7 +149,9 @@ public class AI : MonoBehaviour
         }
 
         GameObject.Find("EarnResource").GetComponent<OnlyEarnResource>().BTN_CallButton(minIdx);
-        UIManager.instance.ShoppingWorldClickBlocker.SetActive(true);
+        UIManager.instance.ShoppingBreaker.gameObject.SetActive(false);
+        TableManager.instance.TurnEndBlock.gameObject.SetActive(false);
+        
 
     }
 
@@ -214,13 +216,12 @@ public class AI : MonoBehaviour
 
         cs = listMarketCardCS[index];
 
-        // if (cs.GetEffect()[5] == 1) isEndCard = true;
         price = cs.GetPrice();
         buyAble = CardManager.instance.Is_Buyable(cs.GetCardNum(), resource);
 
-        cs.OnMouseEnter();
+        cs.Enlarge_CardSize(true);
 
-        cs.Invoke("OnMouseExit", 3f);
+        Invoke("Reset_CardSize", 3f);
 
 
         res = -1;
@@ -239,8 +240,6 @@ public class AI : MonoBehaviour
         }
         UIManager.instance.ShoppingBreaker.gameObject.SetActive(false);
         TableManager.instance.TurnEndBlock.gameObject.SetActive(false);
-        UIManager.instance.ShoppingWorldClickBlocker.SetActive(true);
-
     }
 
     private void Invoke_PopUp()
@@ -267,6 +266,11 @@ public class AI : MonoBehaviour
             AIButtons[playernum].sprite = box;
         }
         TableManager.instance.SetAIPlayer(playernum, set);
+    }
+
+    void Reset_CardSize()
+    {
+        cs.Reset_CardSize(true);
     }
 }
 

@@ -115,7 +115,7 @@ public class TableManager : MonoBehaviour
             stacks[i].SetActive(false);
         }
 
-        listPlayer[0].IsAI = false;     ///////////////////////////////////////
+        listPlayer[0].IsAI = false;     
         listPlayer[1].IsAI = false;     // AI 설정 부분
         listPlayer[2].IsAI = false;
         listPlayer[3].IsAI = false;
@@ -276,6 +276,7 @@ public class TableManager : MonoBehaviour
             nowPlayer.Invoke("EndTurn", 1f);
 
         nowPlayer.ScoreUpdate();
+        UIManager.instance.ShoppingWorldClickBlocker.SetActive(false);
 
         //첫 카드 구매하지 않았으면 제거
         CardManager.instance.CheckBuyFirst();
